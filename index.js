@@ -12,7 +12,7 @@ class OnboardingResults extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={{color: this.props.colors.max}}>
-          { texts: text }
+          { texts.text }
         </Text>
       </View>
     );
