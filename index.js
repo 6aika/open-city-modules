@@ -7,13 +7,24 @@ import {
 
 class OnboardingResults extends React.Component {
   render() {
+    const texts = translations[this.props.locale] ?
+      translations[this.props.locale] : translations.en;
     return (
       <View style={styles.container}>
         <Text style={{color: this.props.colors.max}}>
-          Home Module Screen
+          { texts: text }
         </Text>
       </View>
     );
+  }
+}
+
+const translations = {
+  en: {
+    text: "Home screen on module"
+  },
+  fi: {
+    text: "Aloitusnäkymä moduulissa"
   }
 }
 
