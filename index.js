@@ -9,7 +9,7 @@ class OnboardingResults extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>
+        <Text style={{color: this.props.colors.max}}>
           Home Module Screen
         </Text>
       </View>
@@ -22,9 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  text: {
-    color: 'red'
   }
 });
+
 export default OnboardingResults;
