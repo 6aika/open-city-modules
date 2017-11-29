@@ -2,15 +2,29 @@ import * as React from 'react';
 import {
   Text,
   View,
+  StyleSheet
 } from 'react-native';
 
-class App extends React.Component {
+class OnboardingResults extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Module Screen</Text>
+      <View style={styles.container}>
+        <Text style={styles.text}>
+          Home Module Screen
+        </Text>
       </View>
-    )
+    );
   }
 }
-export default App
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  text: {
+    color: 'red'
+  }
+});
+export default OnboardingResults;
