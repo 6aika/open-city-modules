@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "main": "index.js",
-  "files": [
-    "index.js"
-  ],
   "peerDependencies": {
     "react": ">=16.0.0",
 		"react-native": ">=0.50.3"
