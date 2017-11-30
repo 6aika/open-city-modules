@@ -4,6 +4,7 @@ import {
   View,
   StyleSheet
 } from 'react-native';
+import translations from 'modules/translations';
 
 type Props = {
   colors: ColorSet,
@@ -27,15 +28,6 @@ class OnboardingResults extends React.Component<Props, State> {
         </Text>
       </View>
     );
-  }
-}
-
-const translations = {
-  en: {
-    text: "Home screen on module"
-  },
-  fi: {
-    text: "Aloitusnäkymä moduulissa"
   }
 }
 
