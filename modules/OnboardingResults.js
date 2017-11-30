@@ -5,10 +5,21 @@ import {
   StyleSheet
 } from 'react-native';
 
-class OnboardingResults extends React.Component {
+type Props = {
+  colors: ColorSet,
+  locale: string // Default 'en'
+};
+
+type State = {};
+
+/*
+Component to show user's results from the onboarding
+*/
+class OnboardingResults extends React.Component<Props, State> {
   render() {
     const texts = translations[this.props.locale] ?
       translations[this.props.locale] : translations.en;
+
     return (
       <View style={styles.container}>
         <Text style={{color: this.props.colors.max}}>
