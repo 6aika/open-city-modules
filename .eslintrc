@@ -1,0 +1,82 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": [
+    "airbnb"
+  ],
+  "rules": {
+    // Possible errors
+    "no-cond-assign": "error",
+    "no-console": "error",
+    "no-constant-condition": "error",
+    "no-debugger": "error",
+    "no-dupe-args": "error",
+    "no-dupe-keys": "error",
+    "no-duplicate-case": "error",
+    "no-empty-character-class": "error",
+    "no-empty": "error",
+    "no-ex-assign": "error",
+    "no-extra-boolean-cast": "error",
+    "no-extra-semi": "error",
+    "no-func-assign": "error",
+    "no-inner-declarations": "error",
+    "no-invalid-regexp": "error",
+    "no-irregular-whitespace": "error",
+    "no-obj-calls": "error",
+    "no-regex-spaces": "error",
+    "no-sparse-arrays": "error",
+    "no-unexpected-multiline": "error",
+    "no-unreachable": "error",
+    "no-unsafe-finally": "error",
+    "use-isnan": "error",
+    "valid-typeof": "error",
+
+    "no-control-regex": "off",
+
+    // Best practices
+    "no-case-declarations": "error",
+    "no-empty-pattern": "error",
+    "no-fallthrough": "error",
+    "no-octal": "error",
+    "no-redeclare": "error",
+    "no-self-assign": "error",
+    "no-unused-labels": "error",
+
+    // Variables
+    "no-delete-var": "error",
+    "no-unused-vars": "error",
+
+    "no-undef": "off",
+
+    // Stylistic
+    "no-mixed-spaces-and-tabs": "error",
+
+    // ES6
+    "constructor-super": "off",
+    "no-class-assign": "off",
+    "no-const-assign": "off",
+    "no-dupe-class-members": "off",
+    "no-new-symbol": "off",
+    "no-this-before-super": "off",
+    "require-yield": "off",
+
+    // Deprecated
+    "no-native-reassign": "off",
+    "no-negated-in-lhs": "off",
+
+    // React
+    "react/jsx-filename-extension": "off",
+    "react/prop-types": "off",
+
+    // Absolute path imports
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "off",
+    "import/extensions": "off"
+  }
+}

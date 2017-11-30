@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import {
   Text,
   View,
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 
 class OnboardingResults extends React.Component {
@@ -11,7 +11,7 @@ class OnboardingResults extends React.Component {
       translations[this.props.locale] : translations.en;
     return (
       <View style={styles.container}>
-        <Text style={{color: this.props.colors.max}}>
+        <Text style={{ color: this.props.colors.max }}>
           { texts.text }
         </Text>
       </View>
@@ -21,19 +21,19 @@ class OnboardingResults extends React.Component {
 
 const translations = {
   en: {
-    text: "Home screen on module"
+    text: 'Home screen on module',
   },
   fi: {
-    text: "Aloitusnäkymä moduulissa"
-  }
-}
+    text: 'Aloitusnäkymä moduulissa',
+  },
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 });
 
 export default OnboardingResults;

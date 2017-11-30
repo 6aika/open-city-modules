@@ -1,1 +1,1 @@
-export {default as OnboardingResults} from './OnboardingResults'
+export { default as OnboardingResults } from './OnboardingResults';
