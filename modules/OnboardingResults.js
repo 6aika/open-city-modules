@@ -4,11 +4,23 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
+import translations from './translations';
 
-class OnboardingResults extends React.Component {
+type Props = {
+  colors: ColorSet,
+  locale: string // Default 'en'
+};
+
+type State = {};
+
+/*
+Component to show user's results from the onboarding
+*/
+class OnboardingResults extends React.Component<Props, State> {
   render() {
     const texts = translations[this.props.screenProps.locale] ?
       translations[this.props.screenProps.locale] : translations.en;
+
     return (
       <View style={styles.container}>
         <Text style={{ color: this.props.screenProps.colors.max }}>
@@ -18,15 +30,6 @@ class OnboardingResults extends React.Component {
     );
   }
 }
-
-const translations = {
-  en: {
-    text: 'Home screen on module',
-  },
-  fi: {
-    text: 'Aloitusnäkymä moduulissa',
-  },
-};
 
 const styles = StyleSheet.create({
   container: {
