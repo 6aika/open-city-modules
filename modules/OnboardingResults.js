@@ -26,6 +26,9 @@ class OnboardingResults extends React.Component<Props, State> {
         <Text style={{ color: this.props.screenProps.colors.max }}>
           { texts.text }
         </Text>
+        <Text>
+          {JSON.stringify(this.props.screenProps.profile, null, 2)}
+        </Text>
       </View>
     );
   }
