@@ -7,11 +7,11 @@ import {
 
 class OnboardingResults extends React.Component {
   render() {
-    const texts = translations[this.props.locale] ?
-      translations[this.props.locale] : translations.en;
+    const texts = translations[this.props.screenProps.locale] ?
+      translations[this.props.screenProps.locale] : translations.en;
     return (
       <View style={styles.container}>
-        <Text style={{ color: this.props.colors.max }}>
+        <Text style={{ color: this.props.screenProps.colors.max }}>
           { texts.text }
         </Text>
       </View>
