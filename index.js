@@ -1,8 +1,9 @@
 /* @flow */
 // Steps
+import { AppRegistry } from 'react-native'
 import SingleChoiceStep from 'open-city-modules/steps/SingleChoiceStep';
 import MultiChoiceStep from 'open-city-modules/steps/MultiChoiceStep';
-
+import App from 'open-city-modules/App'
 // Modules
 import OnboardingResults from 'open-city-modules/modules/OnboardingResults';
 
@@ -21,3 +22,5 @@ export {
   MultiChoiceStep,
   OnboardingResults,
 };
+
+AppRegistry.registerComponent('OpenCityModules', () => App);
