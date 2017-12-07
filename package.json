@@ -4,8 +4,7 @@
   "private": true,
   "main": "index.js",
   "files": [
-    "modules/*",
-    "steps/*",
+    "src/*",
     "index.js",
     "types.js"
   ],
@@ -14,8 +13,6 @@
     "react-native": ">=0.50.3"
   },
   "devDependencies": {
-    "react": ">=16.0.0",
-    "react-native": ">=0.50.3",
     "babel-eslint": "^8.0.2",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react-native": "4.0.0",
@@ -24,9 +21,11 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.5.1",
-    "flow-bin": "0.56.0"
+    "flow-bin": "0.56.0",
+    "react": ">=16.0.0",
+    "react-native": ">=0.50.3"
   },
   "dependencies": {
-    "react-native-extended-stylesheet": "^0.8.0"
+    "react-native-extended-stylesheet": "^0.8.0",
   }
 }
