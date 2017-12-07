@@ -4,10 +4,10 @@
   "private": true,
   "main": "index.js",
   "files": [
-    "modules/*",
-    "steps/*",
+    "src/",
     "index.js",
-    "types.js"
+    "types.js",
+    "development.js"
   ],
   "peerDependencies": {
     "react": ">=16.0.0",
