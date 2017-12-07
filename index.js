@@ -5,7 +5,7 @@ import SingleChoiceStep from 'open-city-modules/src/steps/SingleChoiceStep';
 import MultiChoiceStep from 'open-city-modules/src/steps/MultiChoiceStep';
 import App from 'open-city-modules/App'
 // Modules
-import OnboardingResults from 'open-city-modules/modules/OnboardingResults';
+import OnboardingResults from 'open-city-modules/src/modules/Onboarding/OnboardingResults';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { type ColorSet } from 'open-city-modules/types';
