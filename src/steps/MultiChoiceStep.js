@@ -8,8 +8,8 @@ import {
 import { cloneDeep } from 'lodash';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import OptionButton from 'open-city-modules/steps/components/OptionButton';
-import StepBottomBar from 'open-city-modules/steps/components/StepBottomBar';
+import OptionButton from 'open-city-modules/src/steps/components/OptionButton';
+import StepBottomBar from 'open-city-modules/src/steps/components/StepBottomBar';
 
 type Profile = {[string]: mixed};
 

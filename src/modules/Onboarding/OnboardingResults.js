@@ -4,7 +4,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
-import translations from './translations';
+import translations from '../translations';
 
 type Props = {
   colors: ColorSet,
