@@ -20,7 +20,6 @@ export {
   initColors,
   SingleChoiceStep,
   MultiChoiceStep,
-  OnboardingResults,
   FeedbackModule,
   WebViewModule,
 };
