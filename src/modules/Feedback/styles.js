@@ -15,6 +15,10 @@ const styles = EStyleSheet.create({
   minimap: {
     flex: 2,
   },
+  minimapFullScreen: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height - 50,
+  },
   feedbackForm: {
     flex: 4,
   },
@@ -30,6 +34,12 @@ const styles = EStyleSheet.create({
     alignItems: 'flex-start',
     marginLeft: 24,
   },
+  footer: {
+    height: 60,
+    backgroundColor: '$colors.med',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });
 
 export default styles

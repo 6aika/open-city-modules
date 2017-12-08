@@ -5,6 +5,7 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   Animated,
+  LayoutAnimation,
   ScrollView
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -15,24 +16,49 @@ import Header from './components/Header'
 
 
 class SendFeedbackModal extends Component {
-
   constructor(props, context) {
     super(props, context);
+
+
+    this.state = {
+      fullScreenMap: false,
+    };
+  }
+
+  showFullScreenMap = () => {
+    this.setState({ fullScreenMap: true });
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+  }
+
+  hideFullScreenMap = () => {
+    this.setState({ fullScreenMap: false });
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
   }
 
   render() {
+    const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
     return (
-      <ScrollView style={{flex:1}}>
-        <Header title ={'test'}/>
-        <View style={styles.minimap} >
+      <ScrollView style={{ flex: 1 }}>
+        <Header title ={'UUSI PALAUTE'}/>
+        <View style={minimapStyle} >
           <Minimap
             region={this.props.region}
-            locationEnabled={true}
+            locationEnabled
+            setFullScreenMap={this.showFullScreenMap}
           />
+          {this.state.fullScreenMap &&
+            <TouchableWithoutFeedback
+              onPress={this.hideFullScreenMap}
+            >
+              <View style={styles.footer}><Text>{'^'}</Text></View>
+            </TouchableWithoutFeedback>
+          }
         </View>
-        <View style={styles.feedbackForm}>
-          <FeedbackForm/>
-        </View>
+        {!this.state.fullScreenMap &&
+          <View style={styles.feedbackForm}>
+            <FeedbackForm />
+          </View>
+        }
       </ScrollView>
     );
   }

@@ -41,6 +41,8 @@ class Minimap extends Component {
     }
   }
 
+
+
   render() {
     return (
       <Animated.View style={[styles.container, this.mapHeight(), this.props.animation]}>
@@ -56,17 +58,17 @@ class Minimap extends Component {
                 toolbarEnabled={false}
                 scrollEnabled={this.props.fullScreenMap}
                 zoomEnabled={this.props.fullScreenMap}
-                // onPanDrag={(e) => this.props.setFullScreenMap(true)}
-                // onPress={(e) => this.props.setFullScreenMap(true)}
-                // onLongPress={(e) => this.props.setFullScreenMap(true)}
-                // onMarkerDragStart={(e) => this.props.setFullScreenMap(true)}
+                onPanDrag={(e) => this.props.setFullScreenMap(true)}
+                onPress={(e) => this.props.setFullScreenMap(true)}
+                onLongPress={(e) => this.props.setFullScreenMap(true)}
+                onMarkerDragStart={(e) => this.props.setFullScreenMap(true)}
                 // onRegionChange={(e) => this.props.onRegionChange(e)}
                 // onRegionChangeComplete={(e) => this.props.onRegionChangeComplete(e)}
                 >
                 <MapView.Marker.Animated
                   ref={(m) => this.marker = m}
                   coordinate={this.props.region}
-                  // onPress={(e) => this.props.setFullScreenMap(true)}
+                  onPress={(e) => this.props.setFullScreenMap(true)}
                   // onDragEnd={(e) => this.updateMarkerPos(e.nativeEvent.coordinate, this.marker)}
                   >
 
