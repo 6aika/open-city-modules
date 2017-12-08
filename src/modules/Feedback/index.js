@@ -5,7 +5,8 @@ import {
   Text,
   ScrollView,
   Dimensions,
-  StyleSheet
+  StyleSheet,
+  Modal
 } from 'react-native';
 import { cloneDeep } from 'lodash';
 import MapView from 'react-native-maps';
@@ -116,7 +117,6 @@ class FeedbackModule extends React.Component<Props, State> {
         <View style={styles.map}>
           <Header
             buttons={buttons}
-            override={true}
           />
           <MapView
             style={styles.map}
@@ -134,11 +134,11 @@ class FeedbackModule extends React.Component<Props, State> {
         </View>
         }
         {this.state.showFeedbackModal &&
-          <View style={styles.modal}>
+          <Modal style={styles.modal}>
             <SendFeedbackModal
               region={this.state.region}
             />
-          </View>
+          </Modal>
         }
         <FloatingActionButton
           onPress={() => {

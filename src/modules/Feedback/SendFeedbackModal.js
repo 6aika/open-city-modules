@@ -23,7 +23,7 @@ class SendFeedbackModal extends Component {
   render() {
     return (
       <ScrollView style={{flex:1}}>
-        <Header override={true} title ={'test'}/>
+        <Header title ={'test'}/>
         <View style={styles.minimap} >
           <Minimap
             region={this.props.region}

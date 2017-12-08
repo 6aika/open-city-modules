@@ -13,7 +13,6 @@ type Props = {
   leftAction: ?object,
   rightAction: ?object,
   title: ?string,
-  override: ?boolean,
 }
 
 const Header = ({
@@ -21,11 +20,9 @@ const Header = ({
   leftAction,
   rightAction,
   title,
-  override = false,
 }): Props => {
-  const headerStyle = override ? styles.overridedHeader : styles.header;
   return (
-    <View style={headerStyle}>
+    <View style={styles.header}>
       <View style={styles.tabs}>
         { leftAction &&
           <View />
