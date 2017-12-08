@@ -6,13 +6,16 @@
   "files": [
     "src/*",
     "index.js",
-    "types.js"
+    "types.js",
+    "development.js"
   ],
   "peerDependencies": {
     "react": ">=16.0.0",
-    "react-native": ">=0.50.3"
+    "react-native": ">=0.50.3",
+    "react-native-maps": "^0.18.3"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.2",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react-native": "4.0.0",
@@ -26,6 +29,10 @@
     "react-native": ">=0.50.3"
   },
   "dependencies": {
+    "color": "^2.0.1",
+    "i18next": "^10.2.1",
+    "react-i18next": "^7.1.1",
     "react-native-extended-stylesheet": "^0.8.0",
+    "react-native-vector-icons": "^4.4.2"
   }
 }
