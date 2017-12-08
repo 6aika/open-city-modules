@@ -13,31 +13,41 @@ type Props = {
   leftAction: ?object,
   rightAction: ?object,
   title: ?string,
+  override: ?boolean,
 }
 
-const Header = ({ buttons, leftAction, rightAction, title }): Props => (
-  <View style={styles.header}>
-    <View style={styles.tabs}>
-      { leftAction &&
-        <View />
-      }
-      {title &&
-        <View style={styles.titleContainer} ><Text style={styles.title}>{title}</Text></View>
-      }
-      { buttons && buttons.map((button) => {
-        return (
-          <HeaderButton
-            {...button}
-          />
-        )
-        })
-      }
-      { rightAction &&
-        <View />
-      }
+const Header = ({
+  buttons,
+  leftAction,
+  rightAction,
+  title,
+  override = false,
+}): Props => {
+  const headerStyle = override ? styles.overridedHeader : styles.header;
+  return (
+    <View style={headerStyle}>
+      <View style={styles.tabs}>
+        { leftAction &&
+          <View />
+        }
+        {title &&
+          <View style={styles.titleContainer} ><Text style={styles.title}>{title}</Text></View>
+        }
+        { buttons && buttons.map((button) => {
+          return (
+            <HeaderButton
+              {...button}
+            />
+          )
+          })
+        }
+        { rightAction &&
+          <View />
+        }
+      </View>
     </View>
-  </View>
-);
+  );
+}
 
 
 export default Header;

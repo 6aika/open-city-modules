@@ -116,6 +116,7 @@ class FeedbackModule extends React.Component<Props, State> {
         <View style={styles.map}>
           <Header
             buttons={buttons}
+            override={true}
           />
           <MapView
             style={styles.map}

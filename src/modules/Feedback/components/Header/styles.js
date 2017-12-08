@@ -14,6 +14,16 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  overridedHeader: {
+    height: 64,
+    top: 0,
+    zIndex: 99999,
+    width: Dimensions.get('window').width,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    backgroundColor: '$colors.min'
+  },
   tabs: {
     flexDirection: 'row',
     flex: 1,

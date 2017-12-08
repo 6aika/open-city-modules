@@ -4,7 +4,8 @@ import {
   Text,
   TouchableWithoutFeedback,
   TextInput,
-  Animated
+  Animated,
+  ScrollView
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './styles';
@@ -21,8 +22,8 @@ class SendFeedbackModal extends Component {
 
   render() {
     return (
-      <View style={{flex:1}}>
-        <Header title ={'test'}/>
+      <ScrollView style={{flex:1}}>
+        <Header override={true} title ={'test'}/>
         <View style={styles.minimap} >
           <Minimap
             region={this.props.region}
@@ -32,7 +33,7 @@ class SendFeedbackModal extends Component {
         <View style={styles.feedbackForm}>
           <FeedbackForm/>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

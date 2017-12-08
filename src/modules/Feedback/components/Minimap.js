@@ -69,9 +69,7 @@ class Minimap extends Component {
                   // onPress={(e) => this.props.setFullScreenMap(true)}
                   // onDragEnd={(e) => this.updateMarkerPos(e.nativeEvent.coordinate, this.marker)}
                   >
-                <Image // This image hides the default marker
-                  source={this.props.markerIcon}
-                  style={{height: 0, width: 0}} />
+
                 </MapView.Marker.Animated>
               </MapView.Animated>
               {/* <TouchableWithoutFeedback onPress={() => this.props.setFullScreenMap(true)}>
