@@ -27,7 +27,7 @@
     "flow-bin": "0.56.0",
     "react": ">=16.0.0",
     "react-native": ">=0.50.3",
-    "react-native-maps": "^0.18.3",
+    "react-native-maps": "^0.18.3"
   },
   "dependencies": {
     "color": "^2.0.1",
