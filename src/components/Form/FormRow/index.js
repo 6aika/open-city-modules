@@ -16,15 +16,20 @@ import styles from '../styles';
 
 
 type Props = {
-  label: ?string;
-  placeholder: ?string;
+  label: string;
+  placeholder: string;
   onChangeText: (text: string) => void;
+  inputHeight: ?number;
+  multiline: ?boolean;
 }
 
 const FormRow = ({
   label,
   placeholder,
-}) => (
+  inputHeight,
+  onChangeText,
+  multiline = false,
+}: Props) => (
   <View
     style={styles.row}
   >
@@ -41,9 +46,10 @@ const FormRow = ({
       style={styles.inputContainer}
     >
       <TextInput
-        style={styles.input}
+        style={[styles.input, { height: inputHeight }]}
         placeholder={placeholder}
         onChangeText={(text) => { onChangeText(text); }}
+        multiline={multiline}
       />
     </View>
   </View>

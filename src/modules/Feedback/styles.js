@@ -1,5 +1,6 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Color from 'color';
 
 const styles = EStyleSheet.create({
   container: {
@@ -13,16 +14,22 @@ const styles = EStyleSheet.create({
   },
   minimap: {
     flex: 2,
-    backgroundColor: 'red',
   },
   feedbackForm: {
     flex: 4,
-    backgroundColor: 'yellow',
   },
   modal: {
     position: 'absolute',
     ...StyleSheet.absoluteFillObject,
-  }
+  },
+  attachmentButton: {
+    backgroundColor: '$colors.med'
+  },
+  buttonContainer: {
+    marginTop: 16,
+    alignItems: 'flex-start',
+    marginLeft: 24,
+  },
 });
 
 export default styles

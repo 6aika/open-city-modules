@@ -3,22 +3,23 @@ import Color from 'color';
 
 
 const styles = EStyleSheet.create({
-  $inputBackground: () => Color(EStyleSheet.value('$colors.med')).alpha(0.2),
+  $inputBackground: () => Color(EStyleSheet.value('$colors.med')).alpha(0.1),
   row: {
-    height: 64,
     paddingHorizontal: 24,
     marginVertical: 12,
   },
   label: {
-    flex: 1,
+    marginBottom: 8,
   },
-  inputContainer: {
-    flex: 2,
+  labelText: {
+    fontSize: 20,
   },
   input: {
     paddingHorizontal: 16,
     backgroundColor: '$inputBackground',
-    padding: 8,
+    paddingTop: 8,
+    paddingBottom: 8,
+    textAlignVertical: 'top',
   },
 });
 

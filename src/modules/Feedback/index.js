@@ -4,14 +4,20 @@ import {
   View,
   Text,
   ScrollView,
+  Dimensions,
   StyleSheet
 } from 'react-native';
 import { cloneDeep } from 'lodash';
 import MapView from 'react-native-maps';
+import { StackNavigator, TabNavigator, TabBarTop } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import FloatingActionButton from 'open-city-modules/src/components/FloatingActionButton';
 import SendFeedbackModal from './SendFeedbackModal';
+import Header from './components/Header'
 import styles from './styles'
+
+const MAP_PAGE = 'map';
+const LIST_PAGE = 'list';
 
 type Profile = {[string]: mixed};
 
@@ -31,6 +37,7 @@ type State = {
   text: ?String,
   region: ?Object,
   showFeedbackModal: Boolean,
+  activePage: string,
 };
 
 // Default region set as Helsinki
@@ -43,11 +50,14 @@ const DEFAULT_LONGITUDE_DELTA = 0.01010;
  An onboarding step component where the user can select one option from many
  */
 class FeedbackModule extends React.Component<Props, State> {
+  static navigationOptions = {
+    title: 'Home',
+  }
+
   constructor(props: Props) {
     super(props);
 
     this.state = {
-      text: 'testing',
       region: { // Coordinates for the visible area of the map
         latitude: DEFAULT_LATITUDE,
         longitude: DEFAULT_LONGITUDE,
@@ -55,14 +65,48 @@ class FeedbackModule extends React.Component<Props, State> {
         longitudeDelta: DEFAULT_LONGITUDE_DELTA,
       },
       showFeedbackModal: false,
+      activePage: MAP_PAGE
     };
+  }
+
+  toggleFeedbackModal = () => {
+    if (this.state.showFeedbackModal) {
+      this.setState({ showFeedbackModal: false })
+    } else if (!this.state.showFeedbackModal) {
+      this.setState({ showFeedbackModal: true })
+    }
+  }
+
+  test = () => {
+    console.warn("testong")
+  }
+
+  onMapPress = () => {
+    if (this.state.activePage !== MAP_PAGE) {
+      this.setState({
+        activePage: MAP_PAGE,
+      })
+    }
+  }
+
+  onListPress = () => {
+    if (this.state.activePage !== LIST_PAGE) {
+      this.setState({
+        activePage: LIST_PAGE,
+      })
+    }
   }
 
   render() {
     return (
       <View style={styles.container}>
+        <Header
+          onPress={this.test}
+          onMapPress={this.onMapPress}
+          onListPress={this.onListPress}
+          activePage={this.state.activePage}
+        />
         {!this.state.showFeedbackModal &&
-
         <View style={styles.map}>
           <MapView
             style={styles.map}
@@ -89,12 +133,8 @@ class FeedbackModule extends React.Component<Props, State> {
         <FloatingActionButton
           onPress={() => {
             console.warn(this.state.showFeedbackModal)
-            if (this.state.showFeedbackModal) {
-              this.setState({ showFeedbackModal: false })
-            } else if (!this.state.showFeedbackModal) {
-              this.setState({ showFeedbackModal: true })
-
-            }
+            // this.props.navigation.navigate('SendRequest', {region: this.state.region})
+            this.toggleFeedbackModal()
           }}
         />
       </View>
@@ -102,4 +142,24 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 }
 
-export default FeedbackModule;
+
+
+const FeedbackStack = StackNavigator(
+  {
+    Home: {
+      screen: FeedbackModule,
+    },
+    SendRequest: {
+      screen: SendFeedbackModal,
+    },
+  },
+  {
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false,
+    },
+  },
+);
+
+
+export default FeedbackStack;
