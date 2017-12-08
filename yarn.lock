@@ -3364,6 +3364,10 @@ react-native-extended-stylesheet@^0.8.0:
     css-mediaquery "^0.1.2"
     object-resolve-path "^1.1.0"
 
+react-native-maps@^0.18.3:
+  version "0.18.3"
+  resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.18.3.tgz#85dee19596aff434ff65d69b5a218288c3363a3d"
+
 react-native-vector-icons@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.4.2.tgz#090f42ee0396c4cc4eae0ddaa518028ba8df40c7"

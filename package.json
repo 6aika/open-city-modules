@@ -33,6 +33,7 @@
     "i18next": "^10.2.1",
     "react-i18next": "^7.1.1",
     "react-native-extended-stylesheet": "^0.8.0",
+    "react-native-maps": "^0.18.3",
     "react-native-vector-icons": "^4.4.2"
   }
 }
