@@ -2,7 +2,7 @@
 // Steps
 import SingleChoiceStep from 'open-city-modules/src/steps/SingleChoiceStep';
 import FeedbackModule from 'open-city-modules/src/modules/Feedback';
-import MultiChoiceStep from 'open-city-modules/src/steps/MultiChoiceStep';
+import createMultiChoiceStep, { MultiChoiceView } from 'open-city-modules/src/steps/MultiChoiceStep';
 // Modules
 import OnboardingResults from 'open-city-modules/src/modules/Onboarding/OnboardingResults';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -18,7 +18,8 @@ const initColors = (colors: ColorSet) => {
 export {
   initColors,
   SingleChoiceStep,
-  MultiChoiceStep,
+  createMultiChoiceStep,
+  MultiChoiceView,
   OnboardingResults,
-  FeedbackModule
+  FeedbackModule,
 };
