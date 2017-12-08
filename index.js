@@ -1,13 +1,14 @@
 /* @flow */
 // Steps
 import SingleChoiceStep from 'open-city-modules/src/steps/SingleChoiceStep';
-import FeedbackModule from 'open-city-modules/src/modules/Feedback';
 import MultiChoiceStep from 'open-city-modules/src/steps/MultiChoiceStep';
 // Modules
-import OnboardingResults from 'open-city-modules/src/modules/Onboarding/OnboardingResults';
+import WebViewModule from 'open-city-modules/src/modules/WebView';
+import FeedbackModule from 'open-city-modules/src/modules/Feedback';
+
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { type ColorSet } from 'open-city-modules/types';
-import Development from './development'
+import Development from './development';
 
 const initColors = (colors: ColorSet) => {
   EStyleSheet.build({
@@ -20,5 +21,6 @@ export {
   SingleChoiceStep,
   MultiChoiceStep,
   OnboardingResults,
-  FeedbackModule
+  FeedbackModule,
+  WebViewModule,
 };
