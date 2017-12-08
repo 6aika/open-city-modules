@@ -22,5 +22,4 @@ The repository also has files `development.js` and `App.js` which can be used to
 independently develop new and existing modules in this repository, but they're excluded
 from installed files.
 
-When developing modules, edit the following line:
-`"main": "index.js",` --> `"main": "development.js"`, found in `index.js`
+When developing modules, uncomment all lines in `development.js`. The file is added to gitignore, so don't commit it to the repository.
