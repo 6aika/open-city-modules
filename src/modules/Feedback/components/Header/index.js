@@ -1,10 +1,12 @@
 import React from 'react';
 import {
   View,
-  Text
+  Text,
+  Image,
 } from 'react-native';
 import HeaderButton from './HeaderButton';
 import styles from './styles';
+import SendImage from 'open-city-modules/img/send.png'
 
 // Button which will have an absolute position on the bottom right corner
 
@@ -38,10 +40,13 @@ const Header = ({
           )
           })
         }
-        { rightAction &&
-          <View />
-        }
+
       </View>
+      { rightAction &&
+        <View style={styles.rightAction}>
+          <Image style={[styles.image]} source={rightAction} />
+        </View>
+      }
     </View>
   );
 }

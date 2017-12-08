@@ -14,16 +14,6 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  overridedHeader: {
-    height: 64,
-    top: 0,
-    zIndex: 99999,
-    width: Dimensions.get('window').width,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    backgroundColor: '$colors.min'
-  },
   tabs: {
     flexDirection: 'row',
     flex: 1,
@@ -61,6 +51,18 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  rightAction: {
+    position: 'absolute',
+    right: 8,
+  },
+  image: {
+    width: 32,
+    height: 32,
+    tintColor: '$colors.med'
+  },
+  disabled: {
+    tintColor: '$inactiveText'
+  }
 });
 
 export default styles

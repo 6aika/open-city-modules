@@ -9,11 +9,11 @@ import {
   ScrollView
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import SendImage from 'open-city-modules/img/send.png'
 import styles from './styles';
 import Minimap from './components/Minimap'
 import FeedbackForm from './components/FeedbackForm'
 import Header from './components/Header'
-
 
 class SendFeedbackModal extends Component {
   constructor(props, context) {
@@ -39,7 +39,10 @@ class SendFeedbackModal extends Component {
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
     return (
       <ScrollView style={{ flex: 1 }}>
-        <Header title ={'UUSI PALAUTE'}/>
+        <Header
+          title={'UUSI PALAUTE'}
+          rightAction={ SendImage }
+        />
         <View style={minimapStyle} >
           <Minimap
             region={this.props.region}
