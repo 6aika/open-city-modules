@@ -10,6 +10,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './styles';
 import Minimap from './components/Minimap'
 import FeedbackForm from './components/FeedbackForm'
+import Header from './components/Header'
 
 
 class SendFeedbackModal extends Component {
@@ -21,6 +22,7 @@ class SendFeedbackModal extends Component {
   render() {
     return (
       <View style={{flex:1}}>
+        <Header title ={'test'}/>
         <View style={styles.minimap} >
           <Minimap
             region={this.props.region}

@@ -14,6 +14,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import FloatingActionButton from 'open-city-modules/src/components/FloatingActionButton';
 import SendFeedbackModal from './SendFeedbackModal';
 import Header from './components/Header'
+import HeaderButton from './components/Header/HeaderButton'
 import styles from './styles'
 
 const MAP_PAGE = 'map';
@@ -46,6 +47,7 @@ const DEFAULT_LONGITUDE = 23.752394;
 const DEFAULT_LATITUDE_DELTA = 0.02208;
 const DEFAULT_LONGITUDE_DELTA = 0.01010;
 
+
 /*
  An onboarding step component where the user can select one option from many
  */
@@ -54,9 +56,10 @@ class FeedbackModule extends React.Component<Props, State> {
     title: 'Home',
   }
 
+
+
   constructor(props: Props) {
     super(props);
-
     this.state = {
       region: { // Coordinates for the visible area of the map
         latitude: DEFAULT_LATITUDE,
@@ -65,27 +68,15 @@ class FeedbackModule extends React.Component<Props, State> {
         longitudeDelta: DEFAULT_LONGITUDE_DELTA,
       },
       showFeedbackModal: false,
-      activePage: MAP_PAGE
+      activePage: MAP_PAGE,
     };
-  }
-
-  toggleFeedbackModal = () => {
-    if (this.state.showFeedbackModal) {
-      this.setState({ showFeedbackModal: false })
-    } else if (!this.state.showFeedbackModal) {
-      this.setState({ showFeedbackModal: true })
-    }
-  }
-
-  test = () => {
-    console.warn("testong")
   }
 
   onMapPress = () => {
     if (this.state.activePage !== MAP_PAGE) {
       this.setState({
         activePage: MAP_PAGE,
-      })
+      });
     }
   }
 
@@ -93,21 +84,39 @@ class FeedbackModule extends React.Component<Props, State> {
     if (this.state.activePage !== LIST_PAGE) {
       this.setState({
         activePage: LIST_PAGE,
-      })
+      });
+    }
+  }
+
+  toggleFeedbackModal = () => {
+    if (this.state.showFeedbackModal) {
+      this.setState({ showFeedbackModal: false });
+    } else if (!this.state.showFeedbackModal) {
+      this.setState({ showFeedbackModal: true });
     }
   }
 
   render() {
+    const buttons = [
+      {
+        onPress: this.onMapPress,
+        active: this.state.activePage === MAP_PAGE,
+        title: 'KARTTA'
+      },
+      {
+        onPress: this.onListPress,
+        active: this.state.activePage === LIST_PAGE,
+        title: 'LISTA'
+      },
+    ]
+
     return (
       <View style={styles.container}>
-        <Header
-          onPress={this.test}
-          onMapPress={this.onMapPress}
-          onListPress={this.onListPress}
-          activePage={this.state.activePage}
-        />
         {!this.state.showFeedbackModal &&
         <View style={styles.map}>
+          <Header
+            buttons={buttons}
+          />
           <MapView
             style={styles.map}
             ref={(ref) => { this.mapView = ref; }}

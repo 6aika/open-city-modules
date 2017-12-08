@@ -12,14 +12,14 @@ const styles = EStyleSheet.create({
     borderWidth: 1,
     borderColor: '$borderColor',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   tabs: {
     flexDirection: 'row',
-    flex:1,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '70%'
+    width: '70%',
   },
   tabButton: {
     height: 48,
@@ -34,14 +34,23 @@ const styles = EStyleSheet.create({
   },
   inactive: {
     backgroundColor: '$inactiveBG',
-    color: '$inactiveText'
+    color: '$inactiveText',
   },
   label: {
     fontSize: 22,
     fontWeight: '700',
     backgroundColor: 'transparent',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: '700',
+  },
+  titleContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default styles
