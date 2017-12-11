@@ -9,7 +9,7 @@ import {
 import { cloneDeep } from 'lodash';
 import MapView from 'react-native-maps';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import FloatingActionButton from 'src/components/FloatingActionButton';
+import FloatingActionButton from 'open-city-modules/src/components/FloatingActionButton';
 import SendFeedbackModal from './SendFeedbackModal';
 import styles from './styles'
 

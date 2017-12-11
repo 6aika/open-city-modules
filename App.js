@@ -2,9 +2,9 @@
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import FeedbackModule from 'src/modules/Feedback';
-import createMultiChoiceStep, { MultiChoiceView } from 'src/steps/MultiChoiceStep';
-import createSingleChoiceStep, { SingleChoiceView } from 'src/steps/SingleChoiceStep';
+import FeedbackModule from 'open-city-modules/src/modules/Feedback';
+import createMultiChoiceStep, { MultiChoiceView } from 'open-city-modules/src/steps/MultiChoiceStep';
+import createSingleChoiceStep, { SingleChoiceView } from 'open-city-modules/src/steps/SingleChoiceStep';
 
 const initColors = (colors) => {
   EStyleSheet.build({

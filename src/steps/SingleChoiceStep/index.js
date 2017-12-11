@@ -1,8 +1,8 @@
 /* @flow */
 import * as React from 'react';
 import { cloneDeep } from 'lodash';
-import { type Profile } from 'src/types';
-import SingleChoiceView from 'src/steps/SingleChoiceStep/SingleChoiceView';
+import { type Profile } from 'open-city-modules/src/types';
+import SingleChoiceView from 'open-city-modules/src/steps/SingleChoiceStep/SingleChoiceView';
 
 type Props = {
   next: Profile => void,

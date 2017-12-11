@@ -7,8 +7,8 @@ import {
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import OptionButton from 'src/steps/components/OptionButton';
-import StepBottomBar from 'src/steps/components/StepBottomBar';
+import OptionButton from 'open-city-modules/src/steps/components/OptionButton';
+import StepBottomBar from 'open-city-modules/src/steps/components/StepBottomBar';
 
 let styles;
 
