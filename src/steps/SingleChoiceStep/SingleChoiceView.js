@@ -24,7 +24,7 @@ type Props = {
 let styles;
 
 const SingleChoiceView = ({
-  options, selectedOption, onOptionPress, onPreviousPress, onNextPress, nextDisabled, t, i18n,
+  options, selectedOption, onOptionPress, onPreviousPress, onNextPress, nextDisabled, t, i18n, step, totalSteps
 }: Props) => (
   <View style={styles.container}>
     <ScrollView style={styles.content}>
@@ -44,6 +44,9 @@ const SingleChoiceView = ({
       onPreviousPress={onPreviousPress}
       onNextPress={onNextPress}
       nextDisabled={!selectedOption}
+      step={step}
+      totalSteps={totalSteps}
+      fgColor="red"
     />
   </View>
 );
