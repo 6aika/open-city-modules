@@ -20,6 +20,8 @@ type Props = {
   nextDisabled: boolean,
   t: any,
   i18n: any,
+  step: any,
+  totalSteps: any,
 };
 
 const MultiChoiceView = ({
@@ -30,6 +32,8 @@ const MultiChoiceView = ({
   nextDisabled,
   t,
   i18n,
+  step,
+  totalSteps,
 }: Props) => (
   <View style={styles.container}>
     <ScrollView style={styles.content}>
@@ -54,6 +58,8 @@ const MultiChoiceView = ({
       onPreviousPress={onPreviousPress}
       onNextPress={onNextPress}
       nextDisabled={nextDisabled}
+      step={step}
+      totalSteps={totalSteps}
     />
   </View>
 );
