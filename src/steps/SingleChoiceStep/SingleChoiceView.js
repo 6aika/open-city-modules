@@ -36,7 +36,7 @@ let styles;
 
 const SingleChoiceView = ({
   options, selectedOption, onOptionPress, onPreviousPress, onNextPress, step,
-  totalSteps, nextDisabled, containerStyle, contentStyle, topImage,
+  totalSteps, nextDisabled, containerStyle, contentStyle, topImage, t,
   questionStyle, buttonProps, bottomBarProps,
 }: Props) => (
   <View style={[styles.container, containerStyle]}>
