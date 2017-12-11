@@ -5,3 +5,5 @@ export type ColorSet = {
   med: string,
   min: string,
 };
+
+export type Profile = {[string]: mixed};

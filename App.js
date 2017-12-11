@@ -1,61 +1,56 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+/* @flow */
+import React from 'react';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import FeedbackModule from 'open-city-modules/src/modules/Feedback';
+import createMultiChoiceStep, { MultiChoiceView } from 'open-city-modules/src/steps/MultiChoiceStep';
+import createSingleChoiceStep, { SingleChoiceView } from 'open-city-modules/src/steps/SingleChoiceStep';
 
-import FeedbackModule from './src/modules/Feedback';
-import { initColors } from './index'
+const initColors = (colors) => {
+  EStyleSheet.build({
+    $colors: colors,
+  });
+};
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+const colors = {
+  min: 'white',
+  med: 'blue',
+  max: 'black',
+};
 
-export default class App extends Component<{}> {
-  constructor(props: Props) {
-    super(props);
+initColors(colors);
 
-    const color = {
-      min: 'white',
-      med: 'blue',
-      max: 'black'
-    }
+const MultiChoiceStep = createMultiChoiceStep(MultiChoiceView);
+const SingleChoiceStep = createSingleChoiceStep(SingleChoiceView);
 
-    initColors(color)
-  }
-  render() {
-    return (
-      <FeedbackModule/>
-    );
-  }
-}
+const OnboardingMock = () => {
+  const interestOptions = [
+    { value: 'restaurants' },
+    { value: 'movies' },
+    { value: 'family' },
+    { value: 'health' },
+    { value: 'cityPlanning' },
+    { value: 'exercise' },
+  ];
+  const customProps = {
+    choiceKey: 'interests',
+    options: interestOptions,
+    ns: 'interestStep',
+    t: str => str,
+    i18n: null,
+  };
+  const noop = () => {};
+  const stepProps = {
+    ...customProps,
+    next: noop,
+    previous: noop,
+    profile: {},
+    step: 0,
+    totalSteps: 1,
+    colors,
+    locale: 'fi',
+  };
+  return <SingleChoiceStep {...stepProps} />;
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+export default OnboardingMock;
