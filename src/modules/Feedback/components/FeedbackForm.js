@@ -7,7 +7,7 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import FormRow from 'open-city-modules/src/components/Form/FormRow'
+import FormRow from 'src/components/Form/FormRow'
 import styles from '../styles';
 // Button which will have an absolute position on the bottom right corner
 
