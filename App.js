@@ -2,8 +2,9 @@
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import FeedbackModule from './src/modules/Feedback';
-import createMultiChoiceStep, { MultiChoiceView } from './src/steps/MultiChoiceStep';
+import FeedbackModule from 'src/modules/Feedback';
+import createMultiChoiceStep, { MultiChoiceView } from 'src/steps/MultiChoiceStep';
+import createSingleChoiceStep, { SingleChoiceView } from 'src/steps/SingleChoiceStep';
 
 const initColors = (colors) => {
   EStyleSheet.build({
@@ -20,6 +21,7 @@ const colors = {
 initColors(colors);
 
 const MultiChoiceStep = createMultiChoiceStep(MultiChoiceView);
+const SingleChoiceStep = createSingleChoiceStep(SingleChoiceView);
 
 const OnboardingMock = () => {
   const interestOptions = [
@@ -48,7 +50,7 @@ const OnboardingMock = () => {
     colors,
     locale: 'fi',
   };
-  return <MultiChoiceStep {...stepProps} />;
+  return <SingleChoiceStep {...stepProps} />;
 };
 
 export default OnboardingMock;
