@@ -3,8 +3,10 @@ import React from 'react';
 import {
   View,
   Button,
+  TouchableOpacity,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 let styles;
 
@@ -12,31 +14,33 @@ type Props = {
   onPreviousPress: () => void,
   onNextPress: () => void,
   nextDisabled: boolean,
-  i18n: any,
-  t: any,
+  bgColor: string,
+  fgColor: string,
+  previousLabel: string,
+  nextLabel: string,
 };
 
 const StepBottomBar = (props: Props) => {
-  const { t, i18n } = props;
   return (
     <View style={styles.bottomBar}>
-      <Button
-        onPress={props.onPreviousPress}
-        title={t('previous')}
-      />
-      <Button
-        onPress={() => i18n.changeLanguage('fi')}
-        title="Finnish"
-      />
-      <Button
-        onPress={() => i18n.changeLanguage('en')}
-        title="English"
-      />
-      <Button
-        disabled={props.nextDisabled}
-        onPress={props.onNextPress}
-        title={t('next')}
-      />
+      {props.previousLabel ?
+        <Button
+          onPress={props.onPreviousPress}
+          title={props.previousLabel}
+        /> :
+        <TouchableOpacity onPress={props.onPreviousPress}>
+          <Icon name="chevron-left" size={40} />
+        </TouchableOpacity>
+      }
+      {props.nextLabel ?
+        <Button
+          onPress={props.onNextPress}
+          title={props.nextLabel}
+        /> :
+        <TouchableOpacity onPress={props.onNextPress}>
+          <Icon name="chevron-right" size={40} />
+        </TouchableOpacity>
+      }
     </View>
   );
 };

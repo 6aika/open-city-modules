@@ -41,8 +41,6 @@ const SingleChoiceView = ({
       ))}
     </ScrollView>
     <StepBottomBar
-      t={t}
-      i18n={i18n}
       onPreviousPress={onPreviousPress}
       onNextPress={onNextPress}
       nextDisabled={!selectedOption}
