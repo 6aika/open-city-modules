@@ -27,39 +27,48 @@ class SendFeedbackModal extends Component {
 
   showFullScreenMap = () => {
     this.setState({ fullScreenMap: true });
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
   hideFullScreenMap = () => {
     this.setState({ fullScreenMap: false });
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
+
+
   render() {
+    console.warn(this.props.attachments && this.props.attachments.length)
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
     return (
       <ScrollView style={{ flex: 1 }}>
         <Header
           title={'UUSI PALAUTE'}
-          rightAction={ SendImage }
+          rightAction={{ icon: SendImage, action: () => { console.warn('send') } }}
+          leftAction={{ icon: SendImage, action: (this.props.toggleFeedbackModal) }}
         />
         <View style={minimapStyle} >
           <Minimap
+            {...this.props}
             region={this.props.region}
             locationEnabled
+            fullScreenMap={this.state.fullScreenMap}
             setFullScreenMap={this.showFullScreenMap}
           />
           {this.state.fullScreenMap &&
             <TouchableWithoutFeedback
               onPress={this.hideFullScreenMap}
             >
-              <View style={styles.footer}><Text>{'^'}</Text></View>
+              <View style={styles.footer}><Text style={styles.footerIcon}>{'^'}</Text></View>
             </TouchableWithoutFeedback>
           }
         </View>
         {!this.state.fullScreenMap &&
           <View style={styles.feedbackForm}>
-            <FeedbackForm />
+            <FeedbackForm
+              attachments={this.props.attachments}
+              onAddAttachmentClick={this.props.onAddAttachmentClick}
+            />
           </View>
         }
       </ScrollView>

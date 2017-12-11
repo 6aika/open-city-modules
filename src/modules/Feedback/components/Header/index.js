@@ -3,6 +3,7 @@ import {
   View,
   Text,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import HeaderButton from './HeaderButton';
 import styles from './styles';
@@ -27,10 +28,22 @@ const Header = ({
     <View style={styles.header}>
       <View style={styles.tabs}>
         { leftAction &&
-          <View />
+          <View
+            style={styles.leftAction}
+          >
+            <TouchableOpacity
+              onPress={leftAction.action}
+            >
+              <Image style={[styles.image]} source={leftAction.icon} />
+            </TouchableOpacity>
+          </View>
         }
         {title &&
-          <View style={styles.titleContainer} ><Text style={styles.title}>{title}</Text></View>
+          <View
+            style={styles.titleContainer}
+          >
+            <Text style={styles.title}>{title}</Text>
+          </View>
         }
         { buttons && buttons.map((button) => {
           return (
@@ -40,13 +53,17 @@ const Header = ({
           )
           })
         }
-
+        { rightAction &&
+          <View style={styles.rightAction}>
+            <TouchableOpacity
+              onPress={rightAction.action}
+            >
+              <Image style={[styles.image]} source={rightAction.icon} />
+            </TouchableOpacity>
+          </View>
+        }
       </View>
-      { rightAction &&
-        <View style={styles.rightAction}>
-          <Image style={[styles.image]} source={rightAction} />
-        </View>
-      }
+
     </View>
   );
 }

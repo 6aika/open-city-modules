@@ -2,6 +2,7 @@ import { StyleSheet, Platform, Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Color from 'color';
 
+
 const styles = EStyleSheet.create({
   $borderColor: () => Color(EStyleSheet.value('$colors.max')).alpha(0.3),
   $inactiveBG: () => Color(EStyleSheet.value('$colors.max')).alpha(0.1),
@@ -19,14 +20,12 @@ const styles = EStyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '70%',
   },
   tabButton: {
     height: 48,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: 20,
   },
   active: {
     backgroundColor: '$colors.med',
@@ -52,17 +51,19 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
   },
   rightAction: {
-    position: 'absolute',
-    right: 8,
+    paddingRight: 8,
+  },
+  leftAction: {
+    paddingLeft: 8,
   },
   image: {
     width: 32,
     height: 32,
-    tintColor: '$colors.med'
+    tintColor: '$colors.med',
   },
   disabled: {
     tintColor: '$inactiveText'
-  }
+  },
 });
 
 export default styles

@@ -1,6 +1,7 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Color from 'color';
+const MARKER_IMAGE_SIZE = 36;
 
 const styles = EStyleSheet.create({
   container: {
@@ -24,21 +25,30 @@ const styles = EStyleSheet.create({
   },
   modal: {
     position: 'absolute',
-    ...StyleSheet.absoluteFillObject,
-  },
-  attachmentButton: {
-    backgroundColor: '$colors.med'
-  },
-  buttonContainer: {
-    marginTop: 16,
-    alignItems: 'flex-start',
-    marginLeft: 24,
+    width: Dimensions.get('window').width,
+    height: 0,
   },
   footer: {
     height: 60,
     backgroundColor: '$colors.med',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  markerImage: {
+    height: MARKER_IMAGE_SIZE,
+    width: MARKER_IMAGE_SIZE,
+  },
+  markerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    width: '100%',
+    height: '100%'
+  },
+  footerIcon: {
+    color: '$colors.min',
+    fontSize: 48,
+    fontWeight: '500',
   }
 });
 
