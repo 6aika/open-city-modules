@@ -6,13 +6,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Color from 'color';
 
 type Props = {
   label: string,
   onPress: () => void,
   selected: boolean,
   style: any,
-}
+};
 
 let styles;
 
@@ -30,13 +31,13 @@ styles = EStyleSheet.create({
   container: {
     padding: 10,
     backgroundColor: '$colors.min',
-    borderWidth: 2,
-    borderColor: '$colors.max',
+    borderBottomWidth: 2,
+    borderColor: Color('black').alpha(0.1),
     alignItems: 'center',
     justifyContent: 'center',
   },
   containerSelected: {
-    backgroundColor: '$colors.max',
+    backgroundColor: '$colors.med',
   },
   label: {
     fontSize: 20,
