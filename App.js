@@ -1,6 +1,8 @@
 /* @flow */
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { withProps } from 'recompose';
+import logo from 'open-city-modules/tre_logo.png';
 
 import FeedbackModule from 'open-city-modules/src/modules/Feedback';
 import createMultiChoiceStep, { MultiChoiceView } from 'open-city-modules/src/steps/MultiChoiceStep';
@@ -20,8 +22,9 @@ const colors = {
 
 initColors(colors);
 
+const MySingleView = withProps({ topImage: logo, containerStyle: { backgroundColor: 'yellow' } })(SingleChoiceView);
 const MultiChoiceStep = createMultiChoiceStep(MultiChoiceView);
-const SingleChoiceStep = createSingleChoiceStep(SingleChoiceView);
+const SingleChoiceStep = createSingleChoiceStep(MySingleView);
 
 const OnboardingMock = () => {
   const interestOptions = [

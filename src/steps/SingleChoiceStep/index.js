@@ -35,7 +35,10 @@ type State = {
     t: any,
     i18n: any
 */
-const createSingleChoiceStep = (ViewComponent: React.ComponentType<any>) =>
+const createSingleChoiceStep = (
+  ViewComponent: React.ComponentType<any>,
+  onNextPress?: Profile => void,
+) =>
   class SingleChoiceStep extends React.Component<Props, State> {
     constructor(props: Props) {
       super(props);
@@ -59,6 +62,9 @@ const createSingleChoiceStep = (ViewComponent: React.ComponentType<any>) =>
     handleNextPress = () => {
       const newProfile: Profile = cloneDeep(this.props.profile);
       newProfile[this.props.choiceKey] = this.state.selectedOption;
+      if (onNextPress) {
+        onNextPress(newProfile);
+      }
       this.props.next(newProfile);
     }
 
