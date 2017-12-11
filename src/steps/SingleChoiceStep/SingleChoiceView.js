@@ -4,11 +4,14 @@ import {
   View,
   Text,
   ScrollView,
+  Image,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import OptionButton from 'open-city-modules/src/steps/components/OptionButton';
 import StepBottomBar from 'open-city-modules/src/steps/components/StepBottomBar';
+
+type StyleObj = {[string]: mixed};
 
 type Props = {
   options: Array<{value: string, selected: boolean}>,
@@ -16,20 +19,30 @@ type Props = {
   onOptionPress: (string) => void,
   onPreviousPress: () => void,
   onNextPress: () => void,
+  step: number,
+  totalSteps: number,
   nextDisabled: boolean,
   t: any,
   i18n: any,
+  containerStyle: ?StyleObj,
+  contentStyle: ?StyleObj,
+  topImage: any,
+  questionStyle: ?StyleObj,
+  buttonProps: any,
+  bottomBarProps: any,
 };
 
 let styles;
 
 const SingleChoiceView = ({
-  options, selectedOption, onOptionPress, onPreviousPress, onNextPress, nextDisabled, t, i18n,
+  options, selectedOption, onOptionPress, onPreviousPress, onNextPress, step,
+  totalSteps, nextDisabled, t, i18n, containerStyle, contentStyle, topImage,
+  questionStyle, buttonProps, bottomBarProps,
 }: Props) => (
-  <View style={styles.container}>
-    <ScrollView style={styles.content}>
-      <Text style={styles.title}>{t('title')}</Text>
-      <Text style={styles.question}>{t('question')}</Text>
+  <View style={[styles.container, containerStyle]}>
+    <ScrollView style={[styles.content, contentStyle]}>
+      { topImage && <Image style={styles.appLogo} source={topImage} resizeMode="contain" /> }
+      <Text style={[styles.question, questionStyle]}>{step + 1}/{totalSteps}{'\n'}{t('question')}</Text>
       { options.map(option => (
         <OptionButton
           key={option.value}
@@ -37,6 +50,7 @@ const SingleChoiceView = ({
           onPress={() => onOptionPress(option.value)}
           selected={selectedOption === option.value}
           style={styles.button}
+          {...buttonProps}
         />
       ))}
     </ScrollView>
@@ -45,7 +59,8 @@ const SingleChoiceView = ({
       i18n={i18n}
       onPreviousPress={onPreviousPress}
       onNextPress={onNextPress}
-      nextDisabled={!selectedOption}
+      nextDisabled={nextDisabled}
+      {...bottomBarProps}
     />
   </View>
 );
@@ -56,6 +71,11 @@ styles = EStyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'center',
     backgroundColor: '$colors.min',
+  },
+  appLogo: {
+    marginTop: 5,
+    height: 50,
+    alignSelf: 'center',
   },
   content: {
     paddingHorizontal: 20,

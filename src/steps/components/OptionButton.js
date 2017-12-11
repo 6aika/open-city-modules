@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-type OptionButtonProps = {
+type Props = {
   label: string,
   onPress: () => void,
   selected: boolean,
@@ -16,7 +16,7 @@ type OptionButtonProps = {
 
 let styles;
 
-const OptionButton = (props: OptionButtonProps) => (
+const OptionButton = (props: Props) => (
   <TouchableOpacity onPress={props.onPress}>
     <View style={[styles.container, props.style, props.selected && styles.containerSelected]}>
       <Text style={[styles.label, props.selected && styles.labelSelected]}>
