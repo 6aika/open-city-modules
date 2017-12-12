@@ -27,17 +27,20 @@ type Props = {
   containerStyle: ?StyleObj,
   contentStyle: ?StyleObj,
   topImage: any,
+  topImageStyle: any,
   questionStyle: ?StyleObj,
   buttonProps: any,
   bottomBarProps: any,
+  bgImage: any,
+  bgImageStyle: any,
 };
 
 let styles;
 
 const ChoiceView = ({
   mode, options, onOptionPress, onPreviousPress, onNextPress, step,
-  totalSteps, nextDisabled, containerStyle, contentStyle, topImage, t,
-  questionStyle, buttonProps, bottomBarProps,
+  totalSteps, nextDisabled, containerStyle, contentStyle, topImage, topImageStyle,
+  t, questionStyle, buttonProps, bottomBarProps, bgImage, bgImageStyle,
 }: Props) => {
   let buttons;
   if (mode === 'list') {
@@ -70,8 +73,15 @@ const ChoiceView = ({
   }
   return (
     <View style={[styles.container, containerStyle]}>
+      { bgImage &&
+        <Image
+          source={bgImage}
+          style={[styles.bgImage, bgImageStyle]}
+        /> }
       <ScrollView style={[styles.content, contentStyle]}>
-        { topImage && <Image style={styles.appLogo} source={topImage} resizeMode="contain" /> }
+        { topImage &&
+          <Image style={[styles.topImage, topImageStyle]} source={topImage} />
+        }
         <Text style={[styles.question, questionStyle]}>{step + 1}/{totalSteps}{'\n'}{t('question')}</Text>
         { buttons }
       </ScrollView>
@@ -91,28 +101,30 @@ styles = EStyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'stretch',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     backgroundColor: '$colors.min',
   },
-  appLogo: {
+  bgImage: {
+    resizeMode: 'stretch',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+  },
+  topImage: {
     marginTop: 5,
-    height: 50,
-    alignSelf: 'center',
+    resizeMode: 'contain',
   },
   content: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 40,
     flex: 1,
-  },
-  title: {
-    fontSize: 30,
-    color: '$colors.max',
-    textAlign: 'center',
-    marginVertical: 20,
   },
   question: {
     fontSize: 20,
     color: '$colors.max',
-    textAlign: 'center',
+    textAlign: 'left',
+    marginLeft: 50,
     marginBottom: 20,
   },
   buttonContainer: {
