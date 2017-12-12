@@ -21,6 +21,9 @@ const styles = EStyleSheet.create({
     paddingBottom: 8,
     textAlignVertical: 'top',
   },
+  inputContainer : {
+    marginTop: 8,
+  }
 });
 
 export default styles;

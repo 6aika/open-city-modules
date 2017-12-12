@@ -8,10 +8,10 @@ import {
   Platform,
 } from 'react-native';
 import MapView from 'react-native-maps';
-import ImagePicker from 'react-native-image-picker';
-import ImageResizer from 'react-native-image-resizer';
+import { getServiceTypes } from 'open-city-modules/src/modules/Feedback/requests'
 import { StackNavigator } from 'react-navigation';
-import { type AttachmentType } from 'open-city-modules/src/types';
+import { type ServiceType } from 'open-city-modules/src/types'
+import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import FloatingActionButton from 'open-city-modules/src/components/FloatingActionButton';
 import SendFeedbackModal from './SendFeedbackModal';
 import Header from './components/Header';
@@ -20,10 +20,8 @@ import styles from './styles';
 const MAP_PAGE = 'map';
 const LIST_PAGE = 'list';
 
-const IMAGE_MAX_HEIGHT = 1080;
-const IMAGE_MAX_WIDTH = 1980;
-const IMAGE_QUALITY = 60;
-const IMAGE_FORMAT = 'JPEG';
+const Config = getConfig();
+
 
 type Props = {
   // next: Profile => void, // provided by Onboarding
@@ -44,13 +42,8 @@ type State = {
   feedbackModalHeight: ?number,
   activePage: string,
   markerPosition: ?Object,
+  serviceTypes: Array<ServiceType>
 };
-
-// Default region set as Helsinki
-const DEFAULT_LATITUDE = 61.4983875;
-const DEFAULT_LONGITUDE = 23.752394;
-const DEFAULT_LATITUDE_DELTA = 0.02208;
-const DEFAULT_LONGITUDE_DELTA = 0.01010;
 
 
 /*
@@ -65,17 +58,22 @@ class FeedbackModule extends React.Component<Props, State> {
     super(props);
     this.state = {
       region: { // Coordinates for the visible area of the map
-        latitude: DEFAULT_LATITUDE,
-        longitude: DEFAULT_LONGITUDE,
-        latitudeDelta: DEFAULT_LATITUDE_DELTA,
-        longitudeDelta: DEFAULT_LONGITUDE_DELTA,
+        latitude: Config.DEFAULT_LATITUDE,
+        longitude: Config.DEFAULT_LONGITUDE,
+        latitudeDelta: Config.DEFAULT_LATITUDE_DELTA,
+        longitudeDelta: Config.DEFAULT_LONGITUDE_DELTA,
       },
       markerPosition: null,
       showFeedbackModal: false,
       activePage: MAP_PAGE,
-      attachments: [],
+      serviceTypes: [],
     };
   }
+
+  componentWillMount = () => {
+    this.getServiceTypes(getServiceTypes);
+  }
+
 
   onRegionChange = (e) => {
     this.setState({
@@ -114,6 +112,11 @@ class FeedbackModule extends React.Component<Props, State> {
     });
   }
 
+  getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
+    const result = await serviceTypeFetch();
+    this.setState({ serviceTypes: result });
+  }
+
   toggleFeedbackModal = () => {
     if (this.state.showFeedbackModal) {
       this.setState({
@@ -142,88 +145,6 @@ class FeedbackModule extends React.Component<Props, State> {
     });
   }
 
-  removeAttachment = (index) => {
-    const tempAttachments = this.state.attachments;
-    let found;
-    for (let i = 0; i < tempAttachments.length; i++) {
-      if(tempAttachments[i].index === index) {
-        tempAttachments.splice(i, 1);
-        this.setState({ attachments: tempAttachments })
-        return true;
-      }
-    }
-    return false;
-  }
-
-  onAddAttachmentClick = () => {
-    console.warn("onadd")
-    const options = {
-      title: '',
-      cancelButtonTitle: 'Peru',
-      takePhotoButtonTitle: 'Ota kuva',
-      chooseFromLibraryButtonTitle: 'Valitse kuva',
-      mediaType: 'photo'
-    };
-
-    ImagePicker.showImagePicker(options, (response) => {
-      console.warn("imagepicker")
-      let source = null;
-      let fileName = null;
-
-      if (response.error) {
-        console.warn("error picker")
-        // showAlert(transError.attachmentErrorTitle, transError.attachmentErrorMessage, transError.attachmentError);
-      } else if (response.didCancel) {
-        source = null;
-      } else {
-
-        if (Platform.OS === 'ios') {
-          source = { uri: response.uri.replace('file://', ''), isStatic: true };
-        } else {
-          source = { uri: response.uri, isStatic: true };
-        }
-
-        // Compress image size
-        ImageResizer.createResizedImage(
-          response.uri,
-          IMAGE_MAX_HEIGHT,
-          IMAGE_MAX_WIDTH,
-          IMAGE_FORMAT,
-          IMAGE_QUALITY,
-        ).then((resizedImageUri) => {
-          console.warn("imageresizer")
-
-          const resizedSource = { uri: resizedImageUri, isStatic: true };
-
-          response.path = resizedImageUri;
-          response.uri = resizedImageUri;
-          const tempArray = this.state.attachments
-          const image = { source: resizedSource, name: response.fileName }
-          const index = tempArray.length - 1;
-          const attachment = {
-            index,
-            image,
-            onPress: () => {
-              this.removeAttachment(index)
-            },
-          };
-          tempArray.push(attachment)
-
-          this.setState({
-            image,
-            imageData: response,
-            attachments: tempArray,
-          });
-
-          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
-        }).catch((err) => {
-          console.warn("error resize")
-          // showAlert(transError.feedbackImageErrorTitle, transError.feedbackImageErrorMessage, transError.feedbackImageErrorButton)
-        });
-      }
-    });
-  }
 
   render() {
     const buttons = [
@@ -267,8 +188,7 @@ class FeedbackModule extends React.Component<Props, State> {
               region={this.state.region}
               onRegionChangeComplete={this.onMapRegionChange}
               onRegionChange={this.onRegionChange}
-              onAddAttachmentClick={this.onAddAttachmentClick}
-              attachments={this.state.attachments}
+              serviceTypes={this.state.serviceTypes}
             />
           </Modal>
         }

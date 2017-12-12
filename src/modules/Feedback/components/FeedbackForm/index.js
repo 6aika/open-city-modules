@@ -10,28 +10,39 @@ import {
 } from 'react-native';
 import Button from 'open-city-modules/src/components/Button';
 import FormRow from 'open-city-modules/src/components/Form/FormRow';
-import Attachment from 'open-city-modules/src/modules/Feedback/components/FeedbackForm/Attachment';
-import { type AttachmentType } from 'open-city-modules/src/types';
-import styles from './styles';
+import Picker from 'open-city-modules/src/components/Form/Picker';
 import SendImage from 'open-city-modules/img/send.png';
+import Attachment from 'open-city-modules/src/modules/Feedback/components/FeedbackForm/Attachment';
+import { type AttachmentType, type ServiceType } from 'open-city-modules/src/types';
+import styles from './styles';
 
 
 const ATTACHMENT_SIZE = 64;
 // Button which will have an absolute position on the bottom right corner
 
 type Props = {
+  onChangeSeleciton: (selection) => void,
   onChangeText: (text) => void,
   onAddAttachmentClick: () => void,
-  attachments: ?Array<AttachmentType>
+  attachments: ?Array<AttachmentType>,
+  serviceTypes: ?Array<ServiceType>,
 }
 
-onChangeText = (text) => {
-  // console.warn(text)
-}
-
-const FeedbackForm = ({ onChangeText, onAddAttachmentClick, attachments } : Props) => {
+const FeedbackForm = ({
+  onChangeText,
+  onAddAttachmentClick,
+  attachments,
+  serviceTypes,
+  onChangeSelection,
+}: Props) => {
   return (
     <View>
+      <Picker
+        label="Tyyppi"
+        placeholder="Valitse tyyppi"
+        data={serviceTypes}
+        onChangeSelection={() => {console.warn("onchange")}}
+      />
       <FormRow
         label="Otsikko"
         placeholder={"Palautteen otsikko"}

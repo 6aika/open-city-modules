@@ -42,9 +42,7 @@ const FormRow = ({
         {label}
       </Text>
     </View>
-    <View
-      style={styles.inputContainer}
-    >
+    <View>
       <TextInput
         style={[styles.input, { height: inputHeight }]}
         placeholder={placeholder}
