@@ -1,10 +1,7 @@
 /* @flow */
 import * as React from 'react';
 import { cloneDeep } from 'lodash';
-
-import MultiChoiceView from './MultiChoiceView';
-
-type Profile = {[string]: mixed};
+import { type Profile } from 'open-city-modules/src/types';
 
 type Props = {
   next: Profile => void,
@@ -12,7 +9,7 @@ type Props = {
   profile: Profile,
   step: number,
   totalSteps: number,
-  // colors: ColorSet,
+  // colors: any,
   // locale: string,
   options: Array<{value: string}>,
   choiceKey: string,
@@ -21,7 +18,7 @@ type Props = {
 };
 
 type State = {
-  selectedOptions: Array<string>,
+  selectedOption: ?string,
 };
 
 /*
@@ -35,51 +32,38 @@ type State = {
     step: number,
     totalSteps: number,
     t: any,
-    i18n: any,
+    i18n: any
 */
-const createMultiChoiceStep = (ViewComponent: React.ComponentType<any>) =>
-  class extends React.Component<Props, State> {
+const createSingleChoiceStep = (
+  ViewComponent: React.ComponentType<any>,
+  onNextPress?: Profile => void,
+) =>
+  class SingleChoiceStep extends React.Component<Props, State> {
     constructor(props: Props) {
       super(props);
 
-      const selectedOptions = props.profile[props.choiceKey];
-      if (Array.isArray(selectedOptions)) {
-        // Refine selectedOptions into an Array<string>
-        const initialOptions =
-          selectedOptions.reduce((acc: Array<string>, option) => {
-            if (typeof option === 'string') {
-              return [...acc, option];
-            }
-            return acc;
-          }, []);
+      const selectedOption = props.profile[props.choiceKey] || null;
+      if (typeof selectedOption === 'string') {
         this.state = {
-          selectedOptions: initialOptions,
+          selectedOption,
         };
       } else {
         this.state = {
-          selectedOptions: [],
+          selectedOption: null,
         };
       }
     }
 
-    toggle = (option: string) => {
-      this.setState((prevState) => {
-        let newOptions;
-        const prevOptions = prevState.selectedOptions;
-        if (prevOptions.includes(option)) {
-          newOptions = prevOptions.filter(o => o !== option);
-        } else {
-          newOptions = [...prevOptions, option];
-        }
-        return {
-          selectedOptions: newOptions,
-        };
-      });
+    select = (option: string) => {
+      this.setState({ selectedOption: option });
     }
 
     handleNextPress = () => {
       const newProfile: Profile = cloneDeep(this.props.profile);
-      newProfile[this.props.choiceKey] = this.state.selectedOptions;
+      newProfile[this.props.choiceKey] = this.state.selectedOption;
+      if (onNextPress) {
+        onNextPress(newProfile);
+      }
       this.props.next(newProfile);
     }
 
@@ -93,15 +77,15 @@ const createMultiChoiceStep = (ViewComponent: React.ComponentType<any>) =>
       const {
         options, step, totalSteps, t, i18n,
       } = this.props;
-      const { selectedOptions } = this.state;
+      const { selectedOption } = this.state;
       const optionsWithSelected = options.map(option => ({
         value: option.value,
-        selected: selectedOptions.includes(option.value),
+        selected: selectedOption === option.value,
       }));
       return (
         <ViewComponent
           options={optionsWithSelected}
-          onOptionPress={this.toggle}
+          onOptionPress={this.select}
           onPreviousPress={this.handlePreviousPress}
           onNextPress={this.handleNextPress}
           nextDisabled={false}
@@ -114,4 +98,4 @@ const createMultiChoiceStep = (ViewComponent: React.ComponentType<any>) =>
     }
   };
 
-export { createMultiChoiceStep as default, MultiChoiceView };
+export default createSingleChoiceStep;

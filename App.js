@@ -4,8 +4,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { withProps } from 'recompose';
 
 import FeedbackModule from 'open-city-modules/src/modules/Feedback';
-import createMultiChoiceStep, { MultiChoiceView } from 'open-city-modules/src/steps/MultiChoiceStep';
-import createSingleChoiceStep, { SingleChoiceView } from 'open-city-modules/src/steps/SingleChoiceStep';
+import {
+  ChoiceView,
+  createSingleChoiceStep,
+  createMultiChoiceStep,
+} from 'open-city-modules/src/steps';
 
 const initColors = (colors) => {
   EStyleSheet.build({
@@ -21,9 +24,10 @@ const colors = {
 
 initColors(colors);
 
-const MySingleView = withProps({ containerStyle: { backgroundColor: 'yellow' } })(SingleChoiceView);
-const MultiChoiceStep = createMultiChoiceStep(MultiChoiceView);
-const SingleChoiceStep = createSingleChoiceStep(MySingleView);
+const MyGridView = withProps({ mode: 'grid' })(ChoiceView);
+const MyListView = withProps({ mode: 'list' })(ChoiceView);
+const MultiChoiceStep = createMultiChoiceStep(MyGridView);
+const SingleChoiceStep = createSingleChoiceStep(MyListView);
 
 const OnboardingMock = () => {
   const interestOptions = [
@@ -48,7 +52,7 @@ const OnboardingMock = () => {
     previous: noop,
     profile: {},
     step: 0,
-    totalSteps: 1,
+    totalSteps: 5,
     colors,
     locale: 'fi',
   };
