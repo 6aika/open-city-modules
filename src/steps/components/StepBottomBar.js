@@ -3,6 +3,7 @@ import React from 'react';
 import {
   View,
   Button,
+  Text,
   TouchableOpacity,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -23,39 +24,61 @@ type Props = {
 };
 
 const StepBottomBar = (props: Props) => {
+  // Icons for steps
   const steps = [];
   for (let stepNum = 0; stepNum < props.totalSteps; stepNum++) {
     steps.push((
       <Icon
         key={stepNum}
         name="checkbox-blank-circle"
-        style={[styles.step, stepNum === props.step ? { color: 'rgba(0,0,0,1)' } : { color: 'rgba(0,0,0,0.5)' }]}
+        style={[
+          styles.step,
+          { color: props.fgColor },
+          stepNum !== props.step ? { opacity: 0.5 } : {}]}
       />
     ));
   }
+  // Navigations disabled?
+  const prevNav = props.step === 0;
+  const nextNav = props.nextDisabled;
   return (
-    <View style={styles.bottomBar}>
-      {props.previousLabel ?
-        <Button
-          onPress={props.onPreviousPress}
-          title={props.previousLabel}
-        /> :
-        <TouchableOpacity onPress={props.onPreviousPress}>
-          <Icon name="chevron-left" size={40} />
-        </TouchableOpacity>
-      }
+    <View style={[styles.bottomBar, { backgroundColor: props.bgColor }]}>
+      <TouchableOpacity
+        onPress={props.onPreviousPress}
+        disabled={prevNav}
+        style={[styles.navButton, { alignItems: 'flex-start' }, prevNav ? { opacity: 0.5 } : { opacity: 1 }]}
+      >
+        {props.previousLabel ?
+          <Text style={{ color: props.fgColor, fontSize: 16 }}>{props.previousLabel}</Text>
+          : <Icon
+            name="chevron-left"
+            size={40}
+            style={{ color: props.fgColor }}
+          />
+        }
+      </TouchableOpacity>
       <View style={styles.steps}>
-        {steps}
+        {props.totalSteps <= 10 ?
+          steps :
+          <Text style={{ color: props.fgColor, fontSize: 16 }}>
+            {props.step + 1} / {props.totalSteps}
+          </Text>
+        }
       </View>
-      {props.nextLabel ?
-        <Button
-          onPress={props.onNextPress}
-          title={props.nextLabel}
-        /> :
-        <TouchableOpacity onPress={props.onNextPress}>
-          <Icon name="chevron-right" size={40} />
-        </TouchableOpacity>
-      }
+      <TouchableOpacity
+        onPress={props.onNextPress}
+        disabled={nextNav}
+        style={[styles.navButton, { alignItems: 'flex-end' }, nextNav ? { opacity: 0.5 } : { opacity: 1 }]}
+      >
+        {props.nextLabel ?
+          <Text style={{ color: props.fgColor, fontSize: 16 }}>{props.nextLabel}</Text>
+          : <Icon
+            name="chevron-right"
+            size={40}
+            style={{ color: props.fgColor }}
+          />
+        }
+      </TouchableOpacity>
     </View>
   );
 };
@@ -64,7 +87,8 @@ styles = EStyleSheet.create({
   bottomBar: {
     alignSelf: 'stretch',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    height: 45,
+    justifyContent: 'center',
     borderTopWidth: 1,
     borderColor: '$colors.med',
   },
@@ -77,6 +101,11 @@ styles = EStyleSheet.create({
   step: {
     fontSize: 20,
   },
+  navButton: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 5,
+  }
 });
 
 export default StepBottomBar;
