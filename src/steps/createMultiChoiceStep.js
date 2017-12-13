@@ -12,7 +12,7 @@ type Props = {
   totalSteps: number,
   // colors: ColorSet,
   // locale: string,
-  options: Array<{value: string}>,
+  options: Array<{value: string, icon?: string, image?: any, imageSelected?: any}>,
   choiceKey: string,
   t: string => string,
   i18n: any,
@@ -93,7 +93,7 @@ const createMultiChoiceStep = (ViewComponent: React.ComponentType<any>) =>
       } = this.props;
       const { selectedOptions } = this.state;
       const optionsWithSelected = options.map(option => ({
-        value: option.value,
+        ...option,
         selected: selectedOptions.includes(option.value),
       }));
       return (

@@ -9,13 +9,14 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import OptionButton from 'open-city-modules/src/steps/components/OptionButton';
+import SquareButton from 'open-city-modules/src/steps/components/SquareButton';
 import StepBottomBar from 'open-city-modules/src/steps/components/StepBottomBar';
 
 type StyleObj = {[string]: mixed};
 
 type Props = {
   mode: 'list' | 'grid',
-  options: Array<{value: string, selected: boolean}>,
+  options: Array<{value: string, selected: boolean, icon: string, image: any, imageSelected: any}>,
   onOptionPress: (string) => void,
   onPreviousPress: () => void,
   onNextPress: () => void,
@@ -58,15 +59,15 @@ const ChoiceView = ({
     buttons = (
       <View style={styles.buttonContainer}>
         { options.map(option => (
-          <View key={option.value} style={styles.buttonWrapper}>
-            <OptionButton
-              label={t(`options.${option.value}`)}
-              onPress={() => onOptionPress(option.value)}
-              selected={option.selected}
-              style={styles.gridButton}
-              {...buttonProps}
-            />
-          </View>
+          <SquareButton
+            key={option.value}
+            label={t(`options.${option.value}`)}
+            onPress={() => onOptionPress(option.value)}
+            selected={option.selected}
+            icon={option.icon}
+            image={option.selected && option.imageSelected ? option.imageSelected : option.image}
+            {...buttonProps}
+          />
         ))}
       </View>
     );
@@ -117,27 +118,19 @@ styles = EStyleSheet.create({
     resizeMode: 'contain',
   },
   content: {
-    paddingHorizontal: 40,
+    paddingHorizontal: 30,
     flex: 1,
   },
   question: {
     fontSize: 20,
     color: '$colors.max',
-    textAlign: 'left',
-    marginLeft: 50,
+    textAlign: 'center',
     marginBottom: 20,
   },
   buttonContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     width: '100%',
-  },
-  buttonWrapper: {
-    width: '46%',
-    margin: '2%',
-  },
-  gridButton: {
-    aspectRatio: 1,
   },
   listButton: {
     marginBottom: 10,
