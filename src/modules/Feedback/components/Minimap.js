@@ -9,7 +9,9 @@ import {
   Platform
 } from 'react-native';
 
-import MarkerIcon from 'open-city-modules/img/marker_pin.png';
+import MarkerPin from 'open-city-modules/img/marker_pin.png';
+import MarkerIcon from 'open-city-modules/img/marker_default.png';
+import Marker from 'open-city-modules/src/components/Marker'
 import MapView from 'react-native-maps';
 import styles from '../styles';
 
@@ -72,7 +74,7 @@ class Minimap extends Component {
                 onDragEnd={(e) => this.updateMarkerPos(e.nativeEvent.coordinate, this.marker)}
               >
                 <Image // This image hides the default marker
-                  source={MarkerIcon}
+                  source={MarkerPin}
                   style={{ height: 0, width: 0 }}
                 />
               </MapView.Marker.Animated>
@@ -83,11 +85,7 @@ class Minimap extends Component {
                 style={styles.markerContainer}
                 pointerEvents="none"
               >
-                <Image  // Marker is inside a button in order to enlarge the map if ther marker is pressed
-                  source={MarkerIcon}
-                  style={[
-                    styles.markerImage,
-                  ]} />
+                <Marker icon={MarkerIcon}/>
               </View>
             </TouchableWithoutFeedback>
           </View>

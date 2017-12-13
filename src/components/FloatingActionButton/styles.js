@@ -27,9 +27,9 @@ const styles = EStyleSheet.create({
   floatingActionButtonText: {
     fontSize: 16,
   },
-  plusIcon: {
-    width: BUTTON_WIDTH,
-    height: BUTTON_HEIGHT
+  icon: {
+    width: '75%',
+    height: '75%',
   }
 });
 

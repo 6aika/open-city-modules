@@ -1,5 +1,5 @@
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
-import { type ServiceType } from 'open-city-modules/src/types';
+import { type ServiceType, type ServiceRequest } from 'open-city-modules/src/types';
 const CONFIG = getConfig();
 
 const request = (url, method, headers, body, data) =>
@@ -16,8 +16,9 @@ const request = (url, method, headers, body, data) =>
     }).then((response) => {
       // const parsedResponse = JSON.parse(response._bodyInit)
       clearTimeout(timeoutId);
+      console.warn(response)
       if (response.status === 200 || response.status === 201) {
-        console.warn(response._bodyInit)
+        // console.warn(response._bodyInit)
 
         resolve(response._bodyInit);
       } else {
@@ -27,6 +28,7 @@ const request = (url, method, headers, body, data) =>
       }
     })
   });
+
 
 
 export const parseServiceTypes = (response): Array<ServiceType> => {
@@ -50,10 +52,39 @@ export const parseServiceTypes = (response): Array<ServiceType> => {
   }
 
   return serviceTypeList;
-}
+};
+
+export const parseServiceRequest = (serviceRequest): ServiceRequest => {
+  return {
+    id: serviceRequest.service_request_id,
+    statusNotes: serviceRequest.status_notes,
+    status: serviceRequest.status,
+    serviceCode: serviceRequest.service_code,
+    serviceName: serviceRequest.service_name,
+    description: serviceRequest.description,
+    requestedDateTime: serviceRequest.requested_datetime,
+    updatedDateTime: serviceRequest.updated_datetime,
+    address: serviceRequest.address,
+    location: {
+      lat: serviceRequest.lat,
+      lon: serviceRequest.lon,
+    },
+    media_url: serviceRequest.mediaUrl,
+    media_urls: serviceRequest.mediaUrls,
+  };
+};
+
+export const parseServiceRequests = (serviceRequestsData): Array<ServiceRequest> => {
+  const serviceRequestList: Array<ServiceRequest> = [];
+  serviceRequestsData.map((serviceRequest) => {
+    serviceRequestList.push(parseServiceRequest(serviceRequest));
+    return None;
+  });
+
+  return serviceRequestList;
+};
 
 export const getServiceTypes = () => {
-
   const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_SERVICES;
   const headers = { Accept: 'application/json', 'Content-Type': 'application/json' };
 
@@ -65,15 +96,43 @@ export const getServiceTypes = () => {
 };
 
 export const getServiceRequests = () => {
-  return;
+  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_REQUESTS;
+  const headers = { Accept: 'application/json', 'Content-Type': 'application/json' };
+
+  return new Promise((resolve, reject) => {
+    request(url, 'GET', headers, null, null).then((response) => {
+      resolve(parseServiceRequests(response));
+    }).catch(err => reject(err));
+  });
+};
+
+export const postServiceRequest = (data) => {
+  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_REQUESTS;
+  const token = CONFIG.OPEN311_SEND_SERVICE_API_KEY;
+  const method = 'POST';
+
+  console.warn(JSON.stringify(data))
+  const headers = {
+    'Content-Type': 'multipart/form-data',
+    Accept: 'application/json',
+    Authorization: `Bearer ${token}`
+  };
+  data.append('api_key', token);
+  return new Promise((resolve, reject) =>
+    request(url, method, headers, data)
+      .then(result => resolve(result)).catch(err => reject(err))
+  )
 }
 
-export const postServiceRequest = () => {
-  return;
-}
+export const getServiceRequest = (serviceRequestId) => {
+  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_SERVICE_REQUEST_BASE_URL + serviceRequestId;
+  const headers = { Accept: 'application/json', 'Content-Type': 'application/json' };
 
-export const getServiceRequest = () => {
-  return;
+  return new Promise((resolve, reject) => {
+    request(url, 'GET', headers, null, null).then((response) => {
+      resolve(parseServiceRequests(response));
+    }).catch(err => reject(err));
+  });
 }
 
 

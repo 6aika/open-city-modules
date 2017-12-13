@@ -15,6 +15,7 @@ import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import FloatingActionButton from 'open-city-modules/src/components/FloatingActionButton';
 import SendFeedbackModal from 'open-city-modules/src/modules/Feedback/SendFeedbackModal';
 import Header from 'open-city-modules/src/components/Header';
+import PlusIcon from 'open-city-modules/img/plus.png'
 import styles from './styles';
 
 const MAP_PAGE = 'map';
@@ -173,8 +174,12 @@ class FeedbackModule extends React.Component<Props, State> {
 
         </View>
         }
-        {this.state.showFeedbackModal &&
-          <Modal style={[styles.modal]}>
+          <Modal
+            style={[styles.modal]}
+            animationType="slide"
+            visible={this.state.showFeedbackModal}
+            onRequestClose={this.toggleFeedbackModal}
+          >
             <SendFeedbackModal
               toggleFeedbackModal={this.toggleFeedbackModal}
               region={this.state.region}
@@ -183,10 +188,10 @@ class FeedbackModule extends React.Component<Props, State> {
               serviceTypes={this.state.serviceTypes}
             />
           </Modal>
-        }
+
         <FloatingActionButton
+          icon={PlusIcon}
           onPress={() => {
-            // this.props.navigation.navigate('SendRequest', {region: this.state.region})
             this.toggleFeedbackModal();
           }}
         />

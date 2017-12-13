@@ -1,7 +1,7 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Color from 'color';
-const MARKER_IMAGE_SIZE = 36;
+const MARKER_IMAGE_SIZE = 48;
 
 const styles = EStyleSheet.create({
   container: {
@@ -32,11 +32,13 @@ const styles = EStyleSheet.create({
     height: 60,
     backgroundColor: '$colors.med',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    // paddingBottom: 100,
   },
   markerImage: {
     height: MARKER_IMAGE_SIZE,
     width: MARKER_IMAGE_SIZE,
+    tintColor: '$colors.med',
   },
   markerContainer: {
     alignItems: 'center',
@@ -49,6 +51,13 @@ const styles = EStyleSheet.create({
     color: '$colors.min',
     fontSize: 48,
     fontWeight: '500',
+  },
+  loadingSpinner: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
