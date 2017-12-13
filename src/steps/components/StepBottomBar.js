@@ -31,7 +31,6 @@ const StepBottomBar = (props: Props) => {
       <Icon
         key={stepNum}
         name="checkbox-blank-circle"
-        size={40}
         style={[
           styles.step,
           { color: props.fgColor },
@@ -59,7 +58,12 @@ const StepBottomBar = (props: Props) => {
         }
       </TouchableOpacity>
       <View style={styles.steps}>
-        {steps}
+        {props.totalSteps <= 10 ?
+          steps :
+          <Text style={{ color: props.fgColor, fontSize: 16 }}>
+            {props.step + 1} / {props.totalSteps}
+          </Text>
+        }
       </View>
       <TouchableOpacity
         onPress={props.onNextPress}
