@@ -13,8 +13,8 @@ import { StackNavigator } from 'react-navigation';
 import { type ServiceType } from 'open-city-modules/src/types'
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import FloatingActionButton from 'open-city-modules/src/components/FloatingActionButton';
-import SendFeedbackModal from './SendFeedbackModal';
-import Header from './components/Header';
+import SendFeedbackModal from 'open-city-modules/src/modules/Feedback/SendFeedbackModal';
+import Header from 'open-city-modules/src/components/Header';
 import styles from './styles';
 
 const MAP_PAGE = 'map';
@@ -24,15 +24,7 @@ const Config = getConfig();
 
 
 type Props = {
-  // next: Profile => void, // provided by Onboarding
-  // previous: Profile => void, // provided by Onboarding
-  // profile: Profile, // provided by Onboarding
-  // options: Array<{value: string}>,
-  //   // array of options, value is saved to the profile object and used as translation key
-  // choiceKey: string, // choice is saved in the profile object with this key as the property name
-  // ns: string,
-  // t: string => string,
-  // i18n: any,
+
 };
 
 type State = {
@@ -63,7 +55,7 @@ class FeedbackModule extends React.Component<Props, State> {
         latitudeDelta: Config.DEFAULT_LATITUDE_DELTA,
         longitudeDelta: Config.DEFAULT_LONGITUDE_DELTA,
       },
-      markerPosition: null,
+      // markerPosition: null,
       showFeedbackModal: false,
       activePage: MAP_PAGE,
       serviceTypes: [],

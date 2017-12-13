@@ -14,8 +14,6 @@ const request = (url, method, headers, body, data) =>
       body,
       data,
     }).then((response) => {
-      console.warn("heyoo")
-      console.warn(response.status)
       // const parsedResponse = JSON.parse(response._bodyInit)
       clearTimeout(timeoutId);
       if (response.status === 200 || response.status === 201) {
@@ -33,12 +31,12 @@ const request = (url, method, headers, body, data) =>
 
 export const parseServiceTypes = (response): Array<ServiceType> => {
   const serviceTypeList: Array<ServiceType> = [];
-  console.warn(JSON.parse(response).length)
   const responseData = JSON.parse(response);
-  console.warn("responseData: " + JSON.stringify(responseData[0]))
   for (key in responseData) {
     const item = responseData[key];
     const serviceType: ServiceType = {
+      key: item.service_code,
+      label: item.service_name,
       serviceCode: item.service_code,
       serviceName: item.service_name,
       description: item.description,

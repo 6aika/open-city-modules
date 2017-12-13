@@ -13,18 +13,16 @@ import {
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import SendImage from 'open-city-modules/img/send.png'
+import SendImage from 'open-city-modules/img/send.png';
+import Header from 'open-city-modules/src/components/Header';
 import styles from './styles';
 import Minimap from './components/Minimap'
 import FeedbackForm from './components/FeedbackForm'
-import Header from './components/Header'
-import { type AttachmentType } from 'open-city-modules/src/types';
-
+import { type AttachmentType, ServiceType } from 'open-city-modules/src/types';
+import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 // Attachment properties
-const IMAGE_MAX_HEIGHT = 1080;
-const IMAGE_MAX_WIDTH = 1980;
-const IMAGE_QUALITY = 60;
-const IMAGE_FORMAT = 'JPEG';
+const Config = getConfig();
+
 
 
 class SendFeedbackModal extends Component {
@@ -41,11 +39,11 @@ class SendFeedbackModal extends Component {
   }
 
   componentDidMount = () => {
-    console.warn("mounted. " + JSON.stringify(this.props.serviceTypes))
+
   }
 
   componentWillReceiveProps = (nextProps) => {
-    this.setState({ pickerData: this.parseServiceTypes(nextProps.serviceTypes) })
+    this.setState({ pickerData: nextProps.serviceTypes })
   }
 
   showFullScreenMap = () => {
@@ -56,19 +54,6 @@ class SendFeedbackModal extends Component {
   hideFullScreenMap = () => {
     this.setState({ fullScreenMap: false });
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  }
-
-  parseServiceTypes = (serviceTypes) => {
-    const pickerData = []
-    for (key in serviceTypes) {
-      const item = serviceTypes[key];
-      pickerData.push({
-        key: item.serviceCode,
-        label: item.serviceName,
-      })
-    }
-
-    return pickerData;
   }
 
   removeAttachment = (index) => {
@@ -94,7 +79,6 @@ class SendFeedbackModal extends Component {
     };
 
     ImagePicker.showImagePicker(options, (response) => {
-      console.warn("imagepicker")
       let source = null;
       let fileName = null;
 
@@ -115,10 +99,10 @@ class SendFeedbackModal extends Component {
         // Compress image size
         ImageResizer.createResizedImage(
           response.uri,
-          IMAGE_MAX_HEIGHT,
-          IMAGE_MAX_WIDTH,
-          IMAGE_FORMAT,
-          IMAGE_QUALITY,
+          Config.IMAGE_MAX_HEIGHT,
+          Config.IMAGE_MAX_WIDTH,
+          Config.IMAGE_FORMAT,
+          Config.IMAGE_QUALITY,
         ).then((resizedImageUri) => {
           const resizedSource = { uri: resizedImageUri, isStatic: true };
           response.path = resizedImageUri;
@@ -149,10 +133,17 @@ class SendFeedbackModal extends Component {
     });
   }
 
-  onChangeSelection = (selection) => {
-    this.setState({ selectedServiceType: selection })
+  onServiceTypeChange = (service: ServiceType) => {
+    this.setState({ selectedServiceType: service })
   }
 
+  onChangeFeedbackText = (text: string) => {
+    console.warn('feedback changed')
+  }
+
+  onChangeTitleText = (text: string) => {
+    console.warn('title changed')
+  }
 
 
 
@@ -188,6 +179,9 @@ class SendFeedbackModal extends Component {
               serviceTypes={this.state.pickerData}
               attachments={this.state.attachments}
               onAddAttachmentClick={this.onAddAttachmentClick}
+              onServiceTypeChange={this.onServiceTypeChange}
+              onChangeTitleText={this.onChangeTitleText}
+              onChangeFeedbackText={this.onChangeFeedbackText}
             />
           </View>
         }

@@ -17,8 +17,10 @@ export type AttachmentType = {
 };
 
 export type ServiceType = {
-  serviceCode: number,
-  service_name: string,
+  key: number,
+  label: string,
+  serviceCode: ?number,
+  serviceName: ?string,
   description: ?string,
   metadata: ?string,
   type: ?string,

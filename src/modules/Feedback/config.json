@@ -39,6 +39,12 @@
   "TIMEOUT_THRESHOLD": 40000,
   "TIMEOUT_MESSAGE": "timeout",
 
+  // Attachments
+  "IMAGE_MAX_HEIGHT": 1080,
+  "IMAGE_MAX_WIDTH": 1980,
+  "IMAGE_QUALITY": 60,
+  "IMAGE_FORMAT": "JPEG",
+
 
   // Service category blacklist, these categories are not used and need to be excluded
   "SERVICE_BLACKLIST": [172, 246, 176, 171, 198, 199, 174, 211, 234, 180],

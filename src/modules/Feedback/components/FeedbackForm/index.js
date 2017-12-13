@@ -24,34 +24,39 @@ type Props = {
   onChangeSeleciton: (selection) => void,
   onChangeText: (text) => void,
   onAddAttachmentClick: () => void,
+  onServiceTypeChange: () => void,
   attachments: ?Array<AttachmentType>,
   serviceTypes: ?Array<ServiceType>,
+  selectedServiceType: ServiceType,
 }
 
 const FeedbackForm = ({
-  onChangeText,
+  onChangeFeedbackText,
+  onChangeTitleText,
   onAddAttachmentClick,
   attachments,
   serviceTypes,
-  onChangeSelection,
+  onServiceTypeChange,
+  selectedServiceType,
 }: Props) => {
   return (
     <View>
       <Picker
         label="Tyyppi"
         placeholder="Valitse tyyppi"
+        value={selectedServiceType && selectedServiceType.label}
         data={serviceTypes}
-        onChangeSelection={() => {console.warn("onchange")}}
+        onChangeSelection={onServiceTypeChange}
       />
       <FormRow
         label="Otsikko"
         placeholder={"Palautteen otsikko"}
-        onChangeText={onChangeText}
+        onChangeText={onChangeTitleText}
       />
       <FormRow
         label="Palaute"
         placeholder={"Kirjoita tähän palaute tai kehitysehdotus"}
-        onChangeText={onChangeText}
+        onChangeText={onChangeFeedbackText}
         inputHeight={120}
         multiline
       />

@@ -18,7 +18,9 @@ import styles from '../styles';
 type Props = {
   label: string;
   placeholder: string;
-  onChangeSelection: (text: string) => void;
+  onChangeSelection: (selection: string) => void;
+  data: Array<{key: string, label: string}>;
+  value: string;
 }
 
 const Picker = ({
@@ -26,6 +28,7 @@ const Picker = ({
   data,
   placeholder,
   onChangeSelection,
+  value,
 }: Props) => (
   <View
     style={styles.row}
@@ -46,12 +49,15 @@ const Picker = ({
         style={{alignItems: 'stretch'}}
         data={data}
         initValue={placeholder}
-        onChange={onChangeSelection}
+        onChange={
+          option => onChangeSelection({ label: option.label, key: option.key })
+        }
       >
         <TextInput
           style={[styles.input]}
           placeholder={placeholder}
-          multiline={multiline}
+          multiline={false}
+          value={value}
         />
       </ModalSelector>
     </View>
