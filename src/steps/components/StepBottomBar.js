@@ -23,6 +23,7 @@ type Props = {
 };
 
 const StepBottomBar = (props: Props) => {
+  // Icons for steps
   const steps = [];
   for (let stepNum = 0; stepNum < props.totalSteps; stepNum++) {
     steps.push((
@@ -33,15 +34,23 @@ const StepBottomBar = (props: Props) => {
       />
     ));
   }
+  // Navigations disabled?
+  const prevNav = props.step === 0;
+  const nextNav = props.nextDisabled;
   return (
     <View style={styles.bottomBar}>
       {props.previousLabel ?
         <Button
           onPress={props.onPreviousPress}
           title={props.previousLabel}
+          disabled={prevNav}
         /> :
-        <TouchableOpacity onPress={props.onPreviousPress}>
-          <Icon name="chevron-left" size={40} />
+        <TouchableOpacity onPress={props.onPreviousPress} disabled={prevNav}>
+          <Icon
+            name="chevron-left"
+            size={40}
+            style={prevNav ? { color: 'rgba(0,0,0,0.5)' } : { color: 'rgba(0,0,0,1)' }}
+          />
         </TouchableOpacity>
       }
       <View style={styles.steps}>
@@ -51,9 +60,14 @@ const StepBottomBar = (props: Props) => {
         <Button
           onPress={props.onNextPress}
           title={props.nextLabel}
+          disabled={nextNav}
         /> :
-        <TouchableOpacity onPress={props.onNextPress}>
-          <Icon name="chevron-right" size={40} />
+        <TouchableOpacity onPress={props.onNextPress} disabled={nextNav}>
+          <Icon
+            name="chevron-right"
+            size={40}
+            style={nextNav ? { color: 'rgba(0,0,0,0.5)' } : { color: 'rgba(0,0,0,1)' }}
+          />
         </TouchableOpacity>
       }
     </View>
