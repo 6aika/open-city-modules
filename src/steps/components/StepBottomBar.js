@@ -30,7 +30,10 @@ const StepBottomBar = (props: Props) => {
       <Icon
         key={stepNum}
         name="checkbox-blank-circle"
-        style={[styles.step, stepNum === props.step ? { color: 'rgba(0,0,0,1)' } : { color: 'rgba(0,0,0,0.5)' }]}
+        style={[
+          styles.step,
+          { color: props.fgColor },
+          stepNum !== props.step ? { opacity: 0.5 } : {}]}
       />
     ));
   }
@@ -38,38 +41,42 @@ const StepBottomBar = (props: Props) => {
   const prevNav = props.step === 0;
   const nextNav = props.nextDisabled;
   return (
-    <View style={styles.bottomBar}>
-      {props.previousLabel ?
-        <Button
-          onPress={props.onPreviousPress}
-          title={props.previousLabel}
-          disabled={prevNav}
-        /> :
-        <TouchableOpacity onPress={props.onPreviousPress} disabled={prevNav}>
-          <Icon
-            name="chevron-left"
-            size={40}
-            style={prevNav ? { color: 'rgba(0,0,0,0.5)' } : { color: 'rgba(0,0,0,1)' }}
-          />
-        </TouchableOpacity>
-      }
+    <View style={[styles.bottomBar, { backgroundColor: props.bgColor }]}>
+      <View style={prevNav ? { opacity: 0.5 } : { opacity: 1 }}>
+        {props.previousLabel ?
+          <Button
+            onPress={props.onPreviousPress}
+            title={props.previousLabel}
+            disabled={prevNav}
+          /> :
+          <TouchableOpacity onPress={props.onPreviousPress} disabled={prevNav}>
+            <Icon
+              name="chevron-left"
+              size={40}
+              style={{ color: props.fgColor }}
+            />
+          </TouchableOpacity>
+        }
+      </View>
       <View style={styles.steps}>
         {steps}
       </View>
-      {props.nextLabel ?
-        <Button
-          onPress={props.onNextPress}
-          title={props.nextLabel}
-          disabled={nextNav}
-        /> :
-        <TouchableOpacity onPress={props.onNextPress} disabled={nextNav}>
-          <Icon
-            name="chevron-right"
-            size={40}
-            style={nextNav ? { color: 'rgba(0,0,0,0.5)' } : { color: 'rgba(0,0,0,1)' }}
-          />
-        </TouchableOpacity>
-      }
+      <View style={nextNav ? { opacity: 0.5 } : { opacity: 1 }}>
+        {props.nextLabel ?
+          <Button
+            onPress={props.onNextPress}
+            title={props.nextLabel}
+            disabled={nextNav}
+          /> :
+          <TouchableOpacity onPress={props.onNextPress} disabled={nextNav}>
+            <Icon
+              name="chevron-right"
+              size={40}
+              style={{ color: props.fgColor }}
+            />
+          </TouchableOpacity>
+        }
+      </View>
     </View>
   );
 };
