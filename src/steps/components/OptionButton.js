@@ -11,20 +11,37 @@ type Props = {
   label: string,
   onPress: () => void,
   selected: boolean,
-  style: any,
+  containerStyle: any,
+  containerSelectedStyle: any,
+  labelStyle: any,
+  labelSelectedStyle: any,
 };
 
 let styles;
 
-const OptionButton = (props: Props) => (
-  <TouchableOpacity onPress={props.onPress}>
-    <View style={[styles.container, props.style, props.selected && styles.containerSelected]}>
-      <Text style={[styles.label, props.selected && styles.labelSelected]}>
-        {props.label}
-      </Text>
-    </View>
-  </TouchableOpacity>
-);
+const OptionButton = (props: Props) => {
+  const containerStyles = [
+    styles.container,
+    props.containerStyle,
+    props.selected && styles.containerSelected,
+    props.selected && props.containerSelectedStyle,
+  ];
+  const labelStyles = [
+    styles.label,
+    props.labelStyle,
+    props.selected && styles.labelSelected,
+    props.selected && props.labelSelectedStyle,
+  ];
+  return (
+    <TouchableOpacity onPress={props.onPress}>
+      <View style={containerStyles}>
+        <Text style={labelStyles}>
+          {props.label}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 styles = EStyleSheet.create({
   container: {

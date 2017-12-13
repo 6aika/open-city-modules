@@ -13,29 +13,55 @@ type Props = {
   label: string,
   onPress: () => void,
   selected: boolean,
-  style: any,
-  icon: string,
+  icon: ?string,
+  iconColor: string,
+  iconSelectedColor: string,
   image: any,
+  wrapperStyle: any,
+  containerStyle: any,
+  containerSelectedStyle: any,
+  imageStyle: any,
+  labelStyle: any,
+  labelSelectedStyle: any,
 };
 
 let styles;
 
 const SquareButton = (props: Props) => {
   const colors = EStyleSheet.value('$colors');
+  const containerStyles = [
+    styles.container,
+    props.containerStyle,
+    props.selected && styles.containerSelected,
+    props.selected && props.containerSelectedStyle,
+  ];
+  const labelStyles = [
+    styles.label,
+    props.labelStyle,
+    props.selected && styles.labelSelected,
+    props.selected && props.labelSelectedStyle,
+  ];
+  let iconColor = colors.med;
+  if (props.selected && props.iconSelectedColor) {
+    iconColor = props.iconSelectedColor;
+  } else if (props.iconColor) {
+    // eslint-disable-next-line prefer-destructuring
+    iconColor = props.iconColor;
+  }
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, props.wrapperStyle]}>
       <TouchableOpacity onPress={props.onPress}>
-        <View style={[styles.container, props.style, props.selected && styles.containerSelected]}>
+        <View style={containerStyles}>
           { props.icon && <Icon
             name={props.icon}
             size={40}
-            color={colors.med}
+            color={iconColor}
           /> }
           { !props.icon && props.image && <Image
             source={props.image}
-            style={styles.image}
+            style={[styles.image, props.imageStyle]}
           /> }
-          <Text style={[styles.label, props.selected && styles.labelSelected]}>
+          <Text style={labelStyles}>
             {props.label}
           </Text>
         </View>
