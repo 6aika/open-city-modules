@@ -38,23 +38,23 @@ const StepBottomBar = (props: Props) => {
     ));
   }
   // Navigations disabled?
-  const prevNav = props.step === 0;
-  const nextNav = props.nextDisabled;
+  const prevDisabled = props.step === 0;
+  const { nextDisabled } = props;
   return (
     <View style={[styles.bottomBar, { backgroundColor: props.bgColor }]}>
       <TouchableOpacity
         onPress={props.onPreviousPress}
-        disabled={prevNav}
+        disabled={prevDisabled}
         style={[styles.navButton, { alignItems: 'flex-start' }]}
       >
         {props.previousLabel ?
-          <Text style={{ color: props.fgColor, opacity: prevNav ? 0.5 : 1, fontSize: 16 }}>
+          <Text style={{ color: props.fgColor, opacity: prevDisabled ? 0.5 : 1, fontSize: 16 }}>
             {props.previousLabel}
           </Text>
           : <Icon
             name="chevron-left"
             size={40}
-            style={{ color: props.fgColor, opacity: prevNav ? 0.5 : 1 }}
+            style={{ color: props.fgColor, opacity: prevDisabled ? 0.5 : 1 }}
           />
         }
       </TouchableOpacity>
@@ -68,17 +68,17 @@ const StepBottomBar = (props: Props) => {
       </View>
       <TouchableOpacity
         onPress={props.onNextPress}
-        disabled={nextNav}
+        disabled={nextDisabled}
         style={[styles.navButton, { alignItems: 'flex-end' }]}
       >
         {props.nextLabel ?
-          <Text style={{ color: props.fgColor, opacity: nextNav ? 0.5 : 1, fontSize: 16 }}>
+          <Text style={{ color: props.fgColor, opacity: nextDisabled ? 0.5 : 1, fontSize: 16 }}>
             {props.nextLabel}
           </Text>
           : <Icon
             name="chevron-right"
             size={40}
-            style={{ color: props.fgColor, opacity: nextNav ? 0.5 : 1 }}
+            style={{ color: props.fgColor, opacity: nextDisabled ? 0.5 : 1 }}
           />
         }
       </TouchableOpacity>
