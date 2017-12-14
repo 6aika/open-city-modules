@@ -45,14 +45,16 @@ const StepBottomBar = (props: Props) => {
       <TouchableOpacity
         onPress={props.onPreviousPress}
         disabled={prevNav}
-        style={[styles.navButton, { alignItems: 'flex-start' }, prevNav ? { opacity: 0.5 } : { opacity: 1 }]}
+        style={[styles.navButton, { alignItems: 'flex-start' }]}
       >
         {props.previousLabel ?
-          <Text style={{ color: props.fgColor, fontSize: 16 }}>{props.previousLabel}</Text>
+          <Text style={{ color: props.fgColor, opacity: prevNav ? 0.5 : 1, fontSize: 16 }}>
+            {props.previousLabel}
+          </Text>
           : <Icon
             name="chevron-left"
             size={40}
-            style={{ color: props.fgColor }}
+            style={{ color: props.fgColor, opacity: prevNav ? 0.5 : 1 }}
           />
         }
       </TouchableOpacity>
@@ -67,14 +69,16 @@ const StepBottomBar = (props: Props) => {
       <TouchableOpacity
         onPress={props.onNextPress}
         disabled={nextNav}
-        style={[styles.navButton, { alignItems: 'flex-end' }, nextNav ? { opacity: 0.5 } : { opacity: 1 }]}
+        style={[styles.navButton, { alignItems: 'flex-end' }]}
       >
         {props.nextLabel ?
-          <Text style={{ color: props.fgColor, fontSize: 16 }}>{props.nextLabel}</Text>
+          <Text style={{ color: props.fgColor, opacity: nextNav ? 0.5 : 1, fontSize: 16 }}>
+            {props.nextLabel}
+          </Text>
           : <Icon
             name="chevron-right"
             size={40}
-            style={{ color: props.fgColor }}
+            style={{ color: props.fgColor, opacity: nextNav ? 0.5 : 1 }}
           />
         }
       </TouchableOpacity>
