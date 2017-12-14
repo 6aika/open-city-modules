@@ -92,8 +92,6 @@ styles = EStyleSheet.create({
     flexDirection: 'row',
     height: 45,
     justifyContent: 'center',
-    borderTopWidth: 1,
-    borderColor: '$colors.med',
   },
   steps: {
     flex: 1,
@@ -102,7 +100,8 @@ styles = EStyleSheet.create({
     alignItems: 'center',
   },
   step: {
-    fontSize: 20,
+    fontSize: 15,
+    marginHorizontal: 1,
   },
   navButton: {
     flex: 1,
