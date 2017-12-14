@@ -2,7 +2,6 @@
 import React from 'react';
 import {
   View,
-  Button,
   Text,
   TouchableOpacity,
 } from 'react-native';
@@ -26,7 +25,7 @@ type Props = {
 const StepBottomBar = (props: Props) => {
   // Icons for steps
   const steps = [];
-  for (let stepNum = 0; stepNum < props.totalSteps; stepNum++) {
+  for (let stepNum = 0; stepNum < props.totalSteps; stepNum += 1) {
     steps.push((
       <Icon
         key={stepNum}
@@ -96,7 +95,7 @@ styles = EStyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   step: {
     fontSize: 20,
@@ -105,7 +104,7 @@ styles = EStyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 5,
-  }
+  },
 });
 
 export default StepBottomBar;
