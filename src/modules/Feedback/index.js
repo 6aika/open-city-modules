@@ -6,9 +6,10 @@ import {
   LayoutAnimation,
   Modal,
   Platform,
+  Image,
 } from 'react-native';
-import MapView from 'react-native-maps';
-import { getServiceTypes } from 'open-city-modules/src/modules/Feedback/requests'
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { getServiceTypes, getServiceRequests, getServiceRequest } from 'open-city-modules/src/modules/Feedback/requests'
 import { StackNavigator } from 'react-navigation';
 import { type ServiceType } from 'open-city-modules/src/types'
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
@@ -16,6 +17,8 @@ import FloatingActionButton from 'open-city-modules/src/components/FloatingActio
 import SendFeedbackModal from 'open-city-modules/src/modules/Feedback/SendFeedbackModal';
 import Header from 'open-city-modules/src/components/Header';
 import PlusIcon from 'open-city-modules/img/plus.png'
+import Marker from 'open-city-modules/src/components/Marker';
+import MarkerNew from 'open-city-modules/img/marker_new.png'
 import styles from './styles';
 
 const MAP_PAGE = 'map';
@@ -32,7 +35,6 @@ type State = {
   text: ?string,
   region: ?Object,
   showFeedbackModal: boolean,
-  feedbackModalHeight: ?number,
   activePage: string,
   markerPosition: ?Object,
   serviceTypes: Array<ServiceType>
@@ -53,18 +55,20 @@ class FeedbackModule extends React.Component<Props, State> {
       region: { // Coordinates for the visible area of the map
         latitude: Config.DEFAULT_LATITUDE,
         longitude: Config.DEFAULT_LONGITUDE,
-        latitudeDelta: Config.DEFAULT_LATITUDE_DELTA,
-        longitudeDelta: Config.DEFAULT_LONGITUDE_DELTA,
+        latitudeDelta: 0.02,
+        longitudeDelta: 0.02,
       },
       // markerPosition: null,
       showFeedbackModal: false,
       activePage: MAP_PAGE,
       serviceTypes: [],
+      serviceRequests: [],
     };
   }
 
-  componentWillMount = () => {
+  componentWillMount = async () => {
     this.getServiceTypes(getServiceTypes);
+    this.getServiceRequests(getServiceRequests);
   }
 
 
@@ -100,9 +104,20 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 
   onMapRegionChange = (region) => {
+    console.warn(JSON.stringify(region))
     this.setState({
-      region
+      region,
     });
+  }
+
+  onMinimapRegionChange = (region) => {
+    this.setState({
+      region: {
+        ...region,
+        longitudeDelta: region * 2,
+        latitudeDelta: region * 2,
+      }
+    })
   }
 
   getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
@@ -110,16 +125,25 @@ class FeedbackModule extends React.Component<Props, State> {
     this.setState({ serviceTypes: result });
   }
 
+  getServiceRequests = async (serviceRequestsFetch: () => Array<ServiceRequest>) => {
+    const result = await serviceRequestsFetch();
+    this.setState({ serviceRequests: result });
+  }
+
+  getServiceRequest = async (serviceRequestFetch: () => Array<ServiceRequest>, requestId: string) => {
+    const result = await serviceRequestFetch(requestId);
+    return result
+    // this.setState({ serviceRequests: result });
+  }
+
   toggleFeedbackModal = () => {
     if (this.state.showFeedbackModal) {
       this.setState({
         showFeedbackModal: false,
-        feedbackModalHeight: 0,
       });
     } else if (!this.state.showFeedbackModal) {
       this.setState({
         showFeedbackModal: true,
-        feedbackModalHeight: Dimensions.get('window').height,
       });
     }
 
@@ -163,14 +187,45 @@ class FeedbackModule extends React.Component<Props, State> {
           <MapView
             style={styles.map}
             ref={(ref) => { this.mapView = ref; }}
+            initialRegion={
+              {
+                latitude: Config.DEFAULT_LATITUDE,
+                longitude: Config.DEFAULT_LONGITUDE,
+                latitudeDelta: 0.02,
+                longitudeDelta: 0.02,
+              }
+            }
             region={this.state.region}
             showsUserLocation
+            provider={PROVIDER_GOOGLE}
             followUserLocation={false}
             toolbarEnabled={false}
             // onRegionChange={this.onMapRegionChange(region)}
             // onPress={this.onMapViewClick.bind(this)}
             onRegionChangeComplete={this.onMapRegionChange}
-          />
+          >
+            {this.state.serviceRequests.map(serviceRequest => {
+              if (serviceRequest.location.latitude && serviceRequest.location.longitude) {
+                return (
+                  <MapView.Marker
+                    key={serviceRequest.id}
+                    coordinate={{
+                      latitude: serviceRequest.location.latitude,
+                      longitude: serviceRequest.location.longitude,
+                    }}
+                    // onPress={()=> this.showServiceRequestDetailPopup(serviceRequest)}>
+                  >
+                    <Marker
+                      icon={MarkerNew}
+                    />
+                    {/* <MapView.Callout tooltip={true}>
+                      <EmptyMarkerCallout />
+                    </MapView.Callout> */}
+                  </MapView.Marker>
+                )
+              }
+            })}
+          </MapView>
 
         </View>
         }
@@ -183,8 +238,7 @@ class FeedbackModule extends React.Component<Props, State> {
             <SendFeedbackModal
               toggleFeedbackModal={this.toggleFeedbackModal}
               region={this.state.region}
-              onRegionChangeComplete={this.onMapRegionChange}
-              onRegionChange={this.onRegionChange}
+              onMinimapRegionChange={this.onMapRegionChange}
               serviceTypes={this.state.serviceTypes}
             />
           </Modal>

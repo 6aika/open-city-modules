@@ -64,6 +64,7 @@ const FeedbackForm = ({
       <View style={styles.buttonContainer}>
         <Button
           style={styles.addAttachmentButton}
+          titleStyle={styles.attachmentButtonTitle}
           title={'Lisää liite'}
           onPress={onAddAttachmentClick}
         />

@@ -55,6 +55,8 @@ export const parseServiceTypes = (response): Array<ServiceType> => {
 };
 
 export const parseServiceRequest = (serviceRequest): ServiceRequest => {
+  console.warn("parsing..." + JSON.stringify(serviceRequest))
+
   return {
     id: serviceRequest.service_request_id,
     statusNotes: serviceRequest.status_notes,
@@ -66,8 +68,8 @@ export const parseServiceRequest = (serviceRequest): ServiceRequest => {
     updatedDateTime: serviceRequest.updated_datetime,
     address: serviceRequest.address,
     location: {
-      lat: serviceRequest.lat,
-      lon: serviceRequest.lon,
+      latitude: serviceRequest.lat,
+      longitude: serviceRequest.long,
     },
     media_url: serviceRequest.mediaUrl,
     media_urls: serviceRequest.mediaUrls,
@@ -75,10 +77,10 @@ export const parseServiceRequest = (serviceRequest): ServiceRequest => {
 };
 
 export const parseServiceRequests = (serviceRequestsData): Array<ServiceRequest> => {
-  const serviceRequestList: Array<ServiceRequest> = [];
-  serviceRequestsData.map((serviceRequest) => {
+  const serviceRequestList = [];
+  serviceRequestsData.data.map((serviceRequest) => {
     serviceRequestList.push(parseServiceRequest(serviceRequest));
-    return None;
+    // return None;
   });
 
   return serviceRequestList;
@@ -101,7 +103,7 @@ export const getServiceRequests = () => {
 
   return new Promise((resolve, reject) => {
     request(url, 'GET', headers, null, null).then((response) => {
-      resolve(parseServiceRequests(response));
+      resolve(parseServiceRequests(JSON.parse(response)));
     }).catch(err => reject(err));
   });
 };
@@ -125,12 +127,15 @@ export const postServiceRequest = (data) => {
 }
 
 export const getServiceRequest = (serviceRequestId) => {
-  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_SERVICE_REQUEST_BASE_URL + serviceRequestId;
+  const url = CONFIG.OPEN311_API_URL
+  + CONFIG.OPEN311_SERVICE_REQUEST_BASE_URL
+  + serviceRequestId
+  + CONFIG.OPEN311_SERVICE_REQUEST_PARAMETERS_URL;
   const headers = { Accept: 'application/json', 'Content-Type': 'application/json' };
 
   return new Promise((resolve, reject) => {
     request(url, 'GET', headers, null, null).then((response) => {
-      resolve(parseServiceRequests(response));
+      resolve(parseServiceRequest(JSON.parse(response)));
     }).catch(err => reject(err));
   });
 }

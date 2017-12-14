@@ -4,11 +4,16 @@ import Color from 'color';
 
 const styles = EStyleSheet.create({
   button: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+
+  },
+  containerStyle: {
     height: 48,
     backgroundColor: '$colors.med',
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'center',
     paddingHorizontal: 16,
     shadowOpacity: 0.75,
     shadowRadius: 5,

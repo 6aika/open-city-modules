@@ -7,7 +7,9 @@
     "src/",
     "index.js",
     "types.js",
-    "development.js"
+    "development.js",
+    "img/",
+    "assets/"
   ],
   "peerDependencies": {
     "react": ">=16.0.0",
@@ -36,6 +38,7 @@
     "i18next": "^10.2.1",
     "react-i18next": "^7.1.1",
     "react-native-extended-stylesheet": "^0.8.0",
+    "react-native-google-maps": "^1.0.0",
     "react-native-image-picker": "^0.26.7",
     "react-native-image-resizer": "^1.0.0",
     "react-native-modal-selector": "0.0.24",

@@ -4,17 +4,23 @@ import Color from 'color';
 
 const styles = EStyleSheet.create({
   addAttachmentButton: {
-    backgroundColor: '$colors.med'
+    backgroundColor: '$colors.max',
+    borderRadius: 24,
+    width: '70%',
+  },
+  attachmentButtonTitle: {
+    fontWeight: '400',
   },
   buttonContainer: {
     marginTop: 16,
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginHorizontal: 24,
   },
   attachmentContainer: {
     marginHorizontal: 24,
     marginVertical: 16,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   attachmentImageContainer: {
     alignSelf: 'stretch',

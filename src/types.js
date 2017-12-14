@@ -19,8 +19,8 @@ export type AttachmentType = {
 };
 
 export type Location = {
-  lat: float,
-  lon: float,
+  latitude: float,
+  longitude: float,
 }
 
 export type ServiceType = {

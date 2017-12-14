@@ -8,16 +8,17 @@ import {
   TouchableWithoutFeedback,
   Platform
 } from 'react-native';
-
+import { getConfig } from 'open-city-modules/src/modules/Feedback/config'
 import MarkerPin from 'open-city-modules/img/marker_pin.png';
 import MarkerIcon from 'open-city-modules/img/marker_default.png';
 import Marker from 'open-city-modules/src/components/Marker'
 import MapView from 'react-native-maps';
 import styles from '../styles';
-
 const MARKER_IMAGE_SIZE = 36;
 const MAP_HEIGHT        = 140;
 const MAP_MARGIN        = 24;
+
+const Config = getConfig();
 
 class Minimap extends Component {
 
@@ -47,14 +48,21 @@ class Minimap extends Component {
 
   render() {
     return (
-      <Animated.View style={[styles.container, this.mapHeight(), this.props.animation]}>
+      <Animated.View style={[styles.container, this.mapHeight()]}>
         {this.props.locationEnabled &&
-          <View style={[styles.mapView, {
-            flex: 1,
-          }]}>
+          <View style={[
+            styles.mapView, {
+              flex: 1,
+            }]}
+          >
             <MapView.Animated
               style={styles.map}
-              region={this.props.region}
+              region={{
+                ...this.props.region,
+                latitudeDelta: this.props.region.latitudeDelta,
+                longitudeDelta: this.props.region.longitudeDelta,
+              }}
+              provider='google'
               showsUserLocation={false}
               followUserLocation={false}
               toolbarEnabled={false}
@@ -64,7 +72,6 @@ class Minimap extends Component {
               onPress={(e) => this.props.setFullScreenMap(true)}
               onLongPress={(e) => this.props.setFullScreenMap(true)}
               onMarkerDragStart={(e) => this.props.setFullScreenMap(true)}
-              onRegionChange={this.props.onRegionChange}
               onRegionChangeComplete={this.props.onRegionChangeComplete}
             >
               <MapView.Marker.Animated

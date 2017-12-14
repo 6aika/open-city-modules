@@ -23,9 +23,11 @@ const Header = ({
   leftAction,
   rightAction,
   title,
+  style,
+  titleStyle,
 }): Props => {
   return (
-    <View style={styles.header}>
+    <View style={[styles.header, style]}>
       <View style={styles.tabs}>
         { leftAction &&
           <View
@@ -34,7 +36,7 @@ const Header = ({
             <TouchableOpacity
               onPress={leftAction.action}
             >
-              <Image style={[styles.image]} source={leftAction.icon} />
+              <Image style={[styles.image, leftAction.style]} source={leftAction.icon} />
             </TouchableOpacity>
           </View>
         }
@@ -42,7 +44,7 @@ const Header = ({
           <View
             style={styles.titleContainer}
           >
-            <Text style={styles.title}>{title}</Text>
+            <Text style={[styles.title, titleStyle]}>{title}</Text>
           </View>
         }
         { buttons && buttons.map((button) => {
@@ -58,7 +60,7 @@ const Header = ({
             <TouchableOpacity
               onPress={rightAction.action}
             >
-              <Image style={[styles.image]} source={rightAction.icon} />
+              <Image style={[styles.image, rightAction.style]} source={rightAction.icon} />
             </TouchableOpacity>
           </View>
         }

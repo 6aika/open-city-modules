@@ -45,7 +45,7 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
     position: 'absolute',
     width: '100%',
-    height: '100%'
+    height: '100%',
   },
   footerIcon: {
     color: '$colors.min',
@@ -57,8 +57,17 @@ const styles = EStyleSheet.create({
     width: '100%',
     height: '100%',
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
+  headerIcon: {
+    tintColor: '$colors.min',
+  },
+  headerTitle: {
+    color: '$colors.min',
+  },
+  header: {
+    backgroundColor: '$colors.med',
+  },
 });
 
-export default styles
+export default styles;

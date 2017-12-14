@@ -35,6 +35,7 @@ class SendFeedbackModal extends Component {
       attachments: [],
       pickerData: [],
       selectedServiceType: null,
+      locationEnabled: true,
     };
   }
 
@@ -148,11 +149,9 @@ class SendFeedbackModal extends Component {
     data.append('description', this.state.feedbackText);
     data.append('title', this.state.titleText !== null ? this.state.titleText : '');
 
-    if (this.state.locationEnabled &&
-        this.state.markerPosition.latitude !== null &&
-        this.state.markerPosition.longitude !== null) {
-      data.append('lat', this.state.markerPosition.latitude);
-      data.append('long', this.state.markerPosition.longitude);
+    if (this.state.locationEnabled) {
+      data.append('lat', this.props.region.latitude);
+      data.append('long', this.props.region.longitude);
     }
 
     const attachments = this.state.attachments;
@@ -205,8 +204,18 @@ class SendFeedbackModal extends Component {
       <View style={{ flex: 1 }}>
         <Header
           title={'UUSI PALAUTE'}
-          rightAction={{ icon: SendIcon, action: this.sendServiceRequest }}
-          leftAction={{ icon: BackIcon, action: (this.props.toggleFeedbackModal) }}
+          style={styles.header}
+          titleStyle={styles.headerTitle}
+          rightAction={{
+            icon: SendIcon,
+            action: this.sendServiceRequest,
+            style: styles.headerIcon,
+          }}
+          leftAction={{
+            icon: BackIcon,
+            action: (this.props.toggleFeedbackModal),
+            style: styles.headerIcon,
+          }}
         />
         <ScrollView style={{ flex: 1 }}>
           <View style={minimapStyle} >
@@ -216,6 +225,7 @@ class SendFeedbackModal extends Component {
               locationEnabled
               fullScreenMap={this.state.fullScreenMap}
               setFullScreenMap={this.showFullScreenMap}
+              onRegionChangeComplete={this.props.onMinimapRegionChange}
             />
 
           </View>
