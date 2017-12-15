@@ -8,13 +8,13 @@ import {
   Platform,
   Image,
 } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView'
 import { getServiceTypes, getServiceRequests, getServiceRequest } from 'open-city-modules/src/modules/Feedback/requests'
 import { StackNavigator } from 'react-navigation';
 import { type ServiceType } from 'open-city-modules/src/types'
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import FloatingActionButton from 'open-city-modules/src/components/FloatingActionButton';
-import SendFeedbackModal from 'open-city-modules/src/modules/Feedback/SendFeedbackModal';
+import SendFeedbackModal from 'open-city-modules/src/modules/Feedback/views/SendFeedbackModal';
 import Header from 'open-city-modules/src/components/Header';
 import PlusIcon from 'open-city-modules/img/plus.png'
 import Marker from 'open-city-modules/src/components/Marker';
@@ -184,49 +184,11 @@ class FeedbackModule extends React.Component<Props, State> {
           <Header
             buttons={buttons}
           />
-          <MapView
-            style={styles.map}
-            ref={(ref) => { this.mapView = ref; }}
-            initialRegion={
-              {
-                latitude: Config.DEFAULT_LATITUDE,
-                longitude: Config.DEFAULT_LONGITUDE,
-                latitudeDelta: 0.02,
-                longitudeDelta: 0.02,
-              }
-            }
+          <ServiceRequestMap
             region={this.state.region}
-            showsUserLocation
-            provider={PROVIDER_GOOGLE}
-            followUserLocation={false}
-            toolbarEnabled={false}
-            // onRegionChange={this.onMapRegionChange(region)}
-            // onPress={this.onMapViewClick.bind(this)}
             onRegionChangeComplete={this.onMapRegionChange}
-          >
-            {this.state.serviceRequests.map(serviceRequest => {
-              if (serviceRequest.location.latitude && serviceRequest.location.longitude) {
-                return (
-                  <MapView.Marker
-                    key={serviceRequest.id}
-                    coordinate={{
-                      latitude: serviceRequest.location.latitude,
-                      longitude: serviceRequest.location.longitude,
-                    }}
-                    // onPress={()=> this.showServiceRequestDetailPopup(serviceRequest)}>
-                  >
-                    <Marker
-                      icon={MarkerNew}
-                    />
-                    {/* <MapView.Callout tooltip={true}>
-                      <EmptyMarkerCallout />
-                    </MapView.Callout> */}
-                  </MapView.Marker>
-                )
-              }
-            })}
-          </MapView>
-
+            serviceRequests={this.state.serviceRequests}
+          />
         </View>
         }
           <Modal
@@ -239,7 +201,7 @@ class FeedbackModule extends React.Component<Props, State> {
               toggleFeedbackModal={this.toggleFeedbackModal}
               region={this.state.region}
               onMinimapRegionChange={this.onMapRegionChange}
-              serviceTypes={this.state.serviceTypes}
+              serviceRequests={this.state.serviceRequests}
             />
           </Modal>
 
