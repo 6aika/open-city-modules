@@ -213,7 +213,7 @@ class FeedbackModule extends React.Component<Props, State> {
 
 const FeedbackStack = StackNavigator(
   {
-    Home: {
+    Feedback: {
       screen: FeedbackModule,
     },
     SendRequest: {
