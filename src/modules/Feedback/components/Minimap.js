@@ -68,10 +68,10 @@ class Minimap extends Component {
               toolbarEnabled={false}
               scrollEnabled={this.props.fullScreenMap}
               zoomEnabled={this.props.fullScreenMap}
-              onPanDrag={(e) => this.props.setFullScreenMap(true)}
-              onPress={(e) => this.props.setFullScreenMap(true)}
-              onLongPress={(e) => this.props.setFullScreenMap(true)}
-              onMarkerDragStart={(e) => this.props.setFullScreenMap(true)}
+              onPanDrag={(e) => { if (!this.props.fullScreenMap) this.props.setFullScreenMap(true); }}
+              onPress={(e) => { if (!this.props.fullScreenMap) this.props.setFullScreenMap(true); }}
+              onLongPress={(e) => { if (!this.props.fullScreenMap) this.props.setFullScreenMap(true); }}
+              onMarkerDragStart={(e) => { if (!this.props.fullScreenMap) this.props.setFullScreenMap(true); }}
               onRegionChangeComplete={this.props.onRegionChangeComplete}
             >
               <MapView.Marker.Animated

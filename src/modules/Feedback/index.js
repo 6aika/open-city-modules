@@ -7,6 +7,7 @@ import {
   Modal,
   Platform,
   Image,
+  UIManager
 } from 'react-native';
 import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView'
 import { getServiceTypes, getServiceRequests, getServiceRequest } from 'open-city-modules/src/modules/Feedback/requests'
@@ -60,6 +61,7 @@ class FeedbackModule extends React.Component<Props, State> {
       serviceTypes: [],
       serviceRequests: [],
     };
+    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 
   componentWillMount = async () => {
@@ -141,8 +143,6 @@ class FeedbackModule extends React.Component<Props, State> {
         showFeedbackModal: true,
       });
     }
-
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
   centerMarker = (region) => {
@@ -197,6 +197,7 @@ class FeedbackModule extends React.Component<Props, State> {
               region={this.state.region}
               onMinimapRegionChange={this.onMapRegionChange}
               serviceRequests={this.state.serviceRequests}
+              serviceTypes={this.state.serviceTypes}
             />
           </Modal>
 
