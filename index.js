@@ -1,6 +1,7 @@
 /* @flow */
 // Steps
 import {
+  SplashScreen,
   ChoiceView,
   createSingleChoiceStep,
   createMultiChoiceStep,
@@ -22,6 +23,6 @@ const initColors = (colors: ColorSet) => {
 
 export {
   initColors,
-  ChoiceView, createSingleChoiceStep, createMultiChoiceStep,
+  SplashScreen, ChoiceView, createSingleChoiceStep, createMultiChoiceStep,
   WebViewModule, FeedbackModule,
 };
