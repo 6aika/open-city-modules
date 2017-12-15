@@ -20,7 +20,7 @@
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-  [GMSServices provideAPIKey:@"google_api_key"];
+  [GMSServices provideAPIKey:@"GOOGLE_MAPS_API_KEY"];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"OpenCityModules"
                                                initialProperties:nil
