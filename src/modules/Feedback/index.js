@@ -100,7 +100,6 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 
   onMapRegionChange = (region) => {
-    console.warn(JSON.stringify(region))
     this.setState({
       region,
     });

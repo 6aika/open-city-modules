@@ -16,7 +16,6 @@ const request = (url, method, headers, body, data) =>
     }).then((response) => {
       // const parsedResponse = JSON.parse(response._bodyInit)
       clearTimeout(timeoutId);
-      console.warn(response)
       if (response.status === 200 || response.status === 201) {
         // console.warn(response._bodyInit)
 
@@ -55,8 +54,6 @@ export const parseServiceTypes = (response): Array<ServiceType> => {
 };
 
 export const parseServiceRequest = (serviceRequest): ServiceRequest => {
-  console.warn("parsing..." + JSON.stringify(serviceRequest))
-
   return {
     id: serviceRequest.service_request_id,
     statusNotes: serviceRequest.status_notes,
@@ -113,7 +110,6 @@ export const postServiceRequest = (data) => {
   const token = CONFIG.OPEN311_SEND_SERVICE_API_KEY;
   const method = 'POST';
 
-  console.warn(JSON.stringify(data))
   const headers = {
     'Content-Type': 'multipart/form-data',
     Accept: 'application/json',

@@ -141,7 +141,6 @@ class SendFeedbackModal extends Component {
   }
 
   sendServiceRequest = () => {
-    console.warn("Sending...")
     this.setState({ loading: true });
     const data = new FormData();
 
@@ -173,7 +172,6 @@ class SendFeedbackModal extends Component {
 
       data.append('media_urls', mediaUrls)
     }
-    console.warn(data)
     postServiceRequest(data).then(() => {
       this.setState({
         loading: false,
@@ -187,16 +185,12 @@ class SendFeedbackModal extends Component {
   }
 
   onChangeFeedbackText = (text: string) => {
-    console.warn('feedback changed')
     this.setState({ feedbackText: text })
   }
 
   onChangeTitleText = (text: string) => {
-    console.warn('title changed')
     this.setState({ titleText: text })
   }
-
-
 
   render() {
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
