@@ -18,7 +18,7 @@ type Props = {
 export default SplashScreen = ({
   bgImage, logo, cityName, welcomeText, beginText, textColor, marginTop, dismiss,
 }: Props) => {
-  const textColorStyle = textColor && { color: textColor };
+  const textColorStyle = textColor && { color: textColor, backgroundColor: 'transparent' };
   return (
     <View style={styles.container}>
       { bgImage && <Image source={bgImage} style={styles.bgImage} /> }
@@ -30,7 +30,7 @@ export default SplashScreen = ({
       <TouchableOpacity onPress={dismiss}>
         <View style={styles.beginButton}>
           <Text style={[styles.beginText, textColorStyle]}>{beginText}</Text>
-          <Icon name="chevron-right" size={30} color={textColor} />
+          <Icon name="chevron-right" size={30} style={textColorStyle} />
         </View>
       </TouchableOpacity>
     </View>
