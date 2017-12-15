@@ -234,4 +234,4 @@ const FeedbackStack = StackNavigator(
 );
 
 
-export default FeedbackStack;
+export default FeedbackModule;
