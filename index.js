@@ -9,7 +9,7 @@ import {
 // Modules
 import FeedbackModule from 'open-city-modules/src/modules/Feedback';
 import WebViewModule from 'open-city-modules/src/modules/WebView';
-
+import { configureFeedback } from 'open-city-modules/src/modules/Feedback/config';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { type ColorSet } from 'open-city-modules/src/types';
 // eslint-disable-next-line
@@ -22,6 +22,7 @@ const initColors = (colors: ColorSet) => {
 };
 
 export {
+  configureFeedback,
   initColors,
   SplashScreen, ChoiceView, createSingleChoiceStep, createMultiChoiceStep,
   WebViewModule, FeedbackModule,
