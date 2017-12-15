@@ -58,8 +58,8 @@ const ServiceRequestMapView = ({
       <MapView.Marker
         key={serviceRequest.id}
         coordinate={{
-          latitude: serviceRequest.location.latitude,
-          longitude: serviceRequest.location.longitude,
+          latitude: parseFloat(serviceRequest.location.latitude),
+          longitude: parseFloat(serviceRequest.location.longitude),
         }}
         // onPress={()=> this.showServiceRequestDetailPopup(serviceRequest)}>
       >
