@@ -28,7 +28,7 @@ const FloatingActionButton = ({
       {icon &&
         <Image
           source={icon}
-          style={styles.plusIcon}
+          style={styles.icon}
         />
       }
     </View>
