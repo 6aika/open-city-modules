@@ -45,10 +45,6 @@ type State = {
  An onboarding step component where the user can select one option from many
  */
 class FeedbackModule extends React.Component<Props, State> {
-  static navigationOptions = {
-    title: 'Home',
-  }
-
   constructor(props: Props) {
     super(props);
     this.state = {
