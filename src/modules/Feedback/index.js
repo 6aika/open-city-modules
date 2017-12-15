@@ -229,4 +229,4 @@ const FeedbackStack = StackNavigator(
 );
 
 
-export default FeedbackModule;
+export default FeedbackStack;
