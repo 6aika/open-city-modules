@@ -56,6 +56,7 @@ const Picker = ({
         <TextInput
           style={[styles.input]}
           placeholder={placeholder}
+          underlineColorAndroid="transparent"
           multiline={false}
           value={value}
         />

@@ -46,6 +46,7 @@ const FormRow = ({
       <TextInput
         style={[styles.input, { height: inputHeight }]}
         placeholder={placeholder}
+        underlineColorAndroid="transparent"
         onChangeText={(text) => { onChangeText(text); }}
         multiline={multiline}
       />
