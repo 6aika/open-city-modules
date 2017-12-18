@@ -10,19 +10,19 @@ import styles from './styles';
 
 
 type Props = {
-  serviceRequest: ServiceRequest
+  serviceRequest: ServiceRequest;
 }
 
 const ListItem = ({
-  serviceRequest
+  serviceRequest,
 }: Props) => {
-
+  console.warn(JSON.stringify(serviceRequest.item))
   return (
     <View>
-      <Text>{serviceRequest.description}</Text>
+      <Text>{serviceRequest.item.id}</Text>
     </View>
 
   );
 }
 
-export default Attachment;
+export default ListItem;

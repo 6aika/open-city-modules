@@ -15,6 +15,7 @@ import { StackNavigator } from 'react-navigation';
 import { type ServiceType } from 'open-city-modules/src/types'
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import FloatingActionButton from 'open-city-modules/src/components/FloatingActionButton';
+import ServiceRequestListView from 'open-city-modules/src/modules/Feedback/views/ServiceRequestList';
 import SendFeedbackModal from 'open-city-modules/src/modules/Feedback/views/SendFeedbackModal';
 import Header from 'open-city-modules/src/components/Header';
 import PlusIcon from 'open-city-modules/img/plus.png'
@@ -61,6 +62,7 @@ class FeedbackModule extends React.Component<Props, State> {
       serviceTypes: [],
       serviceRequests: [],
     };
+
     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 
@@ -111,8 +113,8 @@ class FeedbackModule extends React.Component<Props, State> {
     this.setState({
       region: {
         ...region,
-        longitudeDelta: region * 2,
-        latitudeDelta: region * 2,
+        longitudeDelta: region.longitudeDelta,
+        latitudeDelta: region.latitudeDelta,
       }
     })
   }
@@ -174,7 +176,7 @@ class FeedbackModule extends React.Component<Props, State> {
 
     return (
       <View style={styles.container}>
-        {!this.state.showFeedbackModal &&
+        {!this.state.showFeedbackModal && this.state.activePage === MAP_PAGE &&
         <View style={styles.map}>
           <Header
             buttons={buttons}
@@ -186,20 +188,30 @@ class FeedbackModule extends React.Component<Props, State> {
           />
         </View>
         }
-          <Modal
-            style={[styles.modal]}
-            animationType="slide"
-            visible={this.state.showFeedbackModal}
-            onRequestClose={this.toggleFeedbackModal}
-          >
-            <SendFeedbackModal
-              toggleFeedbackModal={this.toggleFeedbackModal}
-              region={this.state.region}
-              onMinimapRegionChange={this.onMapRegionChange}
-              serviceRequests={this.state.serviceRequests}
-              serviceTypes={this.state.serviceTypes}
-            />
-          </Modal>
+        { !this.state.showFeedbackModal && this.state.activePage === LIST_PAGE &&
+        <View style={styles.map}>
+          <Header
+            buttons={buttons}
+          />
+          <ServiceRequestListView
+            data={this.state.serviceRequests}
+          />
+        </View>
+        }
+        <Modal
+          style={[styles.modal]}
+          animationType="slide"
+          visible={this.state.showFeedbackModal}
+          onRequestClose={this.toggleFeedbackModal}
+        >
+          <SendFeedbackModal
+            toggleFeedbackModal={this.toggleFeedbackModal}
+            region={this.state.region}
+            onMinimapRegionChange={this.onMinimapRegionChange}
+            serviceRequests={this.state.serviceRequests}
+            serviceTypes={this.state.serviceTypes}
+          />
+        </Modal>
 
         <FloatingActionButton
           icon={PlusIcon}
@@ -214,11 +226,8 @@ class FeedbackModule extends React.Component<Props, State> {
 
 const FeedbackStack = StackNavigator(
   {
-    Feedback: {
+    Map: {
       screen: FeedbackModule,
-    },
-    SendRequest: {
-      screen: SendFeedbackModal,
     },
   },
   {
