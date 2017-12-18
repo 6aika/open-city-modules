@@ -70,11 +70,21 @@ class ServiceRequestList extends React.Component<Props, State> {
 
   keyExtractor = (item, index) => item.id;
 
+  goToDetail = (item) => {
+    this.props.navigation.navigate(
+      'Detail',
+      {
+        serviceRequest: item,
+      },
+    );
+  }
+
   renderItem = (serviceRequest) => {
     return (
       <ListItem
         style={{flex:1}}
         serviceRequest={serviceRequest}
+        onPress={this.goToDetail}
       />
     )
   }

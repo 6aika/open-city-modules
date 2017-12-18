@@ -10,6 +10,7 @@ import {
   UIManager
 } from 'react-native';
 import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView'
+import ServiceRequestDetail from 'open-city-modules/src/modules/Feedback/views/ServiceRequestDetail'
 import { getServiceTypes, getServiceRequests, getServiceRequest } from 'open-city-modules/src/modules/Feedback/requests'
 import { StackNavigator } from 'react-navigation';
 import { type ServiceType } from 'open-city-modules/src/types'
@@ -195,6 +196,7 @@ class FeedbackModule extends React.Component<Props, State> {
           />
           <ServiceRequestListView
             data={this.state.serviceRequests}
+            navigation={this.props.navigation}
           />
         </View>
         }
@@ -229,6 +231,9 @@ const FeedbackStack = StackNavigator(
     Map: {
       screen: FeedbackModule,
     },
+    Detail: {
+      screen: ServiceRequestDetail
+    }
   },
   {
     navigationOptions: {

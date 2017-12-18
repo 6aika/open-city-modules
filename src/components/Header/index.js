@@ -40,6 +40,9 @@ const Header = ({
             </TouchableOpacity>
           </View>
         }
+        { rightAction && !leftAction &&
+          <View style={styles.image} />
+        }
         {title &&
           <View
             style={styles.titleContainer}
@@ -63,6 +66,9 @@ const Header = ({
               <Image style={[styles.image, rightAction.style]} source={rightAction.icon} />
             </TouchableOpacity>
           </View>
+        }
+        { leftAction && !rightAction &&
+          <View style={styles.image} />
         }
       </View>
 
