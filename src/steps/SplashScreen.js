@@ -34,7 +34,7 @@ export default SplashScreen = ({
       <TouchableOpacity onPress={dismiss}>
         <View style={styles.beginButton}>
           <Text style={[styles.beginText, textColorStyle]}>{beginText}</Text>
-          <Icon name="chevron-right" size={30} color={textColor} />
+          <Icon name="chevron-right" size={30} style={textColorStyle} />
         </View>
       </TouchableOpacity>
     </View>

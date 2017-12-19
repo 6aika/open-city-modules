@@ -54,6 +54,7 @@ export const parseServiceTypes = (response): Array<ServiceType> => {
 };
 
 export const parseServiceRequest = (serviceRequest): ServiceRequest => {
+
   return {
     id: serviceRequest.service_request_id,
     statusNotes: serviceRequest.status_notes,
@@ -75,10 +76,18 @@ export const parseServiceRequest = (serviceRequest): ServiceRequest => {
 
 export const parseServiceRequests = (serviceRequestsData): Array<ServiceRequest> => {
   const serviceRequestList = [];
-  serviceRequestsData.data.map((serviceRequest) => {
-    serviceRequestList.push(parseServiceRequest(serviceRequest));
-    // return None;
-  });
+  if (serviceRequestsData.data) {
+    serviceRequestsData.data.map((serviceRequest) => {
+      serviceRequestList.push(parseServiceRequest(serviceRequest));
+      // return None;
+    });
+  } else if (serviceRequestsData) {
+    serviceRequestsData.map((serviceRequest) => {
+      serviceRequestList.push(parseServiceRequest(serviceRequest));
+      // return None;
+    });
+  }
+
 
   return serviceRequestList;
 };

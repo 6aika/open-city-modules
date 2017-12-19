@@ -135,6 +135,7 @@ styles = EStyleSheet.create({
     color: '$colors.max',
     textAlign: 'center',
     marginBottom: 20,
+    backgroundColor: 'transparent',
   },
   buttonContainer: {
     flexDirection: 'row',
