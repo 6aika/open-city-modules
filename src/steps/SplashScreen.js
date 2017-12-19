@@ -1,28 +1,32 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 let styles;
 
 type Props = {
   bgImage: any,
+  bgImageAspectRatio: number,
   logo: any,
   cityName: string,
   welcomeText: string,
   beginText: string,
   textColor: string,
-  marginTop: number,
+  marginTopMultiplier: number,
   dismiss: () => void,
 };
 
 export default SplashScreen = ({
-  bgImage, logo, cityName, welcomeText, beginText, textColor, marginTop, dismiss,
+  bgImage, bgImageAspectRatio = 16 / 9, logo,
+  cityName, welcomeText, beginText,
+  textColor, marginTopMultiplier, dismiss,
 }: Props) => {
   const textColorStyle = textColor && { color: textColor };
+  const bgImageHeightStyle = { height: Dimensions.get('window').width * bgImageAspectRatio };
   return (
     <View style={styles.container}>
-      { bgImage && <Image source={bgImage} style={styles.bgImage} /> }
-      <View style={[styles.city, marginTop && { marginTop }]}>
+      { bgImage && <Image source={bgImage} style={[styles.bgImage, bgImageHeightStyle]} /> }
+      <View style={[styles.city, marginTopMultiplier && { marginTop: Dimensions.get('window').width * marginTopMultiplier }]}>
         { logo && <Image source={logo} style={styles.logo} />}
         <Text style={[styles.cityName, textColorStyle]}>{cityName}</Text>
       </View>
@@ -36,18 +40,18 @@ export default SplashScreen = ({
     </View>
   );
 };
+
 styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
   },
   bgImage: {
-    resizeMode: 'stretch',
+    resizeMode: 'cover',
     position: 'absolute',
-    bottom: 0,
+    top: 0,
     left: 0,
     width: '100%',
-    height: '100%',
   },
   city: {
     flexDirection: 'row',
@@ -68,6 +72,7 @@ styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 20,
     textAlign: 'center',
+    padding: 10,
   },
   beginButton: {
     flexDirection: 'row',
