@@ -15,7 +15,11 @@ const styles = EStyleSheet.create({
     right: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '$colors.med'
+    backgroundColor: '$colors.med',
+    shadowRadius: 3,
+    shadowColor: '$colors.max',
+    shadowOpacity: 0.5,
+    elevation: 3,
   },
   buttonView: {
     width: BUTTON_WIDTH,

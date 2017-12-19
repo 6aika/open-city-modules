@@ -10,6 +10,7 @@ import {
 import { type ServiceRequest } from 'open-city-modules/src/types';
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import ListItem from './components/ListItem'
+import styles from './styles';
 
 const MAP_PAGE = 'map';
 const LIST_PAGE = 'list';
@@ -55,7 +56,6 @@ class ServiceRequestList extends React.Component<Props, State> {
     data.map(item => {
       const date = new Date(item.updatedDateTime);
       const month = date.getMonth();
-      console.warn("month: " + month)
 
       if(!(month in sections)) {
         sections[month] = [item]
@@ -64,7 +64,6 @@ class ServiceRequestList extends React.Component<Props, State> {
       }
     })
 
-    console.warn("SECTIONS: " + JSON.stringify(sections))
     return sections
   }
 
@@ -89,12 +88,17 @@ class ServiceRequestList extends React.Component<Props, State> {
     )
   }
 
+  renderFooter = () => {
+    return (<View style={styles.footer} />)
+  }
+
   render() {
     return (
       <SectionList
         sections={[
           { data: this.props.data, key: "december", title: "December"}
         ]}
+        renderSectionFooter={this.renderFooter}
         renderItem={this.renderItem}
       />
     );

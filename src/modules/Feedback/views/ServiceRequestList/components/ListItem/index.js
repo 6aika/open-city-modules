@@ -22,7 +22,6 @@ const ListItem = ({
   serviceRequest,
   onPress
 }: Props) => {
-  console.warn(JSON.stringify(serviceRequest.item))
   return (
     <TouchableOpacity
       onPress={() => onPress(serviceRequest.item)}

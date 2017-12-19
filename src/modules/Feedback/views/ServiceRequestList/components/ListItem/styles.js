@@ -16,6 +16,11 @@ const styles = EStyleSheet.create({
     backgroundColor: '$colors.med',
     alignItems: 'center',
     justifyContent: 'center',
+
+    shadowRadius: 3,
+    shadowColor: '$colors.max',
+    shadowOpacity: 0.5,
+    elevation: 3,
   },
   date: {
     backgroundColor: 'transparent',

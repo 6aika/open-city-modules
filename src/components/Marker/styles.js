@@ -16,7 +16,8 @@ const styles = EStyleSheet.create({
   markerIcon: {
     height: '100%',
     width: '100%',
-    position: 'absolute'
+    position: 'absolute',
+    color: '$colors.min',
   },
 });
 

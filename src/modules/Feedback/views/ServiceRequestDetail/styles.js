@@ -12,10 +12,12 @@ const styles = EStyleSheet.create({
   },
   metadata: {
     flex: 2,
+    flexDirection: 'row'
   },
   content: {
     flex: 7,
-    marginHorizontal: 24,
+    margin: 24,
+
   },
   description: {
     fontSize: 16,
@@ -30,6 +32,26 @@ const styles = EStyleSheet.create({
   },
   minimap: {
     flex: 1,
+  },
+  marker: {
+    height: 48,
+    width: 48,
+    tintColor: '$colors.med',
+  },
+  attachments: {
+    flex:1,
+  },
+  footer: {
+    height: 60,
+    backgroundColor: '$colors.med',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // paddingBottom: 100,
+  },
+  footerIcon: {
+    color: '$colors.min',
+    fontSize: 48,
+    fontWeight: '500',
   },
 });
 
