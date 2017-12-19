@@ -41,7 +41,7 @@ const Header = ({
           </View>
         }
         { rightAction && !leftAction &&
-          <View style={styles.image} />
+          <View style={styles.placeHolder} />
         }
         {title &&
           <View
@@ -68,7 +68,7 @@ const Header = ({
           </View>
         }
         { leftAction && !rightAction &&
-          <View style={styles.image} />
+          <View style={styles.placeHolder} />
         }
       </View>
 

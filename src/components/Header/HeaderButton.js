@@ -23,11 +23,11 @@ const HeaderButton = ({
   active = false,
   onPress
 }: Props) => {
-  activeStyle = active ? styles.active : styles.inactive
-
+  const activeStyle = active ? styles.active : styles.inactive;
+  const activeBGStyle = active ? styles.activeBackground : styles.inactiveBackground;
   return (
     <TouchableOpacity
-      style={[styles.tabButton, activeStyle]}
+      style={[styles.tabButton, activeBGStyle]}
       onPress={onPress}
     >
       <Text style={[activeStyle, styles.label]}>{title}</Text>

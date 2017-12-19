@@ -28,12 +28,16 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
   },
   active: {
-    backgroundColor: '$colors.med',
     color: '$colors.min',
   },
+  activeBackground: {
+    backgroundColor: '$colors.med',
+  },
   inactive: {
-    backgroundColor: '$inactiveBG',
     color: '$inactiveText',
+  },
+  inactiveBackground: {
+    backgroundColor: '$inactiveBG',
   },
   label: {
     fontSize: 22,
@@ -60,6 +64,10 @@ const styles = EStyleSheet.create({
     width: 32,
     height: 32,
     tintColor: '$colors.med',
+  },
+  placeHolder: {
+    width: 32,
+    height: 32,
   },
   disabled: {
     tintColor: '$inactiveText'
