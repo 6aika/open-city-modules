@@ -5,6 +5,7 @@ import {
   Text,
   ScrollView,
   Image,
+  Dimensions,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -33,7 +34,8 @@ type Props = {
   buttonProps: any,
   bottomBarProps: any,
   bgImage: any,
-  bgImageStyle: any,
+  bgImageAspectRatio: any,
+  marginTopMultiplier: number,
 };
 
 let styles;
@@ -41,8 +43,11 @@ let styles;
 const ChoiceView = ({
   mode, options, onOptionPress, onPreviousPress, onNextPress, step,
   totalSteps, nextDisabled, containerStyle, contentStyle, topImage, topImageStyle,
-  t, questionStyle, buttonProps, bottomBarProps, bgImage, bgImageStyle,
+  t, questionStyle, buttonProps, bottomBarProps, bgImage, bgImageAspectRatio = 9 / 16,
+  marginTopMultiplier,
 }: Props) => {
+  const screenWidth = Dimensions.get('window').width;
+
   let buttons;
   if (mode === 'list') {
     buttons = options.map(option => (
@@ -77,9 +82,14 @@ const ChoiceView = ({
       { bgImage &&
         <Image
           source={bgImage}
-          style={[styles.bgImage, bgImageStyle]}
+          style={[styles.bgImage, { height: screenWidth / bgImageAspectRatio }]}
         /> }
-      <ScrollView style={[styles.content, contentStyle]}>
+      <ScrollView style={[
+        styles.content,
+        contentStyle,
+        marginTopMultiplier && { marginTop: marginTopMultiplier * screenWidth },
+      ]}
+      >
         { topImage &&
           <Image style={[styles.topImage, topImageStyle]} source={topImage} />
         }
@@ -106,12 +116,11 @@ styles = EStyleSheet.create({
     backgroundColor: '$colors.min',
   },
   bgImage: {
-    resizeMode: 'stretch',
+    resizeMode: 'cover',
     position: 'absolute',
-    bottom: 0,
+    top: 0,
     left: 0,
     width: '100%',
-    height: '100%',
   },
   topImage: {
     marginTop: 5,
