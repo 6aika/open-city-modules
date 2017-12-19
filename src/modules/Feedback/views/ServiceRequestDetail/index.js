@@ -17,6 +17,7 @@ import MarkerIcon from 'open-city-modules/img/marker_default.png';
 import Header from 'open-city-modules/src/components/Header';
 import styles from './styles';
 const Config = getConfig();
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 
 type Props = {
@@ -100,7 +101,7 @@ class ServiceRequestDetail extends React.Component<Props, State> {
             icon: BackIcon,
             action: this.goBack,
             style: {
-              tintColor: '$colors.min',
+              tintColor: EStyleSheet.value('$colors.min'),
             },
           }}
         />
@@ -110,14 +111,14 @@ class ServiceRequestDetail extends React.Component<Props, State> {
             <MapView
               style={minimapStyle}
               initialRegion={{
-                latitude: serviceRequest.location.latitude,
-                longitude: serviceRequest.location.longitude,
+                latitude: parseFloat(serviceRequest.location.latitude),
+                longitude: parseFloat(serviceRequest.location.longitude),
                 latitudeDelta: 0.007,
                 longitudeDelta: 0.007,
               }}
               region={{
-                latitude: serviceRequest.location.latitude,
-                longitude: serviceRequest.location.longitude,
+                latitude: parseFloat(serviceRequest.location.latitude),
+                longitude: parseFloat(serviceRequest.location.longitude),
                 latitudeDelta: 0.007,
                 longitudeDelta: 0.007,
               }}
@@ -134,10 +135,8 @@ class ServiceRequestDetail extends React.Component<Props, State> {
               <MapView.Marker
                 ref={(m) => this.marker = m}
                 coordinate={{
-                  latitude: serviceRequest.location.latitude,
-                  longitude: serviceRequest.location.longitude,
-                  latitudeDelta: 0.02,
-                  longitudeDelta: 0.02,
+                  latitude: parseFloat(serviceRequest.location.latitude),
+                  longitude: parseFloat(serviceRequest.location.longitude),
                 }}
               >
                 <Marker icon={MarkerIcon} />

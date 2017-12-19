@@ -24,12 +24,14 @@ type Props = {
       latitudeDelta: float,
       longitudeDelta: float,
   });
+  onMarkerPressed: () => void;
   serviceRequests: Array<ServiceRequest>
 }
 
 const ServiceRequestMapView = ({
   region,
   onRegionChangeComplete,
+  onMarkerPressed,
   serviceRequests,
 }): Props => (
   <MapView
@@ -54,23 +56,27 @@ const ServiceRequestMapView = ({
   >
     { serviceRequests && serviceRequests.map(serviceRequest => {
       if (serviceRequest.location.latitude && serviceRequest.location.longitude)
-      return (
-      <MapView.Marker
-        key={serviceRequest.id}
-        coordinate={{
-          latitude: parseFloat(serviceRequest.location.latitude),
-          longitude: parseFloat(serviceRequest.location.longitude),
-        }}
-        // onPress={()=> this.showServiceRequestDetailPopup(serviceRequest)}>
-      >
-        <Marker
-          icon={MarkerNew}
-        />
-        {/* <MapView.Callout tooltip={true}>
-          <EmptyMarkerCallout />
-        </MapView.Callout> */}
-      </MapView.Marker>
-    )})
+        return (
+          <MapView.Marker
+            key={serviceRequest.id}
+            coordinate={{
+              latitude: parseFloat(serviceRequest.location.latitude),
+              longitude: parseFloat(serviceRequest.location.longitude),
+            }}
+            onPress={() => onMarkerPressed(serviceRequest)}
+
+          >
+            <Marker
+              icon={MarkerNew}
+            />
+            <MapView.Callout tooltip={true}/>
+            {/* <MapView.Callout tooltip={true}>
+              <EmptyMarkerCallout />
+            </MapView.Callout> */}
+          </MapView.Marker>
+        );
+      }
+    )
   }
   </MapView>
 );

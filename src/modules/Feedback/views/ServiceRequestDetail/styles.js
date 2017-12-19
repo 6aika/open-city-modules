@@ -17,7 +17,6 @@ const styles = EStyleSheet.create({
   content: {
     flex: 7,
     margin: 24,
-
   },
   description: {
     fontSize: 16,

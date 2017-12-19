@@ -39,7 +39,6 @@ const ListItem = ({
         </View>
       </View>
     </TouchableOpacity>
-
   );
 }
 

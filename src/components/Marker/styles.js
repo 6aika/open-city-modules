@@ -17,7 +17,7 @@ const styles = EStyleSheet.create({
     height: '100%',
     width: '100%',
     position: 'absolute',
-    color: '$colors.min',
+    tintColor: '$colors.min',
   },
 });
 

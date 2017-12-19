@@ -21,7 +21,8 @@ import SendFeedbackModal from 'open-city-modules/src/modules/Feedback/views/Send
 import Header from 'open-city-modules/src/components/Header';
 import PlusIcon from 'open-city-modules/img/plus.png'
 import Marker from 'open-city-modules/src/components/Marker';
-import MarkerNew from 'open-city-modules/img/marker_new.png'
+import MarkerNew from 'open-city-modules/img/marker_new.png';
+import MarkerPopup from 'open-city-modules/src/components/MarkerPopup';
 import styles from './styles';
 
 const MAP_PAGE = 'map';
@@ -57,11 +58,17 @@ class FeedbackModule extends React.Component<Props, State> {
         latitudeDelta: 0.02,
         longitudeDelta: 0.02,
       },
+      popupData: {
+        title: '',
+        body: '',
+      },
       // markerPosition: null,
       showFeedbackModal: false,
+      showMapPopup: false,
       activePage: MAP_PAGE,
       serviceTypes: [],
       serviceRequests: [],
+      activeServiceRequest: null,
     };
 
     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -80,10 +87,9 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 
   onMapViewClick() {
-    if (this.state.showPopup) {
+    if (this.state.showMapPopup) {
       this.setState({
-        region: this.state.region,
-        showPopup: false,
+        showMapPopup: false,
       });
     }
   }
@@ -120,6 +126,7 @@ class FeedbackModule extends React.Component<Props, State> {
     })
   }
 
+
   getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
     const result = await serviceTypeFetch();
     this.setState({ serviceTypes: result });
@@ -134,6 +141,23 @@ class FeedbackModule extends React.Component<Props, State> {
     const result = await serviceRequestFetch(requestId);
     return result
     // this.setState({ serviceRequests: result });
+  }
+
+  handleMarkerPressed = (serviceRequest) => {
+    this.setState({
+      showMapPopup: true,
+      activeServiceRequest: serviceRequest,
+      popupData: {
+        title: serviceRequest.requestedDateTime,
+        body: serviceRequest.description
+      }
+    });
+  }
+
+  goToServiceRequestDetail = (serviceRequest) => {
+    this.props.navigation.navigate('Detail', {
+      serviceRequest
+    })
   }
 
   toggleFeedbackModal = () => {
@@ -155,10 +179,11 @@ class FeedbackModule extends React.Component<Props, State> {
     };
 
     this.setState({
-      markerPosition: location,
+      userPosition: location,
       region
     });
   }
+
 
 
   render() {
@@ -174,7 +199,12 @@ class FeedbackModule extends React.Component<Props, State> {
         title: 'LISTA',
       },
     ];
-
+    const serviceRequestDetailPopup =
+      (<MarkerPopup
+        data={this.state.popupData}
+        onClick={()=> this.goToServiceRequestDetail(this.state.activeServiceRequest)}
+        onClose={()=> this.setState({ showMapPopup: false })}
+      />);
     return (
       <View style={styles.container}>
         {!this.state.showFeedbackModal && this.state.activePage === MAP_PAGE &&
@@ -184,6 +214,7 @@ class FeedbackModule extends React.Component<Props, State> {
           />
           <ServiceRequestMap
             region={this.state.region}
+            onMarkerPressed={this.handleMarkerPressed}
             onRegionChangeComplete={this.onMapRegionChange}
             serviceRequests={this.state.serviceRequests}
           />
@@ -221,6 +252,8 @@ class FeedbackModule extends React.Component<Props, State> {
             this.toggleFeedbackModal();
           }}
         />
+
+        {this.state.showMapPopup && serviceRequestDetailPopup}
       </View>
     );
   }
