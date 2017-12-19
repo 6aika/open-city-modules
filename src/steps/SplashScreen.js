@@ -17,12 +17,12 @@ type Props = {
 };
 
 export default SplashScreen = ({
-  bgImage, bgImageAspectRatio = 16 / 9, logo,
+  bgImage, bgImageAspectRatio = 9 / 16, logo,
   cityName, welcomeText, beginText,
   textColor, marginTopMultiplier, dismiss,
 }: Props) => {
   const textColorStyle = textColor && { color: textColor };
-  const bgImageHeightStyle = { height: Dimensions.get('window').width * bgImageAspectRatio };
+  const bgImageHeightStyle = { height: Dimensions.get('window').width / bgImageAspectRatio };
   return (
     <View style={styles.container}>
       { bgImage && <Image source={bgImage} style={[styles.bgImage, bgImageHeightStyle]} /> }
