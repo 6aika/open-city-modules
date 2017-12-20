@@ -18,6 +18,11 @@ const styles = EStyleSheet.create({
     flex: 7,
     margin: 24,
   },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
   description: {
     fontSize: 16,
   },

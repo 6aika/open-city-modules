@@ -199,6 +199,9 @@ class ServiceRequestDetail extends React.Component<Props, State> {
         { this.renderMetadata(serviceRequest) }
         {(!this.state.fullScreenMap && !this.state.fullScreenImage) &&
         <View style={styles.content}>
+          { serviceRequest.title &&
+            <Text style={styles.title}>{serviceRequest.title}</Text>
+          }
           <Text style={styles.description}>{serviceRequest.description}</Text>
           <View style={styles.statusRow}>
             <Text style={styles.status}>{this.parseDate(serviceRequest.requestedDateTime) + ' Palvelupyyntö lähetetty'}</Text>
