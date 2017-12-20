@@ -14,7 +14,6 @@ import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import UpIcon from 'open-city-modules/img/map_up.png'
 import Marker from 'open-city-modules/src/components/Marker';
 import MarkerIcon from 'open-city-modules/img/marker_default.png';
-import Header from 'open-city-modules/src/components/Header';
 import styles from './styles';
 const Config = getConfig();
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -35,6 +34,7 @@ class ServiceRequestDetail extends React.Component<Props, State> {
     super(props);
     this.state = {
       fullScreenMap: false,
+      fullScreenImage: false,
     };
   }
 
@@ -59,10 +59,6 @@ class ServiceRequestDetail extends React.Component<Props, State> {
     this.props.navigation.goBack();
   }
 
-  parseFooter = (serviceRequest) => {
-
-  }
-
   getRegion = (serviceRequest) => {
     if (
       serviceRequest.location
@@ -78,33 +74,53 @@ class ServiceRequestDetail extends React.Component<Props, State> {
     }
   }
 
-  setFullScreenMap = () => {
+  showFullScreenMap = () => {
     this.setState({ fullScreenMap: true });
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
   hideFullScreenMap = () => {
-    this.setState({ fullScreenMap: false });
+    this.setState({ fullScreenMap: false, fullScreenImage: false, });
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
-  render() {
+  showFullScreenImage = () => {
+    this.setState({ fullScreenImage: true });
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  }
+
+  renderMedia = (serviceRequest) => {
+    const attachmentsStyle = this.state.fullScreenImage ? styles.attachmentsFullScreen : styles.attachments;
+    const attachmentImageStyle = this.state.fullScreenImage ? styles.attachmentImageFullScreen : styles.attachmentImage;
+    if (serviceRequest.mediaUrls) {
+      return (
+        <View style={attachmentsStyle}><Text>{serviceRequest.mediaUrls}</Text></View>
+      )
+    } else if (serviceRequest.mediaUrl) {
+      console.warn(serviceRequest.mediaUrl)
+      return(
+        <View style={attachmentsStyle}>
+          <TouchableOpacity
+            onPress={this.showFullScreenImage}
+            style={{flex:1}}
+          >
+            <Image
+              style={attachmentImageStyle}
+              source={{ uri: serviceRequest.mediaUrl }}
+            />
+          </TouchableOpacity>
+        </View>
+      )
+    }
+  }
+
+  renderMetadata = (serviceRequest) => {
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
-    const { serviceRequest } = this.props.navigation.state.params;
-    return (
-      <View style={styles.container}>
-        <Header
-          style={styles.header}
-          titleStyle={styles.headerTitle}
-          title={this.parseDate(serviceRequest.requestedDateTime)}
-          leftAction={{
-            icon: BackIcon,
-            action: this.goBack,
-            style: {
-              tintColor: EStyleSheet.value('$colors.min'),
-            },
-          }}
-        />
+    if ((serviceRequest.location.latitude && serviceRequest.location.longitude)
+      || serviceRequest.mediaUrl || serviceRequest.mediaurls) {
+
+
+      return (
         <View style={styles.metadata}>
           { serviceRequest.location.latitude && serviceRequest.location.longitude &&
           <View style={styles.minimap}>
@@ -123,11 +139,12 @@ class ServiceRequestDetail extends React.Component<Props, State> {
                 longitudeDelta: 0.007,
               }}
               provider='google'
-              onPanDrag={(e) => { if (!this.state.fullScreenMap) this.setFullScreenMap(true); }}
-              onPress={(e) => { if (!this.state.fullScreenMap) this.setFullScreenMap(true); }}
-              onLongPress={(e) => { if (!this.state.fullScreenMap) this.setFullScreenMap(true); }}
-              onMarkerDragStart={(e) => { if (!this.state.fullScreenMap) this.setFullScreenMap(true); }}
+              onPanDrag={(e) => { if (!this.state.fullScreenMap) this.showFullScreenMap(true); }}
+              onPress={(e) => { if (!this.state.fullScreenMap) this.showFullScreenMap(true); }}
+              onLongPress={(e) => { if (!this.state.fullScreenMap) this.showFullScreenMap(true); }}
+              onMarkerDragStart={(e) => { if (!this.state.fullScreenMap) this.showFullScreenMap(true); }}
               followUserLocation={false}
+              liteMode
               toolbarEnabled={false}
               scrollEnabled={true}
               zoomEnabled={true}
@@ -145,10 +162,32 @@ class ServiceRequestDetail extends React.Component<Props, State> {
           </View>
           }
           {!this.state.fullScreenMap && (serviceRequest.mediaUrl || serviceRequest.mediaUrls) &&
-            <View style={styles.attachments}></View>
+            this.renderMedia(serviceRequest)
           }
         </View>
-        {!this.state.fullScreenMap &&
+      );
+    }
+  }
+
+  render() {
+    const { Header } = this.props.screenProps;
+    const { serviceRequest } = this.props.navigation.state.params;
+    return (
+      <View style={styles.container}>
+        <Header
+          style={styles.header}
+          titleStyle={styles.headerTitle}
+          title={this.parseDate(serviceRequest.requestedDateTime)}
+          leftAction={{
+            icon: BackIcon,
+            action: this.goBack,
+            style: {
+              tintColor: EStyleSheet.value('$colors.min'),
+            },
+          }}
+        />
+        { this.renderMetadata(serviceRequest) }
+        {(!this.state.fullScreenMap && !this.state.fullScreenImage) &&
         <View style={styles.content}>
           <Text style={styles.description}>{serviceRequest.description}</Text>
           <View style={styles.statusRow}>
@@ -160,7 +199,7 @@ class ServiceRequestDetail extends React.Component<Props, State> {
           </View>
         </View>
         }
-        {this.state.fullScreenMap &&
+        { (this.state.fullScreenMap || this.state.fullScreenImage) &&
           <TouchableOpacity
             onPress={this.hideFullScreenMap}
           >

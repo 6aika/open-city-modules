@@ -40,6 +40,10 @@ const styles = EStyleSheet.create({
   attachments: {
     flex:1,
   },
+  attachmentsFullScreen: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height - 50,
+  },
   footer: {
     height: 60,
     backgroundColor: '$colors.med',
@@ -52,6 +56,14 @@ const styles = EStyleSheet.create({
     fontSize: 48,
     fontWeight: '500',
   },
+  attachmentImage: {
+    flex: 1,
+    resizeMode: 'stretch'
+  },
+  attachmentImageFullScreen: {
+    flex: 1,
+    resizeMode: 'contain'
+  }
 });
 
 export default styles;

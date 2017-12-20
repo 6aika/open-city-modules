@@ -42,6 +42,10 @@ const styles = EStyleSheet.create({
   header: {
     backgroundColor: '$colors.med',
   },
+  checkbox: {
+    marginHorizontal: 24,
+    marginTop: 12,
+  }
 });
 
 export default styles;

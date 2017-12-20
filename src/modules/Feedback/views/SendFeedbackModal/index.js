@@ -7,14 +7,15 @@ import {
   ScrollView,
   Image,
   Platform,
-  ActivityIndicator
+  ActivityIndicator,
+  KeyboardAvoidingView
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import SendIcon from 'open-city-modules/img/send.png';
 import BackIcon from 'open-city-modules/img/arrow_back.png'
-import Header from 'open-city-modules/src/components/Header';
+import CheckBox from 'open-city-modules/src/components/CheckBox'
 import UpIcon from 'open-city-modules/img/map_up.png'
 import { postServiceRequest } from 'open-city-modules/src/modules/Feedback/requests'
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
@@ -31,21 +32,18 @@ class SendFeedbackModal extends Component {
 
 
     this.state = {
-      fullScreenMap: false,
+      fullScreenMap: true,
       attachments: [],
-      pickerData: [],
       selectedServiceType: null,
       locationEnabled: true,
+      userPosition: null,
     };
   }
 
   componentDidMount = () => {
-
+    this.setState({ fullScreenMap: false, userPosition: this.props.region })
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    this.setState({ pickerData: nextProps.serviceTypes })
-  }
 
   showFullScreenMap = () => {
     this.setState({ fullScreenMap: true });
@@ -141,6 +139,7 @@ class SendFeedbackModal extends Component {
   }
 
   sendServiceRequest = () => {
+    console.warn("Sending...")
     this.setState({ loading: true });
     const data = new FormData();
 
@@ -149,33 +148,31 @@ class SendFeedbackModal extends Component {
     data.append('title', this.state.titleText !== null ? this.state.titleText : '');
 
     if (this.state.locationEnabled) {
-      data.append('lat', this.props.region.latitude);
-      data.append('long', this.props.region.longitude);
+      data.append('lat', this.state.userPosition.latitude);
+      data.append('long', this.state.userPosition.longitude);
     }
 
     const attachments = this.state.attachments;
 
     if (attachments && attachments.length > 0) {
-      const mediaUrls = [];
-      for(key in attachments) {
-        const attachment = attachments[key];
-        const file = {
-          uri: attachment.image.source,
-          isStored: true,
-        }
-        mediaUrls.push({
-          ...file,
-          name: attachment.image.name,
-          type: 'image/jpeg',
-        })
-      }
 
-      data.append('media_urls', mediaUrls)
+      attachments.map(attachment => data.append(
+        'media',
+        {
+          name: attachment.image.name,
+          uri: attachment.image.source.uri,
+          type: 'image/jpeg',
+        },
+      ));
+
     }
+    console.warn(JSON.stringify(data))
     postServiceRequest(data).then(() => {
       this.setState({
         loading: false,
       });
+
+      this.props.toggleFeedbackModal();
     });
 
   }
@@ -192,10 +189,26 @@ class SendFeedbackModal extends Component {
     this.setState({ titleText: text })
   }
 
+  handleCheckBoxPress = () => {
+    console.warn("deed")
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({
+      locationEnabled: !this.state.locationEnabled,
+    });
+  }
+
+  onMinimapRegionChange = (region) => {
+    console.warn("saving regio")
+    this.setState({ userPosition: region })
+  }
+
+
+
   render() {
+    const { Header } = this.props.screenProps;
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
     return (
-      <View style={{ flex: 1 }}>
+      <KeyboardAvoidingView style={{ flex: 1 }}>
         <Header
           title={'UUSI PALAUTE'}
           style={styles.header}
@@ -212,30 +225,43 @@ class SendFeedbackModal extends Component {
           }}
         />
         <ScrollView style={{ flex: 1 }}>
-          <View style={minimapStyle} >
-            <Minimap
-              {...this.props}
-              region={this.props.region}
-              locationEnabled
-              fullScreenMap={this.state.fullScreenMap}
-              setFullScreenMap={this.showFullScreenMap}
-              onRegionChangeComplete={this.props.onMinimapRegionChange}
-            />
-
-          </View>
-          {!this.state.fullScreenMap &&
-            <View style={styles.feedbackForm}>
-              <FeedbackForm
-                selectedServiceType={this.state.selectedServiceType}
-                serviceTypes={this.state.pickerData}
-                attachments={this.state.attachments}
-                onAddAttachmentClick={this.onAddAttachmentClick}
-                onServiceTypeChange={this.onServiceTypeChange}
-                onChangeTitleText={this.onChangeTitleText}
-                onChangeFeedbackText={this.onChangeFeedbackText}
+          { this.state.locationEnabled &&
+            <View style={minimapStyle} >
+              <Minimap
+                {...this.props}
+                userPosition={this.state.userPosition}
+                region={this.props.region}
+                locationEnabled
+                fullScreenMap={this.state.fullScreenMap}
+                setFullScreenMap={this.showFullScreenMap}
+                onRegionChangeComplete={this.onMinimapRegionChange}
               />
+
             </View>
           }
+          <View style={[styles.feedbackForm, { flex: this.state.fullScreenMap && 0}]}>
+            <View>
+            <CheckBox
+              onCheckBoxPress={this.handleCheckBoxPress}
+              enabled={this.state.locationEnabled}
+              style={styles.checkbox}
+              size={20}
+              onPress={() => this.handleCheckBoxPress}
+              label={'Sisällytä sijainti palautteeseen'}
+            />
+
+            </View>
+            <FeedbackForm
+              selectedServiceType={this.state.selectedServiceType}
+              serviceTypes={this.props.serviceTypes}
+              attachments={this.state.attachments}
+              onAddAttachmentClick={this.onAddAttachmentClick}
+              onServiceTypeChange={this.onServiceTypeChange}
+              onChangeTitleText={this.onChangeTitleText}
+              onChangeFeedbackText={this.onChangeFeedbackText}
+            />
+          </View>
+
         </ScrollView>
         {this.state.fullScreenMap &&
           <TouchableOpacity
@@ -254,7 +280,7 @@ class SendFeedbackModal extends Component {
             <ActivityIndicator size="large" color={EStyleSheet.value('$colors.med')} />
           </View>
         }
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

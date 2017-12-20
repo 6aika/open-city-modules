@@ -50,9 +50,10 @@ const Header = ({
             <Text style={[styles.title, titleStyle]}>{title}</Text>
           </View>
         }
-        { buttons && buttons.map((button) => {
+        { buttons && buttons.map((button, index) => {
           return (
             <HeaderButton
+              key={index}
               {...button}
             />
           )

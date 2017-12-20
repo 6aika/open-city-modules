@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Platform,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   TextInput,
 } from 'react-native';
 import { type ServiceRequest } from 'open-city-modules/src/types'
@@ -27,13 +28,13 @@ type Props = {
 
 const MarkerPopup = ({
   data,
-  serviceRequest,
   onClick,
   onClose
 }: Props) => {
   const tintColor = Color(EStyleSheet.value('$colors.med'))
   return (
-    <View style={styles.container}>
+    <TouchableWithoutFeedback onPress={onClose} style={styles.container}>
+      <View style={styles.container}>
       <View style={styles.popup}>
         <View style={styles.header}>
           <Text style={styles.headerText}>{data && data.title}</Text>
@@ -55,6 +56,7 @@ const MarkerPopup = ({
         </TouchableOpacity>
       </View>
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 
