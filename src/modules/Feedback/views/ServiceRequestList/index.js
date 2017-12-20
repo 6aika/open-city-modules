@@ -100,6 +100,7 @@ class ServiceRequestList extends React.Component<Props, State> {
         ]}
         renderSectionFooter={this.renderFooter}
         renderItem={this.renderItem}
+        keyExtractor={this.keyExtractor}
       />
     );
   }

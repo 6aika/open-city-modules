@@ -40,14 +40,15 @@ export type ServiceRequest = {
   statusNotes: string;
   status: string;
   serviceCode: number;
+  title: ?string;
   serviceName: ?string;
   description: string;
   requestedDateTime: Date;
   updatedDateTime: Date;
   address: ?string;
   location: ?Location,
-  mediaUrl: Any,
-  mediaUrls: Array<Any>,
+  mediaUrl: ?string,
+  mediaUrls: ?Array<string>,
 }
 
 

@@ -37,6 +37,8 @@ class SendFeedbackModal extends Component {
       selectedServiceType: null,
       locationEnabled: true,
       userPosition: null,
+      descriptionText: '',
+      titleText: '',
     };
   }
 
@@ -74,8 +76,6 @@ class SendFeedbackModal extends Component {
       takePhotoButtonTitle: 'Ota kuva',
       chooseFromLibraryButtonTitle: 'Valitse kuva',
       mediaType: 'photo',
-      feedbackText: '',
-      titleText: '',
     };
 
     ImagePicker.showImagePicker(options, (response) => {
@@ -122,6 +122,7 @@ class SendFeedbackModal extends Component {
               this.removeAttachment(index)
             },
           };
+
           tempArray.push(attachment)
 
           this.setState({
@@ -155,18 +156,17 @@ class SendFeedbackModal extends Component {
     const attachments = this.state.attachments;
 
     if (attachments && attachments.length > 0) {
-
       attachments.map(attachment => data.append(
-        'media',
+        'media[]',
         {
           name: attachment.image.name,
           uri: attachment.image.source.uri,
-          type: 'image/jpeg',
+          isStored: true,
         },
       ));
-
     }
-    console.warn(JSON.stringify(data))
+
+
     postServiceRequest(data).then(() => {
       this.setState({
         loading: false,
@@ -182,7 +182,7 @@ class SendFeedbackModal extends Component {
   }
 
   onChangeFeedbackText = (text: string) => {
-    this.setState({ feedbackText: text })
+    this.setState({ descriptionText: text })
   }
 
   onChangeTitleText = (text: string) => {
@@ -202,21 +202,32 @@ class SendFeedbackModal extends Component {
     this.setState({ userPosition: region })
   }
 
+  validateFields = () => {
+    if (this.state.descriptionText.length < 10) {
+      return false;
+    }
 
+    if (!this.state.selectedServiceType) {
+      return false;
+    }
+
+    return true;
+  }
 
   render() {
     const { Header } = this.props.screenProps;
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
+    const validFields = this.validateFields();
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
         <Header
           title={'UUSI PALAUTE'}
           style={styles.header}
           titleStyle={styles.headerTitle}
           rightAction={{
             icon: SendIcon,
-            action: this.sendServiceRequest,
-            style: styles.headerIcon,
+            action: validFields ? this.sendServiceRequest : null,
+            style: validFields ? styles.headerIcon : styles.disabledIcon,
           }}
           leftAction={{
             icon: BackIcon,

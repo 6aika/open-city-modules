@@ -43,6 +43,9 @@ const styles = EStyleSheet.create({
   item: {
     flex: 1,
   },
+  title: {
+    fontSize: 18,
+  }
 
 });
 

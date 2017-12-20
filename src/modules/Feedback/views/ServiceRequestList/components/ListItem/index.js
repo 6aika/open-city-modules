@@ -31,6 +31,7 @@ const ListItem = ({
         <Text style={styles.date}>{getDate(serviceRequest.item.requestedDateTime)}</Text>
       </View>
       <View style={styles.item}>
+        <Text style={styles.title}>{serviceRequest.item.title}</Text>
         <View style={{flexDirection: 'row' }}>
           <Text numberOfLines={1} style={styles.description}>{serviceRequest.item.description}</Text>
         </View>

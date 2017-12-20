@@ -15,10 +15,12 @@ import { getServiceTypes, getServiceRequests, getServiceRequest } from 'open-ci
 import { StackNavigator } from 'react-navigation';
 import { type ServiceType } from 'open-city-modules/src/types'
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
+import MapView from 'react-native-maps';
+
 import FloatingActionButton from 'open-city-modules/src/components/FloatingActionButton';
 import ServiceRequestListView from 'open-city-modules/src/modules/Feedback/views/ServiceRequestList';
 import SendFeedbackModal from 'open-city-modules/src/modules/Feedback/views/SendFeedbackModal';
-import Header from 'open-city-modules/src/components/Header';
+import SubHeader from 'open-city-modules/src/components/Header';
 import PlusIcon from 'open-city-modules/img/plus.png'
 import Marker from 'open-city-modules/src/components/Marker';
 import MarkerNew from 'open-city-modules/img/marker_new.png';
@@ -52,12 +54,12 @@ class FeedbackModule extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      region: { // Coordinates for the visible area of the map
+      region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
         latitude: Config.DEFAULT_LATITUDE,
         longitude: Config.DEFAULT_LONGITUDE,
         latitudeDelta: 0.02,
         longitudeDelta: 0.02,
-      },
+      }),
       popupData: {
         title: '',
         body: '',
@@ -111,19 +113,11 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 
   onMapRegionChange = (region) => {
-    this.setState({
-      region,
-    });
+    this.state.region.setValue(region)
   }
 
   onMinimapRegionChange = (region) => {
-    this.setState({
-      region: {
-        ...region,
-        longitudeDelta: region.longitudeDelta,
-        latitudeDelta: region.latitudeDelta,
-      }
-    })
+    this.state.region.setValue(region)
   }
 
 
@@ -134,6 +128,8 @@ class FeedbackModule extends React.Component<Props, State> {
 
   getServiceRequests = async (serviceRequestsFetch: () => Array<ServiceRequest>) => {
     const result = await serviceRequestsFetch();
+    console.warn("res: +" + JSON.stringify(result))
+
     this.setState({ serviceRequests: result });
   }
 
@@ -144,13 +140,25 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 
   handleMarkerPressed = (serviceRequest) => {
+    let region = this.state.region;
+    if (serviceRequest.location.latitude && serviceRequest.location.longitude) {
+      region = ({
+        ...this.state.region,
+        latitude: serviceRequest.location.latitude,
+        longitude: serviceRequest.location.longitude,
+        latitudeDelta: 0.02,
+        longitudeDelta: 0.02,
+      })
+      this.state.region.setValue(region);
+    }
+
     this.setState({
       showMapPopup: true,
       activeServiceRequest: serviceRequest,
       popupData: {
         title: serviceRequest.requestedDateTime,
         body: serviceRequest.description
-      }
+      },
     });
   }
 
@@ -172,6 +180,8 @@ class FeedbackModule extends React.Component<Props, State> {
     }
   }
 
+
+
   centerMarker = (region) => {
     const location = {
       latitude: region.latitude,
@@ -187,6 +197,8 @@ class FeedbackModule extends React.Component<Props, State> {
 
 
   render() {
+    const { Header } = this.props.screenProps;
+
     const buttons = [
       {
         onPress: this.onMapPress,
@@ -209,10 +221,12 @@ class FeedbackModule extends React.Component<Props, State> {
       <View style={styles.container}>
         {!this.state.showFeedbackModal && this.state.activePage === MAP_PAGE &&
         <View style={styles.map}>
-          <Header
+          <Header />
+          <SubHeader
             buttons={buttons}
           />
           <ServiceRequestMap
+            onRegionChange={this.onRegionChange}
             region={this.state.region}
             onMarkerPressed={this.handleMarkerPressed}
             onRegionChangeComplete={this.onMapRegionChange}
@@ -222,7 +236,8 @@ class FeedbackModule extends React.Component<Props, State> {
         }
         { !this.state.showFeedbackModal && this.state.activePage === LIST_PAGE &&
         <View style={styles.map}>
-          <Header
+          <Header />
+          <SubHeader
             buttons={buttons}
           />
           <ServiceRequestListView
@@ -238,6 +253,8 @@ class FeedbackModule extends React.Component<Props, State> {
           onRequestClose={this.toggleFeedbackModal}
         >
           <SendFeedbackModal
+            screenProps={this.props.screenProps}
+            
             toggleFeedbackModal={this.toggleFeedbackModal}
             region={this.state.region}
             onMinimapRegionChange={this.onMinimapRegionChange}

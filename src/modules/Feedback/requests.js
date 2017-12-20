@@ -33,28 +33,23 @@ const request = (url, method, headers, body, data) =>
 export const parseServiceTypes = (response): Array<ServiceType> => {
   const serviceTypeList: Array<ServiceType> = [];
   const responseData = JSON.parse(response);
-  for (key in responseData) {
-    const item = responseData[key];
-    const serviceType: ServiceType = {
-      key: item.service_code,
-      label: item.service_name,
-      serviceCode: item.service_code,
-      serviceName: item.service_name,
-      description: item.description,
-      metadata: item.metadata,
-      type: item.type,
-      keywords: item.keywords,
-      group: item.group,
-    }
 
-    serviceTypeList.push(serviceType);
-  }
+  responseData.forEach(item => serviceTypeList.push({
+    key: item.service_code,
+    label: item.service_name,
+    serviceCode: item.service_code,
+    serviceName: item.service_name,
+    description: item.description,
+    metadata: item.metadata,
+    type: item.type,
+    keywords: item.keywords,
+    group: item.group,
+  }));
 
   return serviceTypeList;
 };
 
 export const parseServiceRequest = (serviceRequest): ServiceRequest => {
-
   return {
     id: serviceRequest.service_request_id,
     statusNotes: serviceRequest.status_notes,
@@ -64,13 +59,15 @@ export const parseServiceRequest = (serviceRequest): ServiceRequest => {
     description: serviceRequest.description,
     requestedDateTime: serviceRequest.requested_datetime,
     updatedDateTime: serviceRequest.updated_datetime,
+    title: serviceRequest.title,
     address: serviceRequest.address,
     location: {
-      latitude: serviceRequest.lat,
-      longitude: serviceRequest.long,
+      latitude: parseFloat(serviceRequest.lat),
+      longitude: parseFloat(serviceRequest.long),
     },
-    media_url: serviceRequest.mediaUrl,
-    media_urls: serviceRequest.mediaUrls,
+    mediaUrl: serviceRequest.media_url,
+    mediaUrls: serviceRequest.extended_attributes && serviceRequest.extended_attributes.media_urls,
+    test: 'heyoo',
   };
 };
 

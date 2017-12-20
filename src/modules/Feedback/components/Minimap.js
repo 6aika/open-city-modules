@@ -25,26 +25,38 @@ class Minimap extends Component {
   constructor(props, context) {
     super(props, context);
 
+    this.state = {
+      region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
+        latitude: Config.DEFAULT_LATITUDE,
+        longitude: Config.DEFAULT_LONGITUDE,
+        latitudeDelta: 0.001,
+        longitudeDelta: 0.001,
+      }),
+    }
   }
 
   mapHeight() {
-    if (!this.props.locationEnabled) {
-      return {
-        height: 0,
-      }
-    }
-    else if (this.props.fullScreenMap) {
-      return {
-        height: Dimensions.get('window').height - MAP_MARGIN
-      }
-    } else {
       return {
         height: MAP_HEIGHT,
       }
-    }
   }
 
+  componentDidMount = () => {
 
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    // if (nextProps.userPosition) {
+    //   this.setState({
+    //     region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
+    //       latitude: nextProps.userPosition.latitude,
+    //       longitude: nextProps.userPosition.longitude,
+    //       latitudeDelta: nextProps.userPosition.latitudeDelta,
+    //       longitudeDelta: nextProps.userPosition.longitudeDelta,
+    //     }),
+    //   })
+    // }
+  }
 
   render() {
     return (
@@ -57,11 +69,7 @@ class Minimap extends Component {
           >
             <MapView.Animated
               style={styles.map}
-              region={{
-                ...this.props.region,
-                latitudeDelta: this.props.region.latitudeDelta,
-                longitudeDelta: this.props.region.longitudeDelta,
-              }}
+              region={this.props.userPosition || this.state.region}
               provider='google'
               showsUserLocation={false}
               followUserLocation={false}
@@ -76,7 +84,7 @@ class Minimap extends Component {
             >
               <MapView.Marker.Animated
                 ref={(m) => this.marker = m}
-                coordinate={this.props.region}
+                coordinate={this.state.region}
                 onPress={(e) => this.props.setFullScreenMap(true)}
                 onDragEnd={(e) => this.updateMarkerPos(e.nativeEvent.coordinate, this.marker)}
               >

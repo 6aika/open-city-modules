@@ -4,6 +4,7 @@ import Color from 'color';
 const MARKER_IMAGE_SIZE = 48;
 
 const styles = EStyleSheet.create({
+  $disabled: () => Color(EStyleSheet.value('$colors.min')).alpha(0.5),
   minimap: {
     flex: 2,
   },
@@ -35,6 +36,9 @@ const styles = EStyleSheet.create({
   },
   headerIcon: {
     tintColor: '$colors.min',
+  },
+  disabledIcon: {
+    tintColor: '$disabled',
   },
   headerTitle: {
     color: '$colors.min',

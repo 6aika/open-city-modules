@@ -94,10 +94,20 @@ class ServiceRequestDetail extends React.Component<Props, State> {
     const attachmentImageStyle = this.state.fullScreenImage ? styles.attachmentImageFullScreen : styles.attachmentImage;
     if (serviceRequest.mediaUrls) {
       return (
-        <View style={attachmentsStyle}><Text>{serviceRequest.mediaUrls}</Text></View>
+        <View style={attachmentsStyle}>
+          <TouchableOpacity
+            onPress={this.showFullScreenImage}
+            style={{flex:1}}
+          >
+            <Image
+              style={attachmentImageStyle}
+              source={{ uri: serviceRequest.mediaUrls[0] }}
+            />
+          </TouchableOpacity>
+        </View>
       )
     } else if (serviceRequest.mediaUrl) {
-      console.warn(serviceRequest.mediaUrl)
+
       return(
         <View style={attachmentsStyle}>
           <TouchableOpacity

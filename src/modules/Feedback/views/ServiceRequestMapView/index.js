@@ -33,36 +33,26 @@ const ServiceRequestMapView = ({
   onRegionChangeComplete,
   onMarkerPressed,
   serviceRequests,
+  onRegionChange,
 }): Props => (
-  <MapView
+  <MapView.Animated
     style={styles.map}
     ref={(ref) => { this.mapView = ref; }}
-    initialRegion={
-      {
-        latitude: Config.DEFAULT_LATITUDE,
-        longitude: Config.DEFAULT_LONGITUDE,
-        latitudeDelta: 0.02,
-        longitudeDelta: 0.02,
-      }
-    }
+
     region={region}
     showsUserLocation
     provider={PROVIDER_GOOGLE}
     followUserLocation={false}
     toolbarEnabled={false}
-    // onRegionChange={this.onMapRegionChange(region)}
     // onPress={this.onMapViewClick.bind(this)}
     onRegionChangeComplete={onRegionChangeComplete}
   >
-    { serviceRequests && serviceRequests.map(serviceRequest => {
-      if (serviceRequest.location.latitude && serviceRequest.location.longitude)
+    { serviceRequests && serviceRequests.map((serviceRequest) => {
+      if (serviceRequest.location.latitude && serviceRequest.location.longitude) {
         return (
           <MapView.Marker
             key={serviceRequest.id}
-            coordinate={{
-              latitude: parseFloat(serviceRequest.location.latitude),
-              longitude: parseFloat(serviceRequest.location.longitude),
-            }}
+            coordinate={serviceRequest.location}
             onPress={() => onMarkerPressed(serviceRequest)}
 
           >
@@ -70,15 +60,12 @@ const ServiceRequestMapView = ({
               icon={MarkerNew}
             />
             <MapView.Callout tooltip={true}/>
-            {/* <MapView.Callout tooltip={true}>
-              <EmptyMarkerCallout />
-            </MapView.Callout> */}
           </MapView.Marker>
         );
       }
-    )
+    })
   }
-  </MapView>
+</MapView.Animated>
 );
 
 
