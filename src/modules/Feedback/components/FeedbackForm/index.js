@@ -13,9 +13,11 @@ import FormRow from 'open-city-modules/src/components/Form/FormRow';
 import Picker from 'open-city-modules/src/components/Form/Picker';
 import SendImage from 'open-city-modules/img/send.png';
 import Attachment from 'open-city-modules/src/modules/Feedback/components/FeedbackForm/Attachment';
+import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import { type AttachmentType, type ServiceType } from 'open-city-modules/src/types';
 import styles from './styles';
 
+const Config = getConfig();
 
 const ATTACHMENT_SIZE = 64;
 // Button which will have an absolute position on the bottom right corner
@@ -60,7 +62,7 @@ const FeedbackForm = ({
         inputHeight={120}
         multiline
       />
-
+      { attachments.length < Config.MAX_ATTACHMENTS &&
       <View style={styles.buttonContainer}>
         <Button
           style={styles.addAttachmentButton}
@@ -69,6 +71,7 @@ const FeedbackForm = ({
           onPress={onAddAttachmentClick}
         />
       </View>
+      }
       <ScrollView horizontal={true} style={styles.attachmentContainer}>
 
         { attachments.map((attachment: AttachmentType, index: number) => (

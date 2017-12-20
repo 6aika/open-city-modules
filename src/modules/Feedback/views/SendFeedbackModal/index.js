@@ -32,6 +32,7 @@ class SendFeedbackModal extends Component {
 
 
     this.state = {
+      loadingAttachment: false,
       fullScreenMap: true,
       attachments: [],
       selectedServiceType: null,
@@ -79,9 +80,10 @@ class SendFeedbackModal extends Component {
     };
 
     ImagePicker.showImagePicker(options, (response) => {
+      this.setState({ loadingAttachment: true });
+      
       let source = null;
       let fileName = null;
-
       if (response.error) {
         // TODO: Error handling
         console.warn("error picker")
@@ -127,12 +129,14 @@ class SendFeedbackModal extends Component {
 
           this.setState({
             attachments: tempArray,
+            loadingAttachment: false,
           });
 
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
         }).catch((err) => {
           console.warn("error resize")
+          this.setState({ loadingAttachment: false, })
           // showAlert(transError.feedbackImageErrorTitle, transError.feedbackImageErrorMessage, transError.feedbackImageErrorButton)
         });
       }
@@ -145,7 +149,7 @@ class SendFeedbackModal extends Component {
     const data = new FormData();
 
     data.append('service_code', this.state.selectedServiceType.key);
-    data.append('description', this.state.feedbackText);
+    data.append('description', this.state.descriptionText);
     data.append('title', this.state.titleText !== null ? this.state.titleText : '');
 
     if (this.state.locationEnabled) {
@@ -160,7 +164,7 @@ class SendFeedbackModal extends Component {
         'media[]',
         {
           name: attachment.image.name,
-          uri: attachment.image.source.uri,
+          uri: attachment.image.source.uri.uri,
           isStored: true,
         },
       ));
@@ -286,7 +290,7 @@ class SendFeedbackModal extends Component {
             </View>
           </TouchableOpacity>
         }
-        { this.state.loading &&
+        { this.state.loading || this.state.loadingAttachment &&
           <View style={styles.loadingSpinner}>
             <ActivityIndicator size="large" color={EStyleSheet.value('$colors.med')} />
           </View>

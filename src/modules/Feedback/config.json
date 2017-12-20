@@ -44,6 +44,7 @@
   "IMAGE_MAX_WIDTH": 1980,
   "IMAGE_QUALITY": 60,
   "IMAGE_FORMAT": "JPEG",
+  "MAX_ATTACHMENTS": 5,
 
 
   // Service category blacklist, these categories are not used and need to be excluded
