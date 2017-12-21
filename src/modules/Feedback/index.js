@@ -16,7 +16,7 @@ import { StackNavigator } from 'react-navigation';
 import { type ServiceType } from 'open-city-modules/src/types'
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import MapView from 'react-native-maps';
-
+import { parseDate } from 'open-city-modules/src/util'
 import FloatingActionButton from 'open-city-modules/src/components/FloatingActionButton';
 import ServiceRequestListView from 'open-city-modules/src/modules/Feedback/views/ServiceRequestList';
 import SendFeedbackModal from 'open-city-modules/src/modules/Feedback/views/SendFeedbackModal';
@@ -170,7 +170,7 @@ class FeedbackModule extends React.Component<Props, State> {
       showMapPopup: true,
       activeServiceRequest: serviceRequest,
       popupData: {
-        title: serviceRequest.requestedDateTime,
+        title: parseDate(serviceRequest.requestedDateTime),
         body: serviceRequest.description
       },
     });
