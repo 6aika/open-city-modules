@@ -81,7 +81,7 @@ class SendFeedbackModal extends Component {
 
     ImagePicker.showImagePicker(options, (response) => {
       this.setState({ loadingAttachment: true });
-      
+
       let source = null;
       let fileName = null;
       if (response.error) {
@@ -254,7 +254,7 @@ class SendFeedbackModal extends Component {
 
             </View>
           }
-          <View style={[styles.feedbackForm, { flex: this.state.fullScreenMap && 0}]}>
+          <View style={[styles.feedbackForm, this.state.fullScreenMap && { flex: 0 }]}>
             <View>
             <CheckBox
               onCheckBoxPress={this.handleCheckBoxPress}
