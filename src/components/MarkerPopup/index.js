@@ -37,10 +37,20 @@ const MarkerPopup = ({
       <View style={styles.container}>
       <View style={styles.popup}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>{data && data.title}</Text>
+          <Text
+            numberOfLines={1}
+            style={styles.headerText}
+          >
+            {data && data.title}
+          </Text>
         </View>
         <View style={styles.body}>
-          <Text style={styles.bodyText}>{data && data.body}</Text>
+          <Text
+            style={styles.bodyText}
+            numberOfLines={2}
+          >
+            {data && data.body}
+          </Text>
         </View>
         <TouchableOpacity
           style={styles.okButton}
