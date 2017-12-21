@@ -55,9 +55,8 @@ const createSingleChoiceStep = (
     }
 
     select = (option: string) => {
-      this.setState({ selectedOption: option });
       const newProfile: Profile = cloneDeep(this.props.profile);
-      newProfile[this.props.choiceKey] = this.state.selectedOption;
+      newProfile[this.props.choiceKey] = option;
       if (onNextPress) {
         onNextPress(newProfile);
       }
