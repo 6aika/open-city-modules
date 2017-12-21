@@ -25,6 +25,8 @@ import PlusIcon from 'open-city-modules/img/plus.png'
 import Marker from 'open-city-modules/src/components/Marker';
 import MarkerNew from 'open-city-modules/img/marker_new.png';
 import MarkerPopup from 'open-city-modules/src/components/MarkerPopup';
+import i18n from 'open-city-modules/src/modules/Feedback/translations';
+import { translate } from 'react-i18next';
 import styles from './styles';
 
 const MAP_PAGE = 'map';
@@ -34,7 +36,7 @@ const Config = getConfig();
 
 
 type Props = {
-
+  t: string => string,
 };
 
 type State = {
@@ -46,10 +48,6 @@ type State = {
   serviceTypes: Array<ServiceType>
 };
 
-
-/*
- An onboarding step component where the user can select one option from many
- */
 class FeedbackModule extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -196,17 +194,17 @@ class FeedbackModule extends React.Component<Props, State> {
 
   render() {
     const { Header } = this.props.screenProps;
-
+    const { t } = this.props;
     const buttons = [
       {
         onPress: this.onMapPress,
         active: this.state.activePage === MAP_PAGE,
-        title: 'KARTTA',
+        title: t('map').toUpperCase(),
       },
       {
         onPress: this.onListPress,
         active: this.state.activePage === LIST_PAGE,
-        title: 'LISTA',
+        title: t('list').toUpperCase(),
       },
     ];
     const serviceRequestDetailPopup =
@@ -278,7 +276,7 @@ class FeedbackModule extends React.Component<Props, State> {
 const FeedbackStack = StackNavigator(
   {
     Map: {
-      screen: FeedbackModule,
+      screen: translate()(FeedbackModule),
     },
     Detail: {
       screen: ServiceRequestDetail
@@ -292,5 +290,27 @@ const FeedbackStack = StackNavigator(
   },
 );
 
+type ModuleProps = {
+  screenProps: { locale: string },
+};
 
-export default FeedbackStack;
+// eslint-disable-next-line
+class Feedback extends React.Component<ModuleProps> {
+  componentWillMount() {
+    if (this.props.screenProps.locale) {
+      i18n.changeLanguage(this.props.screenProps.locale);
+    }
+  }
+
+  componentWillReceiveProps(nextProps: ModuleProps) {
+    if (this.props.screenProps.locale !== nextProps.screenProps.locale) {
+      i18n.changeLanguage(this.props.screenProps.locale);
+    }
+  }
+
+  render() {
+    return <FeedbackStack screenProps={this.props.screenProps} />;
+  }
+}
+
+export default Feedback;
