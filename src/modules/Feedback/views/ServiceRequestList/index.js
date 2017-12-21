@@ -41,6 +41,10 @@ class ServiceRequestList extends React.Component<Props, State> {
 
 
   componentWillMount = () => {
+    if(this.props.data) {
+      const sections = this.parseDataToSections(this.props.data)
+      this.setState({ sections })
+    }
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -50,20 +54,41 @@ class ServiceRequestList extends React.Component<Props, State> {
     }
   }
 
-  parseDataToSections = (data: Array<ServiceRequest>) => {
-    let sections = {};
+  resolveMonthString = (date) => {
+    const monthNames = ["Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu",
+    "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"];
 
-    data.map(item => {
+    const mDate = new Date(date);
+    return monthNames[mDate.getMonth()] + ", " + mDate.getFullYear();
+  }
+
+  parseDataToSections = (data: Array<ServiceRequest>) => {
+    let sections = [];
+
+    data.map((item) => {
       const date = new Date(item.updatedDateTime);
       const month = date.getMonth();
+      const year = date.getFullYear();
+      key = `${year}-${month}`;
+      const title = this.resolveMonthString(item.updatedDateTime);
+      let found = false;
 
-      if(!(month in sections)) {
-        sections[month] = [item]
-      } else {
-        sections[month].push(item)
+      sections.forEach((section) => {
+        if (key === section.key) {
+          section.data.push(item);
+          found = true;
+        }
+      });
+
+      if (!found) {
+        sections.push({
+          data: [item],
+          key,
+          title
+        });
+        found = false;
       }
     })
-
     return sections
   }
 
@@ -92,13 +117,20 @@ class ServiceRequestList extends React.Component<Props, State> {
     return (<View style={styles.footer} />)
   }
 
+  renderSectionHeader = (section) => {
+    return (
+      <View style={styles.sectionHeaderContainer}>
+        <Text style={styles.sectionHeader}>{section.section.title}</Text>
+      </View>
+    )
+  }
+
   render() {
     return (
       <SectionList
-        sections={[
-          { data: this.props.data, key: "december", title: "December"}
-        ]}
+        sections={this.state.sections}
         renderSectionFooter={this.renderFooter}
+        renderSectionHeader={this.renderSectionHeader}
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
       />

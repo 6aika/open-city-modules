@@ -35,37 +35,37 @@ const MarkerPopup = ({
   return (
     <TouchableWithoutFeedback onPress={onClose} style={styles.container}>
       <View style={styles.container}>
-      <View style={styles.popup}>
-        <View style={styles.header}>
-          <Text
-            numberOfLines={1}
-            style={styles.headerText}
+        <View style={styles.popup}>
+          <View style={styles.header}>
+            <Text
+              numberOfLines={1}
+              style={styles.headerText}
+            >
+              {data && data.title}
+            </Text>
+          </View>
+          <View style={styles.body}>
+            <Text
+              style={styles.bodyText}
+              numberOfLines={2}
+            >
+              {data && data.body}
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={styles.okButton}
+            onPress={onClick}
           >
-            {data && data.title}
-          </Text>
-        </View>
-        <View style={styles.body}>
-          <Text
-            style={styles.bodyText}
-            numberOfLines={2}
+            <Icon name="keyboard-arrow-right" size={32} color={tintColor} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={onClose}
           >
-            {data && data.body}
-          </Text>
+            <Icon name="close" size={24} color={tintColor} />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={styles.okButton}
-          onPress={onClick}
-        >
-          <Icon name="keyboard-arrow-right" size={32} color={tintColor} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.closeButton}
-          onPress={onClose}
-        >
-          <Icon name="close" size={24} color={tintColor} />
-        </TouchableOpacity>
       </View>
-    </View>
     </TouchableWithoutFeedback>
   );
 };

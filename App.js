@@ -4,6 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { withProps } from 'recompose';
 
 import FeedbackModule from 'open-city-modules/src/modules/Feedback';
+import Header from 'open-city-modules/src/components/Header';
 import {
   ChoiceView,
   createSingleChoiceStep,
@@ -56,7 +57,24 @@ const OnboardingMock = () => {
     colors,
     locale: 'fi',
   };
-  return <SingleChoiceStep {...stepProps} />;
+  return <FeedbackModule />;
 };
 
-export default OnboardingMock;
+const FeedbackModuleMock = () => {
+  const colors = {
+    min: 'white',
+    med: 'blue',
+    max: 'black',
+  };
+
+  const screenProps = {
+    colors,
+    locale: 'fi',
+    profile: { },
+    Header,
+  }
+
+  return <FeedbackModule screenProps={screenProps} />
+}
+
+export default FeedbackModuleMock;

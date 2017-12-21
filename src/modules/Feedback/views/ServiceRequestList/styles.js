@@ -4,6 +4,16 @@ const styles = EStyleSheet.create({
   $statusColor: () => Color(EStyleSheet.value('$colors.max')).alpha(0.4),
   footer: {
     height: 72,
+  },
+  sectionHeader: {
+    fontSize: 18,
+    backgroundColor: 'transparent',
+    fontWeight: 'bold'
+  },
+  sectionHeaderContainer: {
+    flex: 1,
+    marginVertical: 12,
+    marginHorizontal: 24,
   }
 });
 
