@@ -93,7 +93,6 @@ class ServiceRequestDetail extends React.Component<Props, State> {
   }
 
   renderMultipleMedia = (mediaUrls) => {
-console.disableYellowBox = true;
     if (!this.state.fullScreenImage) {
       return (
         <View style={styles.attachments}>
@@ -153,14 +152,13 @@ console.disableYellowBox = true;
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
 
     const hiddenStyle = { flex: 0 };
-
+    const hasLocation = serviceRequest.location && serviceRequest.location.latitude ? true : false;
     if ((serviceRequest.location.latitude && serviceRequest.location.longitude)
-      || serviceRequest.mediaUrl || serviceRequest.mediaurls) {
-
+      || serviceRequest.mediaUrl || serviceRequest.mediaUrls) {
 
       return (
         <View style={styles.metadata}>
-          { serviceRequest.location.latitude && serviceRequest.location.longitude &&
+          { hasLocation &&
           <View style={styles.minimap}>
             <MapView
               style={minimapStyle}
@@ -232,7 +230,6 @@ console.disableYellowBox = true;
         />
         { this.renderMetadata(serviceRequest) }
 
-
         {(!this.state.fullScreenMap && !this.state.fullScreenImage) &&
         <View style={styles.content}>
           <ScrollView>
@@ -244,17 +241,18 @@ console.disableYellowBox = true;
             <Text style={styles.status}>{parseDate(serviceRequest.updatedDateTime) + ' Palvelupyyntö lähetetty'}</Text>
             {serviceRequest.statusNotes && serviceRequest.statusNotes.map((statusNote) => {
               <Text style={styles.status}>{statusNote}</Text>
-
             })}
           </View>
-          <View style={styles.statusNotesContainer}>
-            <Text
-              multiline
-              style={styles.statusNote}
-            >
-              {serviceRequest.statusNotes}
-            </Text>
-          </View>
+            { serviceRequest.statusNotes &&
+            <View style={styles.statusNotesContainer}>
+              <Text
+                multiline
+                style={styles.statusNote}
+              >
+                {serviceRequest.statusNotes}
+              </Text>
+            </View>
+            }
           </ScrollView>
         </View>
         }
