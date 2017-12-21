@@ -49,7 +49,7 @@ const OnboardingMock = () => {
   const noop = () => {};
   const stepProps = {
     ...customProps,
-    next: noop,
+    next: () => console.warn('next'),
     previous: noop,
     profile: {},
     step: 0,
@@ -57,7 +57,7 @@ const OnboardingMock = () => {
     colors,
     locale: 'fi',
   };
-  return <FeedbackModule />;
+  return <SingleChoiceStep {...stepProps} />;
 };
 
 const FeedbackModuleMock = () => {
@@ -77,4 +77,4 @@ const FeedbackModuleMock = () => {
   return <FeedbackModule screenProps={screenProps} />
 }
 
-export default FeedbackModuleMock;
+export default OnboardingMock;

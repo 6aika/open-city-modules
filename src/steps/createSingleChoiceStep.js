@@ -56,9 +56,6 @@ const createSingleChoiceStep = (
 
     select = (option: string) => {
       this.setState({ selectedOption: option });
-    }
-
-    handleNextPress = () => {
       const newProfile: Profile = cloneDeep(this.props.profile);
       newProfile[this.props.choiceKey] = this.state.selectedOption;
       if (onNextPress) {
@@ -87,8 +84,8 @@ const createSingleChoiceStep = (
           options={optionsWithSelected}
           onOptionPress={this.select}
           onPreviousPress={this.handlePreviousPress}
-          onNextPress={this.handleNextPress}
-          nextDisabled={!selectedOption}
+          onNextPress={() => null}
+          nextDisabled
           step={step}
           totalSteps={totalSteps}
           t={t}
