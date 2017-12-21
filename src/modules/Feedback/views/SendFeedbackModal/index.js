@@ -87,8 +87,11 @@ class SendFeedbackModal extends Component {
       if (response.error) {
         // TODO: Error handling
         console.warn("error picker")
+        this.setState({ loadingAttachment: false });
+
         // showAlert(transError.attachmentErrorTitle, transError.attachmentErrorMessage, transError.attachmentError);
       } else if (response.didCancel) {
+        this.setState({ loadingAttachment: false });
         source = null;
       } else {
 
