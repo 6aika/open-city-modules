@@ -225,7 +225,8 @@ class SendFeedbackModal extends Component {
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
     const validFields = this.validateFields();
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+      <KeyboardAvoidingView style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}>
         <Header
           title={'UUSI PALAUTE'}
           style={styles.header}
