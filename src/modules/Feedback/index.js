@@ -7,7 +7,7 @@ import {
   Modal,
   Platform,
   Image,
-  UIManager
+  UIManager,
 } from 'react-native';
 import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView'
 import ServiceRequestDetail from 'open-city-modules/src/modules/Feedback/views/ServiceRequestDetail'
@@ -81,13 +81,6 @@ class FeedbackModule extends React.Component<Props, State> {
     this.getServiceRequests(getServiceRequests);
   }
 
-
-  onRegionChange = (e) => {
-    this.setState({
-      region: e,
-    });
-  }
-
   onMapViewClick() {
     if (this.state.showMapPopup) {
       this.setState({
@@ -120,6 +113,27 @@ class FeedbackModule extends React.Component<Props, State> {
     this.state.region.setValue(region)
   }
 
+  getGeoLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.centerMapToLocation(position.coords)
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+  };
+
+  centerMapToLocation = (position: Location) => {
+    this.setState({
+      region: new MapView.AnimatedRegion({
+        latitude: position.latitude,
+        longitude: position.longitude,
+        latitudeDelta: 0.02,
+        longitudeDelta: 0.02,
+      })
+    })
+
+  }
 
   getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
     const result = await serviceTypeFetch();
@@ -180,22 +194,6 @@ class FeedbackModule extends React.Component<Props, State> {
     }
   }
 
-
-
-  centerMarker = (region) => {
-    const location = {
-      latitude: region.latitude,
-      longitude: region.longitude,
-    };
-
-    this.setState({
-      userPosition: location,
-      region
-    });
-  }
-
-
-
   render() {
     const { Header } = this.props.screenProps;
 
@@ -226,7 +224,8 @@ class FeedbackModule extends React.Component<Props, State> {
             buttons={buttons}
           />
           <ServiceRequestMap
-            onRegionChange={this.onRegionChange}
+            centerToGeoLocation={() => this.getGeoLocation()}
+            onRegionChange={this.onMapRegionChange}
             region={this.state.region}
             onMarkerPressed={this.handleMarkerPressed}
             onRegionChangeComplete={this.onMapRegionChange}
@@ -254,7 +253,7 @@ class FeedbackModule extends React.Component<Props, State> {
         >
           <SendFeedbackModal
             screenProps={this.props.screenProps}
-            
+
             toggleFeedbackModal={this.toggleFeedbackModal}
             region={this.state.region}
             onMinimapRegionChange={this.onMinimapRegionChange}
