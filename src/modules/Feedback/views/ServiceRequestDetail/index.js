@@ -11,20 +11,20 @@ import MapView from 'react-native-maps';
 import BackIcon from 'open-city-modules/img/arrow_back.png';
 import { type ServiceRequest } from 'open-city-modules/src/types';
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
-import UpIcon from 'open-city-modules/img/map_up.png'
+import UpIcon from 'open-city-modules/img/map_up.png';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import Swiper from 'react-native-swiper';
 import Marker from 'open-city-modules/src/components/Marker';
 import MarkerIcon from 'open-city-modules/img/marker_default.png';
 import styles from './styles';
-const Config = getConfig();
-import EStyleSheet from 'react-native-extended-stylesheet';
 
+const Config = getConfig();
 
 type Props = {
 };
 
 type State = {
 };
-
 
 /*
  An onboarding step component where the user can select one option from many
@@ -59,21 +59,6 @@ class ServiceRequestDetail extends React.Component<Props, State> {
     this.props.navigation.goBack();
   }
 
-  getRegion = (serviceRequest) => {
-    if (
-      serviceRequest.location
-      && serviceRequest.location.latitude
-      && serviceRequest.location.longitude
-    ) {
-      return {
-        latitude: 25,
-        longitude: 25,
-        latitudeDelta: 0.02,
-        longitudeDelta: 0.02,
-      };
-    }
-  }
-
   showFullScreenMap = () => {
     this.setState({ fullScreenMap: true });
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -89,43 +74,84 @@ class ServiceRequestDetail extends React.Component<Props, State> {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
-  renderMedia = (serviceRequest) => {
-    const attachmentsStyle = this.state.fullScreenImage ? styles.attachmentsFullScreen : styles.attachments;
-    const attachmentImageStyle = this.state.fullScreenImage ? styles.attachmentImageFullScreen : styles.attachmentImage;
-    if (serviceRequest.mediaUrls) {
+  renderImageSwiper = (attachments) => {
+    return (
+
+      <Swiper>
+        {attachments.map(attachment => {
+          return (
+            <Image
+              style={{flex:1}}
+              source={{ uri: attachment }}
+            />
+          )
+        })}
+      </Swiper>
+    )
+  }
+
+  renderMultipleMedia = (mediaUrls) => {
+console.disableYellowBox = true;
+    if (!this.state.fullScreenImage) {
       return (
-        <View style={attachmentsStyle}>
+        <View style={styles.attachments}>
           <TouchableOpacity
             onPress={this.showFullScreenImage}
-            style={{flex:1}}
+            style={{ flex: 1 }}
           >
             <Image
-              style={attachmentImageStyle}
-              source={{ uri: serviceRequest.mediaUrls[0] }}
+              style={styles.attachmentImage}
+              source={{ uri: mediaUrls[0] }}
             />
+            <View style={styles.imageTag}>
+              <Text style={styles.tag}>{"+" + (mediaUrls.length - 1)}</Text>
+            </View>
           </TouchableOpacity>
         </View>
       )
-    } else if (serviceRequest.mediaUrl) {
-
-      return(
-        <View style={attachmentsStyle}>
-          <TouchableOpacity
-            onPress={this.showFullScreenImage}
-            style={{flex:1}}
-          >
-            <Image
-              style={attachmentImageStyle}
-              source={{ uri: serviceRequest.mediaUrl }}
-            />
-          </TouchableOpacity>
+    } else if (this.state.fullScreenImage) {
+      return (
+        <View style={styles.attachmentsFullScreen}>
+          <Swiper style={{}}>
+          {mediaUrls.map(media => {
+            return (
+              <Image
+                style={styles.attachmentImageFullScreen}
+                source={{ uri: media }}
+              />
+            )
+          })}
+          </Swiper>
         </View>
       )
     }
+
+  }
+
+  renderSingleMedia = (mediaUrl) => {
+    const attachmentsStyle = this.state.fullScreenImage ? styles.attachmentsFullScreen : styles.attachments;
+    const attachmentImageStyle = this.state.fullScreenImage ? styles.attachmentImageFullScreen : styles.attachmentImage;
+
+    return (
+      <View style={attachmentsStyle}>
+        <TouchableOpacity
+          onPress={this.showFullScreenImage}
+          style={{flex:1}}
+        >
+          <Image
+            style={attachmentImageStyle}
+            source={{ uri: mediaUrl }}
+          />
+        </TouchableOpacity>
+      </View>
+    )
   }
 
   renderMetadata = (serviceRequest) => {
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
+
+    const hiddenStyle = { flex: 0 };
+
     if ((serviceRequest.location.latitude && serviceRequest.location.longitude)
       || serviceRequest.mediaUrl || serviceRequest.mediaurls) {
 
@@ -171,8 +197,14 @@ class ServiceRequestDetail extends React.Component<Props, State> {
             </MapView>
           </View>
           }
-          {!this.state.fullScreenMap && (serviceRequest.mediaUrl || serviceRequest.mediaUrls) &&
-            this.renderMedia(serviceRequest)
+          {!this.state.fullScreenMap && (serviceRequest.mediaUrl) &&
+            this.renderSingleMedia(serviceRequest.mediaUrl)
+          }
+          {!this.state.fullScreenMap && (serviceRequest.mediaUrls && serviceRequest.mediaUrls.length === 1) &&
+            this.renderSingleMedia(serviceRequest.mediaUrls[0])
+          }
+          {!this.state.fullScreenMap && (serviceRequest.mediaUrls && serviceRequest.mediaUrls.length > 1) &&
+            this.renderMultipleMedia(serviceRequest.mediaUrls)
           }
         </View>
       );

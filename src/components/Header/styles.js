@@ -46,12 +46,13 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
   },
   title: {
-    fontSize: 30,
-    fontWeight: '700',
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingHorizontal: 16,
   },
   titleContainer: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
   },
   rightAction: {

@@ -1,5 +1,7 @@
 import { Dimensions } from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Color from 'color';
+
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
@@ -22,9 +24,11 @@ const styles = EStyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 8,
+    backgroundColor: 'transparent',
   },
   description: {
     fontSize: 16,
+    backgroundColor: 'transparent',
   },
   status: {
     marginVertical: 8,
@@ -47,7 +51,7 @@ const styles = EStyleSheet.create({
   },
   attachmentsFullScreen: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height - 50,
+    height: Dimensions.get('window').height - 120,
   },
   footer: {
     height: 60,
@@ -68,6 +72,15 @@ const styles = EStyleSheet.create({
   attachmentImageFullScreen: {
     flex: 1,
     resizeMode: 'contain'
+  },
+  imageTag: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    backgroundColor: () => Color(EStyleSheet.value('$colors.min')).alpha(0.7)
+  },
+  tag: {
+    padding: 4,
   }
 });
 
