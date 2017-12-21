@@ -247,6 +247,14 @@ console.disableYellowBox = true;
 
             })}
           </View>
+          <View style={styles.statusNotesContainer}>
+            <Text
+              multiline
+              style={styles.statusNote}
+            >
+              {serviceRequest.statusNotes}
+            </Text>
+          </View>
           </ScrollView>
         </View>
         }

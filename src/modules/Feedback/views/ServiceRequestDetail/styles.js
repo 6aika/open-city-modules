@@ -81,6 +81,16 @@ const styles = EStyleSheet.create({
   },
   tag: {
     padding: 4,
+  },
+  statusNotesContainer: {
+    backgroundColor: () => Color(EStyleSheet.value('$colors.med')).alpha(0.05),
+    marginLeft: 12,
+    borderLeftWidth: 3,
+    borderColor: () => Color(EStyleSheet.value('$colors.med')).alpha(0.6),
+
+  },
+  statusNote: {
+    padding: 8
   }
 });
 
