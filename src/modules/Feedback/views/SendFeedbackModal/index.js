@@ -111,7 +111,6 @@ class SendFeedbackModal extends Component {
           response.uri = resizedImageUri;
           const tempArray = this.state.attachments
           const image = {
-            data: response,
             source: resizedSource,
             name: response.fileName
           }
@@ -158,7 +157,6 @@ class SendFeedbackModal extends Component {
     }
 
     const attachments = this.state.attachments;
-
     if (attachments && attachments.length > 0) {
       attachments.map(attachment => data.append(
         'media[]',
@@ -166,6 +164,7 @@ class SendFeedbackModal extends Component {
           name: attachment.image.name,
           uri: attachment.image.source.uri.uri,
           isStored: true,
+          type: 'image/jpeg'
         },
       ));
     }
