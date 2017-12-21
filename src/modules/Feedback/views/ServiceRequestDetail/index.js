@@ -6,8 +6,10 @@ import {
   Image,
   LayoutAnimation,
   TouchableOpacity,
+  ScrollView
 } from 'react-native';
 import MapView from 'react-native-maps';
+import { parseDate } from 'open-city-modules/src/util'
 import BackIcon from 'open-city-modules/img/arrow_back.png';
 import { type ServiceRequest } from 'open-city-modules/src/types';
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
@@ -65,7 +67,7 @@ class ServiceRequestDetail extends React.Component<Props, State> {
   }
 
   hideFullScreenMap = () => {
-    this.setState({ fullScreenMap: false, fullScreenImage: false, });
+    this.setState({ fullScreenMap: false, fullScreenImage: false });
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
@@ -219,7 +221,7 @@ console.disableYellowBox = true;
         <Header
           style={styles.header}
           titleStyle={styles.headerTitle}
-          title={this.parseDate(serviceRequest.requestedDateTime)}
+          title={parseDate(serviceRequest.updatedDateTime)}
           leftAction={{
             icon: BackIcon,
             action: this.goBack,
@@ -229,21 +231,26 @@ console.disableYellowBox = true;
           }}
         />
         { this.renderMetadata(serviceRequest) }
+
+
         {(!this.state.fullScreenMap && !this.state.fullScreenImage) &&
         <View style={styles.content}>
+          <ScrollView>
           { serviceRequest.title &&
             <Text style={styles.title}>{serviceRequest.title}</Text>
           }
           <Text style={styles.description}>{serviceRequest.description}</Text>
           <View style={styles.statusRow}>
-            <Text style={styles.status}>{this.parseDate(serviceRequest.requestedDateTime) + ' Palvelupyyntö lähetetty'}</Text>
+            <Text style={styles.status}>{parseDate(serviceRequest.updatedDateTime) + ' Palvelupyyntö lähetetty'}</Text>
             {serviceRequest.statusNotes && serviceRequest.statusNotes.map((statusNote) => {
               <Text style={styles.status}>{statusNote}</Text>
 
             })}
           </View>
+          </ScrollView>
         </View>
         }
+
         { (this.state.fullScreenMap || this.state.fullScreenImage) &&
           <TouchableOpacity
             onPress={this.hideFullScreenMap}
