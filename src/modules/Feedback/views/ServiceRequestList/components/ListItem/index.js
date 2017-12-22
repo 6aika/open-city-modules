@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { t } from 'open-city-modules/src/modules/Feedback/translations';
 import { type ServiceRequest } from 'open-city-modules/src/types';
 import styles from './styles';
 
@@ -36,7 +37,7 @@ const ListItem = ({
           <Text numberOfLines={1} style={styles.description}>{serviceRequest.item.description}</Text>
         </View>
         <View>
-          <Text style={styles.status}>{serviceRequest.item.status}</Text>
+          <Text style={styles.status}>{t(serviceRequest.item.status)}</Text>
         </View>
       </View>
     </TouchableOpacity>

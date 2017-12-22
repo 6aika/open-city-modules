@@ -57,7 +57,7 @@ class ServiceRequestList extends React.Component<Props, State> {
   resolveMonthString = (date) => {
     const monthNames = [t('january'), t('february'), t('march'), t('april'),
     t('may'), t('june'), t('july'), t('august'), t('september'), t('october'),
-    t('december')];
+    t('november'), t('december')];
 
     const mDate = new Date(date);
     return monthNames[mDate.getMonth()] + ", " + mDate.getFullYear();
