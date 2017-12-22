@@ -33,14 +33,13 @@ const MarkerPopup = ({
 }: Props) => {
   const tintColor = Color(EStyleSheet.value('$colors.med'))
   return (
-    <View
-      onStartShouldSetResponder={onClose}
+    <TouchableWithoutFeedback
       style={styles.container}
+      onPress={onClose}
      >
       <View
-        onStartshouldSetResponder={() => null}
         style={styles.container}>
-        <View style={styles.popup}>
+        <TouchableOpacity onPress={onClick} style={styles.popup}>
           <View style={styles.header}>
             <Text
               numberOfLines={1}
@@ -57,21 +56,20 @@ const MarkerPopup = ({
               {data && data.body}
             </Text>
           </View>
-          <TouchableOpacity
+          <View
             style={styles.okButton}
-            onPress={onClick}
           >
             <Icon name="keyboard-arrow-right" size={32} color={tintColor} />
-          </TouchableOpacity>
+          </View>
           <TouchableOpacity
             style={styles.closeButton}
             onPress={onClose}
           >
             <Icon name="close" size={24} color={tintColor} />
           </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
