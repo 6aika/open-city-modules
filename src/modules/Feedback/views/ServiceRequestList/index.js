@@ -71,7 +71,6 @@ class ServiceRequestList extends React.Component<Props, State> {
       const month = date.getMonth();
       const year = date.getFullYear();
       key = `${year}-${month}`;
-      const title = this.resolveMonthString(item.updatedDateTime);
       let found = false;
 
       sections.forEach((section) => {
@@ -82,6 +81,8 @@ class ServiceRequestList extends React.Component<Props, State> {
       });
 
       if (!found) {
+        const title = this.resolveMonthString(item.updatedDateTime);
+
         sections.push({
           data: [item],
           key,
