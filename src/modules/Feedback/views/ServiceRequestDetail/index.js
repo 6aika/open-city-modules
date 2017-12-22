@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView
 } from 'react-native';
+import { t } from 'open-city-modules/src/modules/Feedback/translations';
 import MapView from 'react-native-maps';
 import { parseDate } from 'open-city-modules/src/util'
 import BackIcon from 'open-city-modules/img/arrow_back.png';
@@ -222,7 +223,7 @@ class ServiceRequestDetail extends React.Component<Props, State> {
           }
           <Text style={styles.description}>{serviceRequest.description}</Text>
           <View style={styles.statusRow}>
-            <Text style={styles.status}>{parseDate(serviceRequest.updatedDateTime) + ' Palvelupyyntö lähetetty'}</Text>
+            <Text style={styles.status}>{parseDate(serviceRequest.updatedDateTime) + t('serviceRequestReceived')}</Text>
           </View>
             { serviceRequest.statusNotes &&
             <View style={styles.statusNotesContainer}>

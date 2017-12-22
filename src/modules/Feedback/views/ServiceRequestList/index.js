@@ -6,7 +6,7 @@ import {
   SectionList,
   Text
 } from 'react-native';
-
+import { t } from 'open-city-modules/src/modules/Feedback/translations';
 import { type ServiceRequest } from 'open-city-modules/src/types';
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import ListItem from './components/ListItem'
@@ -55,8 +55,9 @@ class ServiceRequestList extends React.Component<Props, State> {
   }
 
   resolveMonthString = (date) => {
-    const monthNames = ["Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu",
-    "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"];
+    const monthNames = [t('january'), t('february'), t('march'), t('april'),
+    t('may'), t('june'), t('july'), t('august'), t('september'), t('october'),
+    t('december')];
 
     const mDate = new Date(date);
     return monthNames[mDate.getMonth()] + ", " + mDate.getFullYear();
