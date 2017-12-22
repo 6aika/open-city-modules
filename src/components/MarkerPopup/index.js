@@ -33,8 +33,13 @@ const MarkerPopup = ({
 }: Props) => {
   const tintColor = Color(EStyleSheet.value('$colors.med'))
   return (
-    <TouchableWithoutFeedback onPress={onClose} style={styles.container}>
-      <View style={styles.container}>
+    <View
+      onStartShouldSetResponder={onClose}
+      style={styles.container}
+     >
+      <View
+        onStartshouldSetResponder={() => null}
+        style={styles.container}>
         <View style={styles.popup}>
           <View style={styles.header}>
             <Text
@@ -66,7 +71,7 @@ const MarkerPopup = ({
           </TouchableOpacity>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 };
 

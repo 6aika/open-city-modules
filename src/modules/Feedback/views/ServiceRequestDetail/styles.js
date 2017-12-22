@@ -51,7 +51,8 @@ const styles = EStyleSheet.create({
   },
   attachmentsFullScreen: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height - 120,
+    height: '90%',
+    marginVertical: '10%'
   },
   footer: {
     height: 60,
@@ -61,9 +62,7 @@ const styles = EStyleSheet.create({
     // paddingBottom: 100,
   },
   footerIcon: {
-    color: '$colors.min',
-    fontSize: 48,
-    fontWeight: '500',
+    tintColor: '$colors.min',
   },
   attachmentImage: {
     flex: 1,

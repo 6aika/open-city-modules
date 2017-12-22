@@ -3,7 +3,7 @@ import Color from 'color';
 
 
 const styles = EStyleSheet.create({
-  $inputBackground: () => Color(EStyleSheet.value('$colors.med')).alpha(0.1),
+  $inputBackground: () => Color(EStyleSheet.value('$colors.max')).alpha(0.03),
   row: {
     paddingHorizontal: 24,
     marginVertical: 12,
@@ -21,8 +21,23 @@ const styles = EStyleSheet.create({
     paddingBottom: 8,
     textAlignVertical: 'top',
   },
-  inputContainer : {
+  picker: {
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    paddingTop: 8,
+    paddingBottom: 8,
+    textAlignVertical: 'top',
+    flexDirection: 'row',
+
+  },
+  inputContainer: {
     marginTop: 8,
+  },
+  inputIcon: {
+    position: 'absolute',
+    right: 8,
+    height: '100%',
+    top: '35%',
   }
 });
 

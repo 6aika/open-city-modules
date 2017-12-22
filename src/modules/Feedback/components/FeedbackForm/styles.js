@@ -9,7 +9,7 @@ const styles = EStyleSheet.create({
     width: '70%',
   },
   attachmentButtonTitle: {
-    fontWeight: '400',
+    fontSize: 16,
   },
   buttonContainer: {
     marginTop: 16,

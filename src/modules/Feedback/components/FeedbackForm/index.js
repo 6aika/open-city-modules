@@ -68,7 +68,7 @@ const FeedbackForm = ({
         <Button
           style={styles.addAttachmentButton}
           titleStyle={styles.attachmentButtonTitle}
-          title={t('addAttachment')}
+          title={t('addAttachment').toUpperCase()}
           onPress={onAddAttachmentClick}
         />
       </View>

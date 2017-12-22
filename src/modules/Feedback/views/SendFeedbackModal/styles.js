@@ -23,9 +23,7 @@ const styles = EStyleSheet.create({
     // paddingBottom: 100,
   },
   footerIcon: {
-    color: '$colors.min',
-    fontSize: 48,
-    fontWeight: '500',
+    tintColor: '$colors.min',
   },
   loadingSpinner: {
     position: 'absolute',
