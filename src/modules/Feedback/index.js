@@ -299,7 +299,7 @@ class Feedback extends React.Component<ModuleProps> {
 
   componentWillReceiveProps(nextProps: ModuleProps) {
     if (this.props.screenProps.locale !== nextProps.screenProps.locale) {
-      changeLanguage(this.props.screenProps.locale);
+      changeLanguage(nextProps.screenProps.locale);
     }
   }
 
