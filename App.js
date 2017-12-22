@@ -77,4 +77,5 @@ const FeedbackModuleMock = () => {
   return <FeedbackModule screenProps={screenProps} />
 }
 
-export default OnboardingMock;
+// export default OnboardingMock;
+export default FeedbackModuleMock;

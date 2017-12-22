@@ -25,8 +25,7 @@ import PlusIcon from 'open-city-modules/img/plus.png'
 import Marker from 'open-city-modules/src/components/Marker';
 import MarkerNew from 'open-city-modules/img/marker_new.png';
 import MarkerPopup from 'open-city-modules/src/components/MarkerPopup';
-import i18n from 'open-city-modules/src/modules/Feedback/translations';
-import { translate } from 'react-i18next';
+import { changeLanguage, t } from 'open-city-modules/src/modules/Feedback/translations';
 import styles from './styles';
 
 const MAP_PAGE = 'map';
@@ -36,7 +35,6 @@ const Config = getConfig();
 
 
 type Props = {
-  t: string => string,
 };
 
 type State = {
@@ -194,7 +192,6 @@ class FeedbackModule extends React.Component<Props, State> {
 
   render() {
     const { Header } = this.props.screenProps;
-    const { t } = this.props;
     const buttons = [
       {
         onPress: this.onMapPress,
@@ -276,7 +273,7 @@ class FeedbackModule extends React.Component<Props, State> {
 const FeedbackStack = StackNavigator(
   {
     Map: {
-      screen: translate()(FeedbackModule),
+      screen: FeedbackModule,
     },
     Detail: {
       screen: ServiceRequestDetail
@@ -298,13 +295,13 @@ type ModuleProps = {
 class Feedback extends React.Component<ModuleProps> {
   componentWillMount() {
     if (this.props.screenProps.locale) {
-      i18n.changeLanguage(this.props.screenProps.locale);
+      changeLanguage(this.props.screenProps.locale);
     }
   }
 
   componentWillReceiveProps(nextProps: ModuleProps) {
     if (this.props.screenProps.locale !== nextProps.screenProps.locale) {
-      i18n.changeLanguage(this.props.screenProps.locale);
+      changeLanguage(this.props.screenProps.locale);
     }
   }
 

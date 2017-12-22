@@ -1,34 +1,20 @@
 /* @flow */
-import i18n from 'i18next';
-import { reactI18nextModule } from 'react-i18next';
+const translations = {
+  en: {
+    map: 'Map',
+    list: 'List',
+  },
+  fi: {
+    map: 'Kartta',
+    list: 'Lista',
+  },
+};
 
-i18n
-  .use(reactI18nextModule)
-  .init({
-    fallbackLng: 'en',
-    resources: {
-      en: {
-        common: {
-          map: 'Map',
-          list: 'List',
-        },
-      },
-      fi: {
-        common: {
-          map: 'Kartta',
-          list: 'Lista',
-        },
-      },
-    },
-
-    ns: ['common'],
-    defaultNS: 'common',
-
-    debug: __DEV__,
-
-    interpolation: {
-      escapeValue: false,
-    },
-  });
-
-export default i18n;
+let locale = 'fi';
+const changeLanguage = (lang: string) => {
+  if (Object.keys(translations).includes(lang)) {
+    locale = lang;
+  }
+};
+const t = (key: $Keys<typeof translations.fi>) => translations[locale][key];
+export { changeLanguage, t };
