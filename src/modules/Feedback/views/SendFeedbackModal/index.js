@@ -196,7 +196,6 @@ class SendFeedbackModal extends Component {
   }
 
   handleCheckBoxPress = () => {
-    console.warn("deed")
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({
       locationEnabled: !this.state.locationEnabled,
@@ -204,7 +203,6 @@ class SendFeedbackModal extends Component {
   }
 
   onMinimapRegionChange = (region) => {
-    console.warn("saving regio")
     this.setState({ userPosition: region })
   }
 

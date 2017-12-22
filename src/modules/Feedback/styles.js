@@ -41,11 +41,13 @@ const styles = EStyleSheet.create({
     height: MARKER_IMAGE_SIZE,
     width: MARKER_IMAGE_SIZE,
     tintColor: '$colors.med',
+    marginBottom: MARKER_IMAGE_SIZE * 0.5,
   },
   markerContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
+    marginBottom: 204,
     width: '100%',
     height: '100%',
   },

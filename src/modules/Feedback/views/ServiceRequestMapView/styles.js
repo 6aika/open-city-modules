@@ -13,8 +13,8 @@ const styles = EStyleSheet.create({
   },
   userLocationButton: {
     position: 'absolute',
-    width: 32,
-    height: 32,
+    width: 36,
+    height: 36,
     top: 0,
     right: 0,
     margin: 16,
@@ -24,8 +24,8 @@ const styles = EStyleSheet.create({
     backgroundColor: () => Color(EStyleSheet.value('$colors.med')).alpha(0.5)
   },
   locationImage: {
-    width: 24,
-    height: 24,
+    width: 28,
+    height: 28,
     tintColor: '$colors.min'
   }
 });

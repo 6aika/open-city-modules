@@ -67,7 +67,7 @@ const FeedbackForm = ({
         <Button
           style={styles.addAttachmentButton}
           titleStyle={styles.attachmentButtonTitle}
-          title={'Lisää liite'}
+          title={('Lisää liite').toUpperCase()}
           onPress={onAddAttachmentClick}
         />
       </View>

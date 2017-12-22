@@ -76,22 +76,6 @@ class ServiceRequestDetail extends React.Component<Props, State> {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
-  renderImageSwiper = (attachments) => {
-    return (
-
-      <Swiper>
-        {attachments.map(attachment => {
-          return (
-            <Image
-              style={{flex:1}}
-              source={{ uri: attachment }}
-            />
-          )
-        })}
-      </Swiper>
-    )
-  }
-
   renderMultipleMedia = (mediaUrls) => {
     if (!this.state.fullScreenImage) {
       return (
@@ -239,9 +223,6 @@ class ServiceRequestDetail extends React.Component<Props, State> {
           <Text style={styles.description}>{serviceRequest.description}</Text>
           <View style={styles.statusRow}>
             <Text style={styles.status}>{parseDate(serviceRequest.updatedDateTime) + ' Palvelupyyntö lähetetty'}</Text>
-            {serviceRequest.statusNotes && serviceRequest.statusNotes.map((statusNote) => {
-              <Text style={styles.status}>{statusNote}</Text>
-            })}
           </View>
             { serviceRequest.statusNotes &&
             <View style={styles.statusNotesContainer}>

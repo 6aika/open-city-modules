@@ -138,8 +138,6 @@ class FeedbackModule extends React.Component<Props, State> {
 
   getServiceRequests = async (serviceRequestsFetch: () => Array<ServiceRequest>) => {
     const result = await serviceRequestsFetch();
-    console.warn("res: +" + JSON.stringify(result))
-
     this.setState({ serviceRequests: result });
   }
 

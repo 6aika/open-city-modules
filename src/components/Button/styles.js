@@ -24,7 +24,6 @@ const styles = EStyleSheet.create({
   title: {
     color: '$colors.min',
     fontSize: 20,
-    fontWeight: "900",
   }
 });
 

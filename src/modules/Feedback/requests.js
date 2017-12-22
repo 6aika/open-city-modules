@@ -67,7 +67,6 @@ export const parseServiceRequest = (serviceRequest): ServiceRequest => {
     },
     mediaUrl: serviceRequest.media_url,
     mediaUrls: serviceRequest.extended_attributes && serviceRequest.extended_attributes.media_urls,
-    test: 'heyoo',
   };
 };
 

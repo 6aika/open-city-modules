@@ -11,8 +11,10 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import Color from 'color'
 import ModalSelector from 'react-native-modal-selector';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from '../styles';
 
 type Props = {
@@ -53,13 +55,11 @@ const Picker = ({
           option => onChangeSelection({ label: option.label, key: option.key })
         }
       >
-        <TextInput
-          style={[styles.input]}
-          placeholder={placeholder}
-          underlineColorAndroid="transparent"
-          multiline={false}
-          value={value}
-        />
+        <View style={styles.picker}>
+          <Text>{value ? value : placeholder}</Text>
+          <Icon name="keyboard-arrow-down" style={styles.inputIcon}  backgroundColor='transparent' size={26} color={EStyleSheet.value('$colors.max')} />
+        </View>
+
       </ModalSelector>
     </View>
   </View>
