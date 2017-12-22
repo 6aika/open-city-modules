@@ -15,6 +15,7 @@ import SendImage from 'open-city-modules/img/send.png';
 import Attachment from 'open-city-modules/src/modules/Feedback/components/FeedbackForm/Attachment';
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import { type AttachmentType, type ServiceType } from 'open-city-modules/src/types';
+import { t } from 'open-city-modules/src/modules/Feedback/translations';
 import styles from './styles';
 
 const Config = getConfig();
@@ -44,20 +45,20 @@ const FeedbackForm = ({
   return (
     <View>
       <Picker
-        label="Tyyppi"
-        placeholder="Valitse tyyppi"
+        label={t('type')}
+        placeholder={t('typePlaceholder')}
         value={selectedServiceType && selectedServiceType.label}
         data={serviceTypes}
         onChangeSelection={onServiceTypeChange}
       />
       <FormRow
-        label="Otsikko"
-        placeholder={"Palautteen otsikko"}
+        label={t('topic')}
+        placeholder={t('topicPlaceholder')}
         onChangeText={onChangeTitleText}
       />
       <FormRow
-        label="Palaute"
-        placeholder={"Kirjoita tähän palaute tai kehitysehdotus"}
+        label={t('feedback')}
+        placeholder={t('feedbackPlaceholder')}
         onChangeText={onChangeFeedbackText}
         inputHeight={120}
         multiline
@@ -67,7 +68,7 @@ const FeedbackForm = ({
         <Button
           style={styles.addAttachmentButton}
           titleStyle={styles.attachmentButtonTitle}
-          title={'Lisää liite'}
+          title={t('addAttachment')}
           onPress={onAddAttachmentClick}
         />
       </View>

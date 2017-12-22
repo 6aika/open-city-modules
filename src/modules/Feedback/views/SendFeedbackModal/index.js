@@ -21,7 +21,8 @@ import { postServiceRequest } from 'open-city-modules/src/modules/Feedback/reque
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import FeedbackForm from 'open-city-modules/src/modules/Feedback/components/FeedbackForm'
 import { type AttachmentType, ServiceType } from 'open-city-modules/src/types';
-import Minimap from 'open-city-modules/src/modules/Feedback/components/Minimap'
+import Minimap from 'open-city-modules/src/modules/Feedback/components/Minimap';
+import { t } from 'open-city-modules/src/modules/Feedback/translations';
 import styles from './styles';
 
 const Config = getConfig();
@@ -73,9 +74,9 @@ class SendFeedbackModal extends Component {
   onAddAttachmentClick = () => {
     const options = {
       title: '',
-      cancelButtonTitle: 'Peru',
-      takePhotoButtonTitle: 'Ota kuva',
-      chooseFromLibraryButtonTitle: 'Valitse kuva',
+      cancelButtonTitle: t('cancel'),
+      takePhotoButtonTitle: t('takePhoto'),
+      chooseFromLibraryButtonTitle: t('choosePhoto'),
       mediaType: 'photo',
     };
 
@@ -228,7 +229,7 @@ class SendFeedbackModal extends Component {
       <KeyboardAvoidingView style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : null}>
         <Header
-          title={'UUSI PALAUTE'}
+          title={t('newFeedback').toUpperCase()}
           style={styles.header}
           titleStyle={styles.headerTitle}
           rightAction={{
@@ -259,15 +260,14 @@ class SendFeedbackModal extends Component {
           }
           <View style={[styles.feedbackForm, this.state.fullScreenMap && { flex: 0 }]}>
             <View>
-            <CheckBox
-              onCheckBoxPress={this.handleCheckBoxPress}
-              enabled={this.state.locationEnabled}
-              style={styles.checkbox}
-              size={20}
-              onPress={() => this.handleCheckBoxPress}
-              label={'Sisällytä sijainti palautteeseen'}
-            />
-
+              <CheckBox
+                onCheckBoxPress={this.handleCheckBoxPress}
+                enabled={this.state.locationEnabled}
+                style={styles.checkbox}
+                size={20}
+                onPress={() => this.handleCheckBoxPress}
+                label={t('includeLocation')}
+              />
             </View>
             <FeedbackForm
               selectedServiceType={this.state.selectedServiceType}
