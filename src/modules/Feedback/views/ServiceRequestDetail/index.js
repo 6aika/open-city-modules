@@ -223,7 +223,7 @@ class ServiceRequestDetail extends React.Component<Props, State> {
           }
           <Text style={styles.description}>{serviceRequest.description}</Text>
           <View style={styles.statusRow}>
-            <Text style={styles.status}>{parseDate(serviceRequest.updatedDateTime) + t('serviceRequestReceived')}</Text>
+            <Text style={styles.status}>{parseDate(serviceRequest.updatedDateTime) + " " + t('serviceRequestReceived')}</Text>
           </View>
             { serviceRequest.statusNotes &&
             <View style={styles.statusNotesContainer}>
