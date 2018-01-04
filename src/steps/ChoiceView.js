@@ -16,7 +16,7 @@ import StepBottomBar from 'open-city-modules/src/steps/components/StepBottomBar'
 type StyleObj = {[string]: mixed};
 
 type Props = {
-  mode: 'list' | 'grid',
+  // Provided by create(Single|Multi)ChoiceStep
   options: Array<{value: string, selected: boolean, icon: string, image: any, imageSelected: any}>,
   onOptionPress: (string) => void,
   onPreviousPress: () => void,
@@ -26,6 +26,8 @@ type Props = {
   nextDisabled: boolean,
   t: any,
   i18n: any,
+  // Customization props
+  mode: 'list' | 'grid',
   containerStyle: ?StyleObj,
   contentStyle: ?StyleObj,
   topImage: any,
