@@ -78,8 +78,57 @@ TODO
 TODO
 
 
-### FeedBack module
-TODO
+### Feedback module
+#### Installation
+The feedback module has some peer dependencies which use native platform feature on android and iOS. This requires using `react-native-link` or manual linking after installing the npm packages.
+
+The required peer dependency packages are:
+* [react-native-maps](https://github.com/react-community/react-native-maps)
+* [react-native-image-picker](https://github.com/react-community/react-native-image-picker)
+* [react-native-image-resizer](https://github.com/bamlab/react-native-image-resizer)
+
+Note that the module uses Google Maps both on android and iOS, so the Google Maps API key must be added to `AppDelegate.m` and/or `build.gradle` file as instructed in the package's readme.
+
+#### Configuration
+Feedback module exports the module itself and also a function to configure the module:
+`import { FeedbackModule, configureFeedback } from 'open-city-modules';`
+
+The default configuration is shown below. Any configuration fields can be overrided by creating a JSON-file as shown below and calling the configuration function with the new configuration JSON.
+
+`configureFeedback(my_configuration.json);`
+
+```
+{
+  // Default region set as Tampere
+  "DEFAULT_LATITUDE" : 61.4983875,
+  "DEFAULT_LONGITUDE": 23.752394,
+  "DEFAULT_LATITUDE_DELTA": 0.02208,
+  "DEFAULT_LONGITUDE_DELTA": 0.01010,
+
+  // API URLs
+  "OPEN311_API_URL": "http://feedback.tampere.fi/v1/",
+  "OPEN311_SERVICES": "services.json",
+  "OPEN311_SERVICE_LIST_LOCALE": "?locale=",
+  "OPEN311_REQUESTS": "requests.json",
+  "OPEN311_SERVICE_REQUEST_BASE_URL": "requests/",
+  "OPEN311_SERVICE_REQUEST_PARAMETERS_URL": ".json?extensions=true",
+  "OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX": "&extensions=true",
+
+  // API Key for sending new service requests
+  "OPEN311_SEND_SERVICE_API_KEY": "", // Enter Open311 API Key here
+
+  // Requests
+  "TIMEOUT_THRESHOLD": 40000,
+  "TIMEOUT_MESSAGE": "timeout",
+
+  // Attachments
+  "IMAGE_MAX_HEIGHT": 1080,
+  "IMAGE_MAX_WIDTH": 1980,
+  "IMAGE_QUALITY": 60,
+  "IMAGE_FORMAT": "JPEG",
+  "MAX_ATTACHMENTS": 5,
+}
+```
 
 
 ## Contributing
