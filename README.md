@@ -91,6 +91,7 @@ Note that the module uses Google Maps both on android and iOS, so the Google Map
 
 #### Configuration
 Feedback module exports the module itself and also a function to configure the module:
+
 `import { FeedbackModule, configureFeedback } from 'open-city-modules';`
 
 The default configuration is shown below. Any configuration fields can be overrided by creating a JSON-file as shown below and calling the configuration function with the new configuration JSON.
