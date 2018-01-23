@@ -40,6 +40,7 @@ const ServiceRequestMapView = ({
   onMarkerPressed,
   serviceRequests,
   centerToGeoLocation,
+  customMapStyle,
 }): Props => (
   <View style={styles.map}>
 
@@ -54,6 +55,7 @@ const ServiceRequestMapView = ({
       toolbarEnabled={false}
       // onPress={this.onMapViewClick.bind(this)}
       onRegionChange={onRegionChange}
+      customMapStyle={customMapStyle}
     >
       { serviceRequests && serviceRequests.map((serviceRequest) => {
         if (serviceRequest.location.latitude && serviceRequest.location.longitude) {
