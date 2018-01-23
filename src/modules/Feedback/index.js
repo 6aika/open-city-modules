@@ -189,7 +189,11 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 
   render() {
-    const { Header } = this.props.screenProps;
+    const {
+      Header,
+      customMapStyle,
+    } = this.props.screenProps;
+
     const buttons = [
       {
         onPress: this.onMapPress,
@@ -205,8 +209,8 @@ class FeedbackModule extends React.Component<Props, State> {
     const serviceRequestDetailPopup =
       (<MarkerPopup
         data={this.state.popupData}
-        onClick={()=> this.goToServiceRequestDetail(this.state.activeServiceRequest)}
-        onClose={()=> this.setState({ showMapPopup: false })}
+        onClick={() => this.goToServiceRequestDetail(this.state.activeServiceRequest)}
+        onClose={() => this.setState({ showMapPopup: false })}
       />);
     return (
       <View style={styles.container}>
@@ -223,6 +227,7 @@ class FeedbackModule extends React.Component<Props, State> {
             onMarkerPressed={this.handleMarkerPressed}
             onRegionChangeComplete={this.onMapRegionChange}
             serviceRequests={this.state.serviceRequests}
+            customMapStyle={customMapStyle}
           />
         </View>
         }
