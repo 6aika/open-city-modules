@@ -13,6 +13,8 @@ import {
 } from 'open-city-modules/src/steps';
 
 import heroDecorationImage from './img/main-hero-decoration.png';
+import mainImage from './img/main-image-decoration.png';
+import marker from './img/marker_pin.png';
 
 
 const initColors = (colors) => {
@@ -86,6 +88,8 @@ const LinkedEventsModuleMock = () => {
   const screenProps = {
     Header,
     heroBanner: heroDecorationImage,
+    mainImage: mainImage,
+    marker: marker,
   };
 
   return (

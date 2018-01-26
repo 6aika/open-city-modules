@@ -5,7 +5,6 @@ import {
   TouchableNativeFeedback,
   View,
   Text,
-  // FlatList,
   Platform,
 } from 'react-native';
 import styles from '../styles';

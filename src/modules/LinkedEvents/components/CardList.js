@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import {
-  // ImageBackground,
   View,
-  // Text,
   FlatList,
 } from 'react-native';
 import Card from './Card';
 // import transHearings from '../../translations/hearings';
-import Config from '../config';
+// import Config from '../config';
 import styles from '../styles';
 
 class CardList extends Component {

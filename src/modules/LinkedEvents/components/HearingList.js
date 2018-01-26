@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import {
-  // ImageBackground,
   View,
   Text,
-  // FlatList,
 } from 'react-native';
-// import Card from '../Card';
 import CardList from './CardList';
 import transHearings from '../../translations';
-import Config from '../config';
+import Config from '../config.json';
 import styles from '../styles';
 
 class HearingList extends Component {
@@ -25,6 +22,7 @@ class HearingList extends Component {
 
   render() {
     const { hearingList } = this.props;
+    // console.warn(hearingList)
 
     return (
       <View style={styles.hearingWrapper}>

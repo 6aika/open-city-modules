@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  AsyncStorage,
-  Platform,
-  BackHandler
-} from 'react-native';
-
+import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { OidcProvider } from 'redux-oidc';
 import { store } from './redux/store';
 import userManager from './util/userManager';
-
 import ConnectedAuthView from './views/AuthView';
-// import Global                   from './util/globals';
-// import { Navigator }            from './navigation';
+import HearingDetailView from './views/HearingDetailView';
+import EventDetailView from './views/EventDetailView';
 import HomeView from './components/HomeView';
-// import { View } from 'react-native';
+
+const HomeStack = StackNavigator({
+  HomeView: {
+    screen: HomeView,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  HearingDetailView: { screen: HearingDetailView },
+  EventDetailView: { screen: EventDetailView },
+});
 
 class HomeViewWrapper extends Component<{}> {
-
-  constructor(props, context) {
+  constructor(props) {
     super(props);
   }
 
@@ -34,7 +36,7 @@ class HomeViewWrapper extends Component<{}> {
           <ConnectedAuthView
             enabled
           >
-            <HomeView
+            <HomeStack
               screenProps={this.props.screenProps}
             />
           </ConnectedAuthView>

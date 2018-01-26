@@ -21,13 +21,11 @@ const addOnLoadStartListener = (listener) => {
   onLoadStartListeners.push(listener);
 };
 
-
 const loadStart = (event) => {
   onLoadStartListeners.forEach((listener) => {
     listener(event.nativeEvent.url);
   });
 };
-
 
 class AuthView extends Component {
   constructor(props) {
@@ -44,15 +42,15 @@ class AuthView extends Component {
     }
 
     return (
-      <View style={ styles.rootView }>
+      <View style={styles.rootView}>
         <Button
-          color={ '#d81111' }
-          onPress={ this.close }
+          color={'#d81111'}
+          onPress={this.close}
           title="Cancel"
         />
         <WebView
           source={{ uri: this.props.url }}
-          onLoadStart={ loadStart }
+          onLoadStart={loadStart}
         />
       </View>
     );
@@ -63,26 +61,26 @@ AuthView.propTypes = {
   children: PropTypes.element.isRequired,
   enabled: PropTypes.bool.isRequired,
   showWebView: PropTypes.bool.isRequired,
-  url: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     showWebView: state.auth.showWebView,
-    url: state.auth.url
+    url: state.auth.url,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    authActions: bindActionCreators(AuthActions, dispatch)
-  }
+    authActions: bindActionCreators(AuthActions, dispatch),
+  };
 }
 
 const ConnectedAuthView = connect(mapStateToProps, mapDispatchToProps)(AuthView);
 
 export {
-  addOnLoadStartListener
-}
+  addOnLoadStartListener,
+};
 
 export default ConnectedAuthView;

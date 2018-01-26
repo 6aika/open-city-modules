@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { Dimensions  } from 'react-native';
 
 const BRAND_LIGHT_ONE = '#ffc61e'; // Helsinki Summer
 const BRAND_LIGHT_TWO = '#9fc9eb'; // Helsinki Fog
@@ -87,6 +88,52 @@ const styles = EStyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  view: {
+    backgroundColor: '#FFF',
+  },
+  image: {
+    width: undefined,
+    height: 250,
+  },
+  headerImage: {
+    marginBottom: 30,
+  },
+  headerImageDecoration: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: 30,
+  },
+  centeredContent: {
+    paddingHorizontal: 15,
+    alignItems: 'center',
+  },
+  date: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  description: {
+    fontSize: 16,
+  },
+  textBlockNarrow: {
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 10,
+    paddingBottom: 10,
+    textAlign: 'center',
+  },
+  textBlock: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  map: {
+    height: 250,
+    width: Dimensions.get('window').width,
+  },
+  markerIcon: {
+    height: 30,
+    width: 30,
   },
   headlineText: 30,
   cardHeadline: 20,

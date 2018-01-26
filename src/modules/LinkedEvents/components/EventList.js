@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import {
-  // ImageBackground,
   View,
   Text,
-  // FlatList,
 } from 'react-native';
-// import Card from '../Card';
 import CardList from './CardList';
-// import Config from '../../config';
 import transEvents from '../../translations';
 import styles from '../styles';
 

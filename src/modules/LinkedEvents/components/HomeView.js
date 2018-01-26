@@ -1,22 +1,15 @@
 import React, { Component } from 'react';
 import {
-  // View,
   ScrollView,
-  // Image,
 } from 'react-native';
-
-import { connect }            from 'react-redux';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import EventActions           from '../redux/events/actions';
-import HearingActions         from '../redux/hearings/actions';
-
-// import Navbar from '../../components/Navbar';
-// import Spinner from '../../components/Spinner';
-import { getConfig } from '../config'
+import EventActions from '../redux/events/actions';
+import HearingActions from '../redux/hearings/actions';
+import { getConfig } from '../config';
 import Hero from './Hero';
 import HearingList from './HearingList';
 import EventList from './EventList';
-// import backIcon from '../../img/back.png';
 import styles from '../styles';
 
 const config = getConfig();
@@ -32,23 +25,6 @@ class HomeView extends Component {
     this.props.hearingActions.getHearings();
   }
 
-  // static navigationOptions = {
-  //   headerTitle: (
-  //       <Image
-  //         style={styles.headerLogo}
-  //         resizeMode="contain"
-  //         source={require('./../../img/city-logo.png')}
-  //       />
-  //   ),
-  //   tabBarLabel: 'Home',
-  //   tabBarIcon: ({ tintColor }) => (
-  //     <Image
-  //       source={require('./../../img/icon-home.png')}
-  //       style={[styles.icon, {tintColor: tintColor}]}
-  //     />
-  //   ),
-  // };
-
   render() {
     const {
       heroEvent,
@@ -59,6 +35,9 @@ class HomeView extends Component {
     const {
       Header,
       heroBanner,
+      showHero,
+      showEvents,
+      showHearings,
     } = this.props.screenProps;
     return (
       <ScrollView Style={styles.container}>
