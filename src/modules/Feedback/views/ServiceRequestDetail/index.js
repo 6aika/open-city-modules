@@ -169,6 +169,7 @@ class ServiceRequestDetail extends React.Component<Props, State> {
               toolbarEnabled={false}
               scrollEnabled={true}
               zoomEnabled={true}
+              customMapStyle={this.props.screenProps.customMapStyle}
             >
               <MapView.Marker
                 ref={(m) => this.marker = m}

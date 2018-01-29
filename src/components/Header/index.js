@@ -43,7 +43,9 @@ const Header = ({
         }
         {title && !headerImage &&
           <View
-            style={styles.titleContainer}
+            style={[styles.titleContainer,
+              { marginLeft: leftAction ? 40 : 16 },
+            ]}
           >
             <Text style={[styles.title, titleStyle]}>{title}</Text>
           </View>

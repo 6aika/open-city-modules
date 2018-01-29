@@ -73,7 +73,7 @@ class EventDetailView extends Component {
           toolbarEnabled={false}
           scrollEnabled={false}
           zoomEnabled={false}
-          // customMapStyle={customMapStyles}
+          customMapStyle={this.props.screenProps.customMapStyles}
         >
           <MapView.Marker
             coordinate={this.props.region}
