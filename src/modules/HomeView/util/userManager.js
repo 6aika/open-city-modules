@@ -1,4 +1,4 @@
-import Config from '../config.json';
+import { getConfig } from '../config';
 import { createUserManager } from 'redux-oidc';
 import { AsyncStorage, Linking } from 'react-native';
 import AsyncStorageAdapter from '../util/asyncStorage';
@@ -8,6 +8,7 @@ import { addOnLoadStartListener } from '../views/AuthView';
 
 const stateStore = new AsyncStorageAdapter({ prefix: 'oidc.stateStore.', asyncStorage: AsyncStorage });
 const userStore = new AsyncStorageAdapter({ prefix: 'oidc.userStore.', asyncStorage: AsyncStorage });
+const Config = getConfig();
 
 class CustomNavigator {
   constructor({ onNavigate } = {}) {

@@ -1,4 +1,6 @@
-import Config from '../config.json';
+import { getConfig } from '../config';
+
+const Config = getConfig();
 
 module.exports = function(url, method, headers, body, data) {
 

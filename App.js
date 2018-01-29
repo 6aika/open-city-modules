@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { withProps } from 'recompose';
 
 import FeedbackModule from 'open-city-modules/src/modules/Feedback';
-import LinkedEventsModule from 'open-city-modules/src/modules/LinkedEvents';
+import HomeViewModule from 'open-city-modules/src/modules/HomeView';
 import Header from 'open-city-modules/src/components/Header';
 import {
   ChoiceView,
@@ -83,8 +83,7 @@ const FeedbackModuleMock = () => {
   return <FeedbackModule screenProps={screenProps} />;
 };
 
-const LinkedEventsModuleMock = () => {
-  console.warn("LinkedEventsModuleMock")
+const HomeViewModuleMock = () => {
   const screenProps = {
     Header,
     heroBanner: heroDecorationImage,
@@ -93,7 +92,7 @@ const LinkedEventsModuleMock = () => {
   };
 
   return (
-    <LinkedEventsModule
+    <HomeViewModule
       screenProps={screenProps}
     />
   );
@@ -102,4 +101,4 @@ const LinkedEventsModuleMock = () => {
 
 // export default OnboardingMock;
 // export default FeedbackModuleMock;
-export default LinkedEventsModuleMock;
+export default HomeViewModuleMock;

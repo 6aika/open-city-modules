@@ -1,7 +1,7 @@
-import defaultConfig from 'open-city-modules/src/modules/LinkedEvents/config.json';
+import defaultConfig from 'open-city-modules/src/modules/HomeView/config.json';
 
 let config = defaultConfig;
-export const configureFeedback = (configJSON) => {
+export const configureHomeView = (configJSON) => {
   config = Object.assign(defaultConfig, configJSON);
 };
 

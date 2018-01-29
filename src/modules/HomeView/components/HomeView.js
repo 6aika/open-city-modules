@@ -6,16 +6,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EventActions from '../redux/events/actions';
 import HearingActions from '../redux/hearings/actions';
-import { getConfig } from '../config';
 import Hero from './Hero';
 import HearingList from './HearingList';
 import EventList from './EventList';
 import styles from '../styles';
 
-const config = getConfig();
-
 class HomeView extends Component {
-  constructor(props, context) {
+  constructor(props) {
     super(props);
   }
 

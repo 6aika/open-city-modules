@@ -3,19 +3,20 @@ import {
   put,
   call,
   takeLatest
-}                                               from 'redux-saga/effects';
+} from 'redux-saga/effects';
 // import translations                             from '../translations/general';
-import Moment                                   from 'moment';
-import Twix                                     from 'twix'
-import 'moment/locale/fi'
-import 'moment/locale/sv'
-import { stripTags, unescapeHTML }                             from 'underscore.string'
-import Config                                   from '../config.json';
-import makeRequest                              from '../util/requests';
-import { default as EventActions, EventTypes }  from '../redux/events/actions';
+import Moment from 'moment';
+import Twix from 'twix';
+import 'moment/locale/fi';
+import 'moment/locale/sv';
+import { stripTags, unescapeHTML } from 'underscore.string';
+import { getConfig } from '../config';
+import makeRequest from '../util/requests';
+import { default as EventActions, EventTypes } from '../redux/events/actions';
 
+const Config = getConfig();
 // const LOCALE = translations.getLanguage()
-const LOCALE = 'fi'
+const LOCALE = 'fi';
 
 const fetchHero = function*() {
   try {
