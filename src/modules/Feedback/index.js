@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView'
 import ServiceRequestDetail from 'open-city-modules/src/modules/Feedback/views/ServiceRequestDetail'
-import { getServiceTypes, getServiceRequests, getServiceRequest } from 'open-city-modules/src/modules/Feedback/requests'
+import { getServiceTypes, getServiceRequests } from 'open-city-modules/src/modules/Feedback/requests'
 import { StackNavigator } from 'react-navigation';
 import { type ServiceType } from 'open-city-modules/src/types'
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
@@ -73,8 +73,17 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 
   componentWillMount = async () => {
-    this.getServiceTypes(getServiceTypes);
-    this.getServiceRequests(getServiceRequests);
+    const {
+      requests
+    } = this.props.screenProps;
+
+    if (requests) {
+      this.getServiceTypes(requests.getServiceTypes);
+      this.getServiceRequests(requests.getServiceRequests);
+    } else {
+      this.getServiceTypes(getServiceTypes);
+      this.getServiceRequests(getServiceRequests);
+    }
   }
 
   onMapViewClick() {
