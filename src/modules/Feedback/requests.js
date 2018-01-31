@@ -50,7 +50,7 @@ export const parseServiceTypes = (response): Array<ServiceType> => {
 };
 
 export const parseServiceRequest = (serviceRequest): ServiceRequest => {
-  return {
+  const parsedRequest = {
     id: serviceRequest.service_request_id,
     statusNotes: serviceRequest.status_notes,
     status: serviceRequest.status,
@@ -59,7 +59,7 @@ export const parseServiceRequest = (serviceRequest): ServiceRequest => {
     description: serviceRequest.description,
     requestedDateTime: serviceRequest.requested_datetime,
     updatedDateTime: serviceRequest.updated_datetime,
-    title: serviceRequest.title,
+    title: (serviceRequest.extended_attributes && serviceRequest.extended_attributes.title) ? serviceRequest.extended_attributes.title : serviceRequest.title,
     address: serviceRequest.address,
     location: {
       latitude: parseFloat(serviceRequest.lat),
@@ -68,6 +68,18 @@ export const parseServiceRequest = (serviceRequest): ServiceRequest => {
     mediaUrl: serviceRequest.media_url,
     mediaUrls: serviceRequest.extended_attributes && serviceRequest.extended_attributes.media_urls,
   };
+
+  if (serviceRequest.extended_attributes) {
+    parsedRequest.extended_attributes = {
+      tasks: serviceRequest.extended_attributes.tasks,
+      detailedStatus: serviceRequest.extended_attributes.detailed_status
+    }
+  }
+
+  console.warn("parsedRequest")
+  console.warn(parsedRequest)
+
+  return parsedRequest;
 };
 
 export const parseServiceRequests = (serviceRequestsData): Array<ServiceRequest> => {
@@ -100,18 +112,18 @@ export const getServiceTypes = () => {
 };
 
 export const getServiceRequests = () => {
-  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_REQUESTS;
+  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_REQUESTS + CONFIG.OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX;
   const headers = { Accept: 'application/json', 'Content-Type': 'application/json' };
 
   return new Promise((resolve, reject) => {
     request(url, 'GET', headers, null, null).then((response) => {
-      resolve(parseServiceRequests(JSON.parse(response)));
+      resolve(parseServiceRequests(JSON.parse(response.replace(/undefined/g, 'null'))));
     }).catch(err => reject(err));
   });
 };
 
 export const postServiceRequest = (data) => {
-  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_REQUESTS;
+  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_REQUESTS + CONFIG.OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX;
   const token = CONFIG.OPEN311_SEND_SERVICE_API_KEY;
   const method = 'POST';
 

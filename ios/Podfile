@@ -19,6 +19,8 @@
      'BatchedBridge'
    ]
    pod 'GoogleMaps'
+   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
  end
 
  post_install do |installer|

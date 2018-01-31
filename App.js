@@ -4,12 +4,18 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { withProps } from 'recompose';
 
 import FeedbackModule from 'open-city-modules/src/modules/Feedback';
+import HomeViewModule from 'open-city-modules/src/modules/HomeView';
 import Header from 'open-city-modules/src/components/Header';
 import {
   ChoiceView,
   createSingleChoiceStep,
   createMultiChoiceStep,
 } from 'open-city-modules/src/steps';
+
+import heroDecorationImage from './img/main-hero-decoration.png';
+import mainImage from './img/main-image-decoration.png';
+import marker from './img/marker_pin.png';
+
 
 const initColors = (colors) => {
   EStyleSheet.build({
@@ -72,10 +78,27 @@ const FeedbackModuleMock = () => {
     locale: 'fi',
     profile: { },
     Header,
-  }
+  };
 
-  return <FeedbackModule screenProps={screenProps} />
-}
+  return <FeedbackModule screenProps={screenProps} />;
+};
+
+const HomeViewModuleMock = () => {
+  const screenProps = {
+    Header,
+    heroBanner: heroDecorationImage,
+    mainImage: mainImage,
+    marker: marker,
+  };
+
+  return (
+    <HomeViewModule
+      screenProps={screenProps}
+    />
+  );
+};
+
 
 // export default OnboardingMock;
-export default FeedbackModuleMock;
+// export default FeedbackModuleMock;
+export default HomeViewModuleMock;

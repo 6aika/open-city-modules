@@ -81,6 +81,7 @@ class Minimap extends Component {
               onLongPress={(e) => { if (!this.props.fullScreenMap) this.props.setFullScreenMap(true); }}
               onMarkerDragStart={(e) => { if (!this.props.fullScreenMap) this.props.setFullScreenMap(true); }}
               onRegionChangeComplete={this.props.onRegionChangeComplete}
+              customMapStyle={this.props.customMapStyle}
             >
               <MapView.Marker.Animated
                 ref={(m) => this.marker = m}

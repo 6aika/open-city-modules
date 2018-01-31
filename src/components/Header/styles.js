@@ -12,7 +12,7 @@ const styles = EStyleSheet.create({
     padding: 4,
     borderWidth: 1,
     borderColor: '$borderColor',
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
   },
   tabs: {
@@ -56,10 +56,12 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
   },
   rightAction: {
-    paddingRight: 8,
+    position: 'absolute',
+    right: 8,
   },
   leftAction: {
-    paddingLeft: 8,
+    position: 'absolute',
+    left: 8,
   },
   image: {
     width: 32,
@@ -71,8 +73,13 @@ const styles = EStyleSheet.create({
     height: 32,
   },
   disabled: {
-    tintColor: '$inactiveText'
+    tintColor: '$inactiveText',
+  },
+  logo: {
+    height: 26,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
-export default styles
+export default styles;

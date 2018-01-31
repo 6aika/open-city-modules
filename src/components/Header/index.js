@@ -20,6 +20,7 @@ type Props = {
 
 const Header = ({
   buttons,
+  headerImage,
   leftAction,
   rightAction,
   title,
@@ -40,14 +41,22 @@ const Header = ({
             </TouchableOpacity>
           </View>
         }
-        { rightAction && !leftAction &&
-          <View style={styles.placeHolder} />
-        }
-        {title &&
+        {title && !headerImage &&
           <View
-            style={styles.titleContainer}
+            style={[styles.titleContainer,
+              { marginLeft: leftAction ? 40 : 16 },
+            ]}
           >
             <Text style={[styles.title, titleStyle]}>{title}</Text>
+          </View>
+        }
+        {!title && headerImage &&
+          <View>
+            <Image
+              style={styles.logo}
+              resizeMode="contain"
+              source={headerImage}
+            />
           </View>
         }
         { buttons && buttons.map((button, index) => {
@@ -56,7 +65,7 @@ const Header = ({
               key={index}
               {...button}
             />
-          )
+          );
           })
         }
         { rightAction &&
@@ -64,18 +73,20 @@ const Header = ({
             <TouchableOpacity
               onPress={rightAction.action}
             >
-              <Image style={[styles.image, rightAction.style]} source={rightAction.icon} />
+              <Image
+                style={[
+                  styles.image,
+                  rightAction.style,
+                ]}
+                source={rightAction.icon}
+              />
             </TouchableOpacity>
           </View>
-        }
-        { leftAction && !rightAction &&
-          <View style={styles.placeHolder} />
         }
       </View>
 
     </View>
   );
-}
-
+};
 
 export default Header;

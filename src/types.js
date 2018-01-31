@@ -49,6 +49,7 @@ export type ServiceRequest = {
   location: ?Location,
   mediaUrl: ?string,
   mediaUrls: ?Array<string>,
+  extended_attributes: ?{ tasks: ?Array<Object>, detailedStatus: ?string },
 }
 
 

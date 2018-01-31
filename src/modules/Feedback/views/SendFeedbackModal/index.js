@@ -173,14 +173,27 @@ class SendFeedbackModal extends Component {
       ));
     }
 
+    const {
+      requests
+    } = this.props.screenProps;
 
-    postServiceRequest(data).then(() => {
-      this.setState({
-        loading: false,
+    if (requests && requests.postServiceRequest) {
+      requests.postServiceRequest(data).then(() => {
+        this.setState({
+          loading: false,
+        });
+
+        this.props.toggleFeedbackModal();
       });
+    } else {
+      postServiceRequest(data).then(() => {
+        this.setState({
+          loading: false,
+        });
 
-      this.props.toggleFeedbackModal();
-    });
+        this.props.toggleFeedbackModal();
+      });
+    }
 
   }
 
@@ -220,12 +233,17 @@ class SendFeedbackModal extends Component {
   }
 
   render() {
-    const { Header } = this.props.screenProps;
+    const {
+      Header,
+      customMapStyle,
+    } = this.props.screenProps;
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
     const validFields = this.validateFields();
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : null}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+      >
         <Header
           title={t('newFeedback').toUpperCase()}
           style={styles.header}
@@ -252,8 +270,8 @@ class SendFeedbackModal extends Component {
                 fullScreenMap={this.state.fullScreenMap}
                 setFullScreenMap={this.showFullScreenMap}
                 onRegionChangeComplete={this.onMinimapRegionChange}
+                customMapStyle={customMapStyle}
               />
-
             </View>
           }
           <View style={[styles.feedbackForm, this.state.fullScreenMap && { flex: 0 }]}>

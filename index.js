@@ -9,8 +9,10 @@ import {
 
 // Modules
 import FeedbackModule from 'open-city-modules/src/modules/Feedback';
+import HomeViewModule from 'open-city-modules/src/modules/HomeView';
 import WebViewModule from 'open-city-modules/src/modules/WebView';
 import { configureFeedback } from 'open-city-modules/src/modules/Feedback/config';
+import { configureHomeView } from 'open-city-modules/src/modules/HomeView/config';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { type ColorSet } from 'open-city-modules/src/types';
 
@@ -27,9 +29,9 @@ const initColors = (colors: ColorSet) => {
 };
 
 export {
-  configureFeedback,
+  configureFeedback, configureHomeView,
   initColors,
   SplashScreen, ChoiceView, createSingleChoiceStep, createMultiChoiceStep,
-  WebViewModule, FeedbackModule,
+  WebViewModule, FeedbackModule, HomeViewModule,
   Components,
 };
