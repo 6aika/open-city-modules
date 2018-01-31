@@ -173,14 +173,27 @@ class SendFeedbackModal extends Component {
       ));
     }
 
+    const {
+      requests
+    } = this.props.screenProps;
 
-    postServiceRequest(data).then(() => {
-      this.setState({
-        loading: false,
+    if (requests && requests.postServiceRequest) {
+      requests.postServiceRequest(data).then(() => {
+        this.setState({
+          loading: false,
+        });
+
+        this.props.toggleFeedbackModal();
       });
+    } else {
+      postServiceRequest(data).then(() => {
+        this.setState({
+          loading: false,
+        });
 
-      this.props.toggleFeedbackModal();
-    });
+        this.props.toggleFeedbackModal();
+      });
+    }
 
   }
 
