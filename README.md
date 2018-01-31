@@ -1,6 +1,6 @@
 # Open City Modules
 
-This repository contains generic and reusable Open City Modules and onboarding steps meant to be used in projects derived from [Open City Skeleton](https://github.com/haltu/open-city-skeleton) repo.
+This repository contains generic and reusable Open City Modules and onboarding steps meant to be used in projects derived from [Open City Skeleton](https://github.com/6aika/open-city-skeleton) repo.
 
 
 ## Installation
@@ -130,6 +130,47 @@ The default configuration is shown below. Any configuration fields can be overri
   "MAX_ATTACHMENTS": 5,
 }
 ```
+### HomeView module
+#### Installation
+The homeview module has some peer dependencies which use native platform feature on android and iOS. This requires using `react-native-link` or manual linking after installing the npm packages.
+
+The required peer dependency packages are:
+* [react-native-fast-image](https://github.com/DylanVann/react-native-fast-image)
+* [react-native-maps](https://github.com/react-community/react-native-maps)
+
+Note that the module uses Google Maps both on android and iOS, so the Google Maps API key must be added to `AppDelegate.m` and/or `build.gradle` file as instructed in the package's readme.
+
+#### Configuration
+Homeview module exports the module itself and also a function to configure the module:
+
+`import { HomeViewModule, configureHomeView } from 'open-city-modules';`
+
+The default configuration is shown below. Any configuration fields can be overrided by creating a JSON-file as shown below and calling the configuration function with the new configuration JSON.
+
+`configureHomeView(my_configuration.json);`
+
+```
+{
+  // API URLs
+  "HEARINGS_WEB_URL": "https://kerrokantasi.hel.fi/",
+  "HEARINGS_API_BASE_URL": "https://api.hel.fi/kerrokantasi/v1/hearing/",
+  "FEATURED_EVENT_API_BASE_URL": "https://www.myhelsinki.fi/api/path/%2Ffi%2Fnae-ja-koe%2Ftapahtumat",
+  "LINKED_EVENTS_API_BASE_URL": "https://api.hel.fi/linkedevents/v1/event/",
+
+  // OPENID Settings
+  "OPENID_AUTHORITY": "https://profile.dev.hel.ninja/openid",
+  "OPENID_SCOPE": "openid profile https://api.hel.fi/auth/profile",
+  "OPENID_CLIENT_ID": "3df25acb-325e-46bd-bc55-a34c62c12a0d",
+  "OPENID_REDIRECT": "opencityapp://auth/callback",
+
+  // Requests
+  "TIMEOUT_THRESHOLD": 40000,
+  "TIMEOUT_MESSAGE": "timeout",
+
+
+}
+```
+
 
 
 ## Contributing
