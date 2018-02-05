@@ -76,9 +76,6 @@ export const parseServiceRequest = (serviceRequest): ServiceRequest => {
     }
   }
 
-  console.warn("parsedRequest")
-  console.warn(parsedRequest)
-
   return parsedRequest;
 };
 

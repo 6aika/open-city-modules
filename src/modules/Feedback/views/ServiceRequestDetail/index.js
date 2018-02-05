@@ -183,7 +183,7 @@ class ServiceRequestDetail extends React.Component<Props, State> {
             </MapView>
           </View>
           }
-          {!this.state.fullScreenMap && (serviceRequest.mediaUrl) &&
+          {!this.state.fullScreenMap && (serviceRequest.mediaUrl && !serviceRequest.mediaUrls) &&
             this.renderSingleMedia(serviceRequest.mediaUrl)
           }
           {!this.state.fullScreenMap && (serviceRequest.mediaUrls && serviceRequest.mediaUrls.length === 1) &&
