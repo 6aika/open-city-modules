@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {
   ScrollView,
+  View,
+  Image,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -33,30 +35,46 @@ class HomeView extends Component {
       Header,
       heroBanner,
       showHero,
-      showEvents,
-      showHearings,
+      showEvents = true,
+      showHearings = true,
     } = this.props.screenProps;
     return (
-      <ScrollView Style={styles.container}>
+      <ScrollView style={styles.container}>
         <Header />
-        <Hero
-          banner={heroBanner}
-          imageUrl={heroEvent.imageUrl}
-          date={heroEvent.date}
-          place={heroEvent.place}
-          headline={heroEvent.headline}
-          eventUrl={heroEvent.eventUrl}
-          loading={heroLoading}
-          navigation={this.props.navigation}
-        />
-        <EventList
-          navigation={this.props.navigation}
-          eventList={eventList}
-        />
-        <HearingList
-          navigation={this.props.navigation}
-          hearingList={hearingList}
-        />
+        { showEvents &&
+          <View>
+          <Hero
+            banner={heroBanner}
+            imageUrl={heroEvent.imageUrl}
+            date={heroEvent.date}
+            place={heroEvent.place}
+            headline={heroEvent.headline}
+            eventUrl={heroEvent.eventUrl}
+            loading={heroLoading}
+            navigation={this.props.navigation}
+          />
+          <EventList
+            navigation={this.props.navigation}
+            eventList={eventList}
+          />
+          </View>
+        }
+        { !showEvents &&
+          <View>
+            <View style={styles.heroOverlay} />
+            <Image
+              source={heroBanner}
+              resizeMode="cover"
+              style={styles.heroDecoration}
+            />
+          </View>
+        }
+        { showHearings &&
+          <HearingList
+            navigation={this.props.navigation}
+            hearingList={hearingList}
+          />
+        }
       </ScrollView>
     );
   }
