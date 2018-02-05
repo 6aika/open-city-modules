@@ -12,6 +12,7 @@ const BRAND_DARK_THREE = '#009246'; // Helsinki Tram
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: BRAND_LIGHT_TWO,
   },
   icon: {
     width: 26,
