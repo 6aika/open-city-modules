@@ -39,43 +39,45 @@ class HomeView extends Component {
       showHearings = true,
     } = this.props.screenProps;
     return (
-      <ScrollView style={styles.container}>
+      <View style={{flex: 1}}>
         <Header />
-        { showEvents &&
-          <View>
-          <Hero
-            banner={heroBanner}
-            imageUrl={heroEvent.imageUrl}
-            date={heroEvent.date}
-            place={heroEvent.place}
-            headline={heroEvent.headline}
-            eventUrl={heroEvent.eventUrl}
-            loading={heroLoading}
-            navigation={this.props.navigation}
-          />
-          <EventList
-            navigation={this.props.navigation}
-            eventList={eventList}
-          />
-          </View>
-        }
-        { !showEvents &&
-          <View>
-            <View style={styles.heroOverlay} />
-            <Image
-              source={heroBanner}
-              resizeMode="cover"
-              style={styles.heroDecoration}
+        <ScrollView style={styles.container}>
+          { showEvents &&
+            <View>
+            <Hero
+              banner={heroBanner}
+              imageUrl={heroEvent.imageUrl}
+              date={heroEvent.date}
+              place={heroEvent.place}
+              headline={heroEvent.headline}
+              eventUrl={heroEvent.eventUrl}
+              loading={heroLoading}
+              navigation={this.props.navigation}
             />
-          </View>
-        }
-        { showHearings &&
-          <HearingList
-            navigation={this.props.navigation}
-            hearingList={hearingList}
-          />
-        }
-      </ScrollView>
+            <EventList
+              navigation={this.props.navigation}
+              eventList={eventList}
+            />
+            </View>
+          }
+          { !showEvents &&
+            <View>
+              <View style={styles.heroOverlay} />
+              <Image
+                source={heroBanner}
+                resizeMode="cover"
+                style={styles.heroDecoration}
+              />
+            </View>
+          }
+          { showHearings &&
+            <HearingList
+              navigation={this.props.navigation}
+              hearingList={hearingList}
+            />
+          }
+        </ScrollView>
+      </View>
     );
   }
 }
