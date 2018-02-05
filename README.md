@@ -113,7 +113,7 @@ The default configuration is shown below. Any configuration fields can be overri
   "OPEN311_REQUESTS": "requests.json",
   "OPEN311_SERVICE_REQUEST_BASE_URL": "requests/",
   "OPEN311_SERVICE_REQUEST_PARAMETERS_URL": ".json?extensions=true",
-  "OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX": "&extensions=true",
+  "OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX": "?extensions=true",
 
   // API Key for sending new service requests
   "OPEN311_SEND_SERVICE_API_KEY": "", // Enter Open311 API Key here
