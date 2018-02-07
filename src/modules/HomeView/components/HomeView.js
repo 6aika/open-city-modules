@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EventActions from '../redux/events/actions';
 import HearingActions from '../redux/hearings/actions';
+import FeedActions from '../redux/feed/actions';
 import Hero from './Hero';
 import HearingList from './HearingList';
 import EventList from './EventList';
@@ -19,9 +20,25 @@ class HomeView extends Component {
   }
 
   componentWillMount() {
-    this.props.eventActions.getHero();
-    this.props.eventActions.getList();
-    this.props.hearingActions.getHearings();
+    const {
+      showEvents = true,
+      showHearings = true,
+      showFeed = true,
+    } = this.props.screenProps;
+
+    if (showEvents) {
+      this.props.eventActions.getHero();
+      this.props.eventActions.getList();
+    }
+
+    if (showHearings) {
+      this.props.hearingActions.getHearings();
+    }
+
+    if (showFeed) {
+      this.props.feedActions.getFeedList();
+    }
+
   }
 
   render() {
@@ -89,6 +106,7 @@ function mapStateToProps(state) {
     heroLoading: state.events.heroLoading,
     hearingList: state.hearings.hearingList,
     eventList: state.events.eventList,
+    feedList: state.feed.feedList,
   };
 }
 
@@ -96,6 +114,7 @@ function mapDispatchToProps(dispatch) {
   return {
     eventActions: bindActionCreators(EventActions, dispatch),
     hearingActions: bindActionCreators(HearingActions, dispatch),
+    feedActions: bindActionCreators(FeedActions, dispatch),
   };
 }
 

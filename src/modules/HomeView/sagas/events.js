@@ -11,7 +11,7 @@ import 'moment/locale/fi';
 import 'moment/locale/sv';
 import { stripTags, unescapeHTML } from 'underscore.string';
 import { getConfig } from '../config';
-import makeRequest from '../util/requests';
+import { makeRequest } from '../util/requests';
 import { default as EventActions, EventTypes } from '../redux/events/actions';
 
 const Config = getConfig();

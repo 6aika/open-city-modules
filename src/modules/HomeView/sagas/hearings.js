@@ -5,7 +5,7 @@ import {
 } from 'redux-saga/effects';
 // import translations                                 from '../translations/general';
 import { getConfig } from '../config';
-import makeRequest from '../util/requests';
+import { makeRequest } from '../util/requests';
 import { default as HearingActions, HearingTypes }  from '../redux/hearings/actions';
 
 const Config = getConfig();

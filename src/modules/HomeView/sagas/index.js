@@ -1,6 +1,7 @@
 
 import { watchGetHeroContent, watchGetEvents, watchGetEvent } from './events';
 import { watchGetHearings } from './hearings';
+import { watchGetFeedList } from './feed';
 
 const sagas = function* sagas() {
   yield [
@@ -8,6 +9,7 @@ const sagas = function* sagas() {
     watchGetHearings(),
     watchGetEvents(),
     watchGetEvent(),
+    watchGetFeedList(),
   ];
 };
 
