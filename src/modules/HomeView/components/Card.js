@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   ImageBackground,
+  Image,
   TouchableHighlight,
   TouchableNativeFeedback,
   View,
@@ -15,14 +16,21 @@ class Card extends Component {
   }
 
   render() {
-    const { imageUrl, headline, onPressItem } = this.props;
-    const pic = {
-      uri: imageUrl,
-    };
+    const { imageUrl, headline, onPressItem, image } = this.props;
+    let pic;
+    if (imageUrl) {
+      pic = {
+        uri: imageUrl,
+      };
+    } else if (image) {
+      pic = image;
+    }
+
 
     const CardContent = (
       <View>
-        <ImageBackground source={pic} style={styles.cardImage} resizeMode="cover" />
+        { imageUrl && <ImageBackground source={pic} style={styles.cardImage} resizeMode="cover" /> }
+        { image && <Image source={pic} tintColor={'black'} style={[{ width: 48, height: 48, alignSelf: 'center', margin: 24,}]} resizeMode="cover" /> }
         <View style={styles.cardOverlay}>
           <Text style={styles.cardHeadline}>{headline}</Text>
         </View>

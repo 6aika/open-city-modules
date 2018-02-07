@@ -40,6 +40,8 @@
   },
   "dependencies": {
     "color": "^2.0.1",
+    "he": "^1.1.1",
+    "moment": "^2.19.2",
     "prop-types": "15.6.0",
     "react-native-extended-stylesheet": "^0.8.0",
     "react-native-fast-image": "^2.0.1",
@@ -48,6 +50,7 @@
     "react-native-modal-selector": "0.0.24",
     "react-native-swiper": "^1.5.13",
     "react-native-vector-icons": "^4.4.2",
+    "react-native-xml2js": "^1.0.3",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
@@ -55,7 +58,6 @@
     "redux-persist": "^5.4.0",
     "redux-saga": "^0.16.0",
     "reduxsauce": "^0.7.0",
-    "moment": "^2.19.2",
     "twix": "^1.2.1",
     "underscore.string": "^3.3.4"
   }

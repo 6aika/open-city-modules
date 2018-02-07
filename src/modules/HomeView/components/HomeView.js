@@ -12,6 +12,7 @@ import FeedActions from '../redux/feed/actions';
 import Hero from './Hero';
 import HearingList from './HearingList';
 import EventList from './EventList';
+import FeedList from './FeedList';
 import styles from '../styles';
 
 class HomeView extends Component {
@@ -46,6 +47,7 @@ class HomeView extends Component {
       heroEvent,
       hearingList,
       eventList,
+      feedList,
       heroLoading,
     } = this.props;
     const {
@@ -54,7 +56,9 @@ class HomeView extends Component {
       showHero,
       showEvents = true,
       showHearings = true,
+      showFeed = true,
     } = this.props.screenProps;
+
     return (
       <View style={{flex: 1}}>
         <Header />
@@ -91,6 +95,12 @@ class HomeView extends Component {
             <HearingList
               navigation={this.props.navigation}
               hearingList={hearingList}
+            />
+          }
+          { showFeed &&
+            <FeedList
+              navigation={this.props.navigation}
+              feedList={feedList}
             />
           }
         </ScrollView>
