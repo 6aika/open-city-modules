@@ -7,7 +7,7 @@ import {
   select
 } from 'redux-saga/effects';
 
-import makeRequest from '../util/requests';
+import { makeRequest } from '../util/requests';
 import { default as AuthActions, AuthTypes } from '../redux/auth/actions';
 import { USER_FOUND } from 'redux-oidc';
 
