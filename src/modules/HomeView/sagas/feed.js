@@ -10,6 +10,7 @@ import 'moment/locale/fi';
 import 'moment/locale/sv';
 import { stripTags, unescapeHTML } from 'underscore.string';
 import he from 'he';
+import EventIcon from 'open-city-modules/img/events.png'
 import { getConfig } from '../config';
 import { parseString } from 'react-native-xml2js';
 import { xmlRequest } from '../util/requests';
@@ -21,18 +22,28 @@ const LOCALE = 'fi';
 
 
 const parseFeedList = (feedListData) => {
-  parseString(feedListData, (err, result) => {
-    result.rss.channel[0].item.map((item) => {
-      const dateObj = new Date(item.pubDate[0]);
-      const date = `${dateObj.getDate()}.${dateObj.getMonth() + 1}.${dateObj.getFullYear()}`;
-      return {
-        title: item.title[0],
-        description: he.decode(item.description[0].replace('<p>', '').replace('</p>', '')),
-        date,
-        link: item.link[0],
-      };
+  return new Promise(function(resolve, reject) {
+    parseString(feedListData, (err, result) => {
+      const data = result.rss.channel[0].item.map((item) => {
+        const dateObj = new Date(item.pubDate[0]);
+        const date = `${dateObj.getDate()}.${dateObj.getMonth() + 1}.${dateObj.getFullYear()}`;
+        return {
+          title: item.title[0],
+          description: he.decode(item.description[0].replace('<p>', '').replace('</p>', '')),
+          date,
+          link: item.link[0],
+          image: EventIcon,
+          headline: item.title[0],
+        };
+      });
+
+      resolve(data);
+    }).catch((error) => {
+      clearTimeout(timeoutId);
+      reject(error);
     });
   });
+    // return { title: 'test', description: 'testdesc', link: 'www.google.com'}
 };
 
 const getFeedList = function*() {
@@ -40,8 +51,9 @@ const getFeedList = function*() {
     const url = Config.FEED_API_URL;
     // const url = "http://ip.jsontest.com/";
     const response = yield call(xmlRequest, Config.FEED_API_URL)
-    const parsedResponse = parseFeedList(response._bodyText);
+    const parsedResponse = yield call(parseFeedList, response._bodyText)
     yield put(FeedActions.getFeedListSuccess(parsedResponse))
+
 
   } catch (err) {
     yield put(FeedActions.getFeedListFailure(err.message))
