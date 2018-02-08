@@ -19,7 +19,10 @@ const HomeStack = StackNavigator({
   },
   HearingDetailView: { screen: HearingDetailView },
   EventDetailView: { screen: EventDetailView },
-  FeedListView: { screen: ItemListView },
+  FeedListView: { screen: ItemListView,
+    navigationOptions: {
+      header: null,
+    }, },
 });
 
 class HomeViewWrapper extends Component<{}> {
