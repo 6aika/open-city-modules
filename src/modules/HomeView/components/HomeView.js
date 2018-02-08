@@ -10,7 +10,8 @@ import EventActions from '../redux/events/actions';
 import HearingActions from '../redux/hearings/actions';
 import FeedActions from '../redux/feed/actions';
 import Hero from './Hero';
-import { getConfig } from '../config';
+import MenuItem from './MenuItem';
+import { getConfig, feeds } from '../config';
 import HearingList from './HearingList';
 import EventList from './EventList';
 import FeedList from './FeedList';
@@ -39,11 +40,12 @@ class HomeView extends Component {
       this.props.hearingActions.getHearings();
     }
 
-    if (showFeed) {
-      this.props.feedActions.getFeedList(Config.RSS_FEED_ANNOUNCEMENTS);
-    }
-
+    // if (showFeed) {
+    //   this.props.feedActions.getFeedList(Config.RSS_FEED_ANNOUNCEMENTS);
+    // }
   }
+
+  goToFeedListView = feed => this.props.navigation.navigate('FeedListView', { feed });
 
   render() {
     const {
@@ -101,10 +103,16 @@ class HomeView extends Component {
             />
           }
           { showFeed &&
-            <FeedList
-              navigation={this.props.navigation}
-              feedList={feedList}
-            />
+            <View style={styles.feedContainer}>
+              { feeds.map(feed => (
+                <MenuItem
+                  key={feed.name}
+                  label={(feed.name).toUpperCase()}
+                  icon={feed.icon}
+                  onPress={() => this.goToFeedListView(feed)}
+                />
+              ))}
+            </View>
           }
         </ScrollView>
       </View>

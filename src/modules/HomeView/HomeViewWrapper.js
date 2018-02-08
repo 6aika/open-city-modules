@@ -8,6 +8,7 @@ import ConnectedAuthView from './views/AuthView';
 import HearingDetailView from './views/HearingDetailView';
 import EventDetailView from './views/EventDetailView';
 import HomeView from './components/HomeView';
+import ItemListView from './views/ItemListView';
 
 const HomeStack = StackNavigator({
   HomeView: {
@@ -18,6 +19,7 @@ const HomeStack = StackNavigator({
   },
   HearingDetailView: { screen: HearingDetailView },
   EventDetailView: { screen: EventDetailView },
+  FeedListView: { screen: ItemListView },
 });
 
 class HomeViewWrapper extends Component<{}> {

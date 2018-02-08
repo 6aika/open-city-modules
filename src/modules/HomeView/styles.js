@@ -136,6 +136,13 @@ const styles = EStyleSheet.create({
     height: 30,
     width: 30,
   },
+  feedContainer: {
+    flex: 1,
+    alignItems: 'stretch',
+    borderRadius: 2,
+    marginTop: 5,
+    marginBottom: 10,
+  },
   headlineText: 30,
   cardHeadline: 20,
 });
