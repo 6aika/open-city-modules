@@ -74,13 +74,15 @@ class ItemListView extends React.Component<Props, State> {
       );
     }
 
-    const Header = withBackButton(navigation, EStyleSheet.value('colors.min'))(this.props.screenProps.Header);
+    const Header = withBackButton(navigation, EStyleSheet.value('colors.max'))(this.props.screenProps.Header);
 
     return (
       <View style={{ flex: 1 }}>
         <Header
-          bgColor={EStyleSheet.value('$colors.max')}
-          fgColor={EStyleSheet.value('$colors.min')}
+          style={{backgroundColor: EStyleSheet.value('$colors.max')}}
+          titleStyle={{color: EStyleSheet.value('$colors.min')}}
+          bgColor={'red'}
+          fgColor={'blue'}
           title={feed.name.toUpperCase()}
         />
         <View style={{ flex: 1 }}>
@@ -106,6 +108,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 const ConnectedItemListView = connect(mapStateToProps, mapDispatchToProps)(ItemListView);
-
 
 export default ConnectedItemListView;
