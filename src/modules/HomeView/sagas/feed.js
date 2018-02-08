@@ -46,11 +46,9 @@ const parseFeedList = (feedListData) => {
     // return { title: 'test', description: 'testdesc', link: 'www.google.com'}
 };
 
-const getFeedList = function*() {
+const getFeedList = function*({ feedUrl }) {
   try {
-    const url = Config.FEED_API_URL;
-    // const url = "http://ip.jsontest.com/";
-    const response = yield call(xmlRequest, Config.FEED_API_URL)
+    const response = yield call(xmlRequest, feedUrl)
     const parsedResponse = yield call(parseFeedList, response._bodyText)
     yield put(FeedActions.getFeedListSuccess(parsedResponse))
 

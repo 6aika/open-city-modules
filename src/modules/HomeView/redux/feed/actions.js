@@ -1,7 +1,7 @@
 import { createActions } from 'reduxsauce';
 
 const { Types, Creators } = createActions({
-  getFeedList: null,
+  getFeedList: ['feedUrl'],
   getFeedListSuccess: ['feedList'],
   getFeedListFailure: ['error'],
 });
