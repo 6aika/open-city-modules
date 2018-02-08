@@ -8,8 +8,12 @@
   "FEATURED_EVENT_API_BASE_URL": "https://www.myhelsinki.fi/api/path/%2Ffi%2Fnae-ja-koe%2Ftapahtumat",
   "HEARINGS_API_BASE_URL": "https://api.hel.fi/kerrokantasi/v1/hearing/",
   "HEARINGS_WEB_URL": "https://kerrokantasi.hel.fi/",
-  "LINKED_EVENTS_API_BASE_URL": "https://api.hel.fi/linkedevents/v1/event/",
-  "FEED_API_URL": "https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/tapahtumat/rss2.xml.stx",
+  "LINKED_EVENTS_API_BASE_URL": "http://linkedevents.tampere.fi/v1/event/",
+  "LINKED_EVENTS_GET_PARAMS": "?include=location&sort=start_time",
+  "RSS_FEED_EVENTS": "https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/tapahtumat/rss2.xml.stx",
+  "RSS_FEED_NEWS": "https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/tiedotteet/rss.xml.stx",
+  "RSS_FEED_ANNOUNCEMENTS": "https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/ilmoitukset/rss.xml",
+  "RSS_FEED_ARTICLES": "https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/artikkelit/rss.xml.stx",
 
 
   // OTHER URLs

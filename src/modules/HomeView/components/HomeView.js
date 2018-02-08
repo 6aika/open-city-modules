@@ -10,10 +10,13 @@ import EventActions from '../redux/events/actions';
 import HearingActions from '../redux/hearings/actions';
 import FeedActions from '../redux/feed/actions';
 import Hero from './Hero';
+import { getConfig } from '../config';
 import HearingList from './HearingList';
 import EventList from './EventList';
 import FeedList from './FeedList';
 import styles from '../styles';
+
+const Config = getConfig();
 
 class HomeView extends Component {
   constructor(props) {
@@ -37,7 +40,7 @@ class HomeView extends Component {
     }
 
     if (showFeed) {
-      this.props.feedActions.getFeedList();
+      this.props.feedActions.getFeedList(Config.RSS_FEED_ANNOUNCEMENTS);
     }
 
   }
