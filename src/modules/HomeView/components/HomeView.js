@@ -71,6 +71,16 @@ class HomeView extends Component {
         <Header />
         <ScrollView style={styles.container}>
           <View>
+            { !showHero &&
+              <View>
+                <View style={styles.heroOverlay} />
+                <Image
+                  source={heroBanner}
+                  resizeMode="cover"
+                  style={styles.heroDecoration}
+                />
+              </View>
+            }
             { showHero &&
             <Hero
               banner={heroBanner}
@@ -91,16 +101,6 @@ class HomeView extends Component {
             }
           </View>
 
-          { !showHero &&
-            <View>
-              <View style={styles.heroOverlay} />
-              <Image
-                source={heroBanner}
-                resizeMode="cover"
-                style={styles.heroDecoration}
-              />
-            </View>
-          }
           { showHearings &&
             <HearingList
               navigation={this.props.navigation}
