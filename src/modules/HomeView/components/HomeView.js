@@ -31,6 +31,7 @@ class HomeView extends Component {
       showEvents = true,
       showHearings = true,
       showFeed = true,
+      showHero = true,
     } = this.props.screenProps;
 
     if (showHero) {
