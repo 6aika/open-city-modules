@@ -91,7 +91,7 @@ class HomeView extends Component {
             }
           </View>
 
-          { !showEvents &&
+          { !showHero &&
             <View>
               <View style={styles.heroOverlay} />
               <Image
