@@ -20,7 +20,7 @@ const Wave = (props: { topColor?: string, bottomColor?: string, style?: any }) =
 );
 
 Wave.defaultProps = {
-  topColor: EStyleSheet.value('black'),
+  topColor: EStyleSheet.value('$colors.max'),
   bottomColor: 'transparent',
   style: {},
 };
