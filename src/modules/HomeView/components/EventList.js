@@ -3,8 +3,8 @@ import {
   View,
   Text,
 } from 'react-native';
+import { t } from 'open-city-modules/src/modules/translations';
 import CardList from './CardList';
-import transEvents from '../../translations';
 import styles from '../styles';
 
 class EventList extends Component {
@@ -25,7 +25,7 @@ class EventList extends Component {
       <View style={styles.eventWrapper}>
         <View style={styles.headline}>
           <Text style={styles.headlineText}>
-            {transEvents.fi.toDo}
+            {t('toDo')}
           </Text>
         </View>
         <CardList

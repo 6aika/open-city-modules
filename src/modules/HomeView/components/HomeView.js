@@ -3,7 +3,9 @@ import {
   ScrollView,
   View,
   Image,
+  Text,
 } from 'react-native';
+import { t } from 'open-city-modules/src/modules/translations';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EventActions from '../redux/events/actions';
@@ -31,18 +33,17 @@ class HomeView extends Component {
       showFeed = true,
     } = this.props.screenProps;
 
-    if (showEvents) {
+    if (showHero) {
       this.props.eventActions.getHero();
+    }
+
+    if (showEvents) {
       this.props.eventActions.getList();
     }
 
     if (showHearings) {
       this.props.hearingActions.getHearings();
     }
-
-    // if (showFeed) {
-    //   this.props.feedActions.getFeedList(Config.RSS_FEED_ANNOUNCEMENTS);
-    // }
   }
 
   goToFeedListView = feed => this.props.navigation.navigate('FeedListView', { feed });
@@ -58,18 +59,18 @@ class HomeView extends Component {
     const {
       Header,
       heroBanner,
-      showHero,
+      showHero = true,
       showEvents = true,
       showHearings = true,
       showFeed = true,
     } = this.props.screenProps;
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <Header />
         <ScrollView style={styles.container}>
-          { showEvents &&
-            <View>
+          <View>
+            { showHero &&
             <Hero
               banner={heroBanner}
               imageUrl={heroEvent.imageUrl}
@@ -80,12 +81,15 @@ class HomeView extends Component {
               loading={heroLoading}
               navigation={this.props.navigation}
             />
-            <EventList
-              navigation={this.props.navigation}
-              eventList={eventList}
-            />
-            </View>
-          }
+            }
+            { showEvents &&
+              <EventList
+                navigation={this.props.navigation}
+                eventList={eventList}
+              />
+            }
+          </View>
+
           { !showEvents &&
             <View>
               <View style={styles.heroOverlay} />
@@ -107,7 +111,7 @@ class HomeView extends Component {
               { feeds.map(feed => (
                 <MenuItem
                   key={feed.name}
-                  label={(feed.name).toUpperCase()}
+                  label={t(feed.name)}
                   icon={feed.icon}
                   onPress={() => this.goToFeedListView(feed)}
                 />
