@@ -6,7 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 const ASPECT_RATIO = 1080 / 50;
 const screenWidth = Dimensions.get('window').width;
-
+const color = EStyleSheet.value('red');
 const Wave = (props: { topColor?: string, bottomColor?: string, style?: any }) => (
   <Image
     source={wave2}
@@ -20,7 +20,7 @@ const Wave = (props: { topColor?: string, bottomColor?: string, style?: any }) =
 );
 
 Wave.defaultProps = {
-  topColor: EStyleSheet.value('$colors.max'),
+  topColor: 'black',
   bottomColor: 'transparent',
   style: {},
 };

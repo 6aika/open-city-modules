@@ -85,7 +85,7 @@ class FeedListView extends React.Component<Props, State> {
           title={t(feed.name).toUpperCase()}
         />
         <View style={{ flex: 1 }}>
-          <Wave style={{ position: 'absolute', top: 0, zIndex: 2 }} />
+          <Wave topColor={EStyleSheet.value('$colors.max')} style={{ position: 'absolute', top: 0, zIndex: 2 }} />
           { content }
         </View>
       </View>
