@@ -39,7 +39,7 @@ const FeedDetailView = (props: Props) => {
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.date}>{t('published')} {item.date}</Text>
         </View>
-        <Wave />
+        <Wave topColor={EStyleSheet.value('$colors.max')}/>
         <View style={styles.bottomContent}>
           <Text style={styles.description}>{item.description}</Text>
           <TouchableOpacity onPress={() => Linking.openURL(item.link)}>
