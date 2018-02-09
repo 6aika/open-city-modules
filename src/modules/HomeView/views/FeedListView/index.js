@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import he from 'he';
+import { t } from 'open-city-modules/src/modules/translations';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withBackButton } from 'open-city-modules/src/util';
@@ -33,7 +34,7 @@ type State = {
   loading: boolean,
 };
 
-class ItemListView extends React.Component<Props, State> {
+class FeedListView extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -54,7 +55,7 @@ class ItemListView extends React.Component<Props, State> {
     let content;
     if (loading) {
       content = (
-        <View style={styles.centeredView}><Text>{'common:loading'}</Text></View>
+        <View style={styles.centeredView}><Text>{t('loading')}</Text></View>
       );
     } else if (Array.isArray(feedList)) {
       content = (
@@ -64,10 +65,10 @@ class ItemListView extends React.Component<Props, State> {
               // eslint-disable-next-line react/no-array-index-key
               key={i}
               style={styles.listItem}
-              onPress={() => navigation.navigate('ItemDetailView', { item, type: feed.name })}
+              onPress={() => navigation.navigate('FeedDetailView', { item, type: feed.name })}
             >
               <Text style={styles.listItemTitle}>{item.title}</Text>
-              <Text style={styles.listItemDate}>{'published'} {item.date}</Text>
+              <Text style={styles.listItemDate}>{t('published')} {item.date}</Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
@@ -81,9 +82,7 @@ class ItemListView extends React.Component<Props, State> {
         <Header
           style={{backgroundColor: EStyleSheet.value('$colors.max')}}
           titleStyle={{color: EStyleSheet.value('$colors.min')}}
-          bgColor={'red'}
-          fgColor={'blue'}
-          title={feed.name.toUpperCase()}
+          title={t(feed.name).toUpperCase()}
         />
         <View style={{ flex: 1 }}>
           <Wave style={{ position: 'absolute', top: 0, zIndex: 2 }} />
@@ -107,6 +106,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const ConnectedItemListView = connect(mapStateToProps, mapDispatchToProps)(ItemListView);
+const ConnectedFeedListView = connect(mapStateToProps, mapDispatchToProps)(FeedListView);
 
-export default ConnectedItemListView;
+export default ConnectedFeedListView;

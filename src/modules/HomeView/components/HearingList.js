@@ -3,6 +3,7 @@ import {
   View,
   Text,
 } from 'react-native';
+import { t } from 'open-city-modules/src/modules/translations';
 import CardList from './CardList';
 import transHearings from '../../translations';
 import Config from '../config.json';
@@ -28,7 +29,7 @@ class HearingList extends Component {
       <View style={styles.hearingWrapper}>
         <View style={styles.headline}>
           <Text style={styles.headlineText}>
-            {transHearings.fi.hearings}
+            {t('hearings')}
           </Text>
         </View>
         <CardList

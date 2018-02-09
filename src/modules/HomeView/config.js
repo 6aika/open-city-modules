@@ -1,4 +1,5 @@
 import defaultConfig from 'open-city-modules/src/modules/HomeView/config.json';
+import { t } from 'open-city-modules/src/modules/translations';
 import news from 'open-city-modules/img/news.png';
 import events from 'open-city-modules/img/events.png';
 import announcements from 'open-city-modules/img/announcements.png';

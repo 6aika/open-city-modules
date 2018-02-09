@@ -63,23 +63,30 @@ class EventDetailView extends Component {
         <View style={styles.centeredContent}>
           <Text style={[styles.headline, styles.textBlockNarrow]}>{headline}</Text>
           <Text style={[styles.date, styles.textBlock]}>{date}</Text>
+          { place &&
+            <Text style={[styles.description, styles.textBlock]}>{place}</Text>
+          }
           <Text style={[styles.description, styles.textBlock]}>{description}</Text>
+
         </View>
-        <MapView
-          style={styles.map}
-          region={region}
-          showsUserLocation={false}
-          followUserLocation={false}
-          toolbarEnabled={false}
-          scrollEnabled={false}
-          zoomEnabled={false}
-          customMapStyle={this.props.screenProps.customMapStyle}
-        >
-          <MapView.Marker
-            coordinate={this.props.region}
-            image={this.props.screenProps.marker}
-          />
-        </MapView>
+        { region && region.lat && region.lng &&
+          <MapView
+            style={styles.map}
+            region={region}
+            showsUserLocation={false}
+            followUserLocation={false}
+            toolbarEnabled={false}
+            scrollEnabled={false}
+            zoomEnabled={false}
+            customMapStyle={this.props.screenProps.customMapStyle}
+          >
+            <MapView.Marker
+              coordinate={this.props.region}
+              image={this.props.screenProps.marker}
+            />
+          </MapView>
+        }
+
       </ScrollView>
     );
   }

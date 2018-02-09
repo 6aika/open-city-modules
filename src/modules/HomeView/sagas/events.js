@@ -137,15 +137,15 @@ const getEventDuration = (linkedEvent) => {
   })
 }
 
-const getEventRegion = (linkedEvent, myHelsinkiLocation = {lat: 60.192059, lng: 24.945831} ) => {
+const getEventRegion = (linkedEvent, myHelsinkiLocation) => {
 
   let parsedLocation = {
     latitudeDelta: 0.01,
     longitudeDelta: 0.01
   }
 
-  parsedLocation.latitude = linkedEvent.location && linkedEvent.location.position && linkedEvent.location.position.coordinates[1] || myHelsinkiLocation.lat
-  parsedLocation.longitude = linkedEvent.location && linkedEvent.location.position && linkedEvent.location.position.coordinates[0] || myHelsinkiLocation.lng
+  parsedLocation.latitude = linkedEvent.location && linkedEvent.location.position && linkedEvent.location.position.coordinates[1] || myHelsinkiLocation && myHelsinkiLocation.lat
+  parsedLocation.longitude = linkedEvent.location && linkedEvent.location.position && linkedEvent.location.position.coordinates[0] || myHelsinkiLocation && myHelsinkiLocation.lng
 
   return parsedLocation
 }
