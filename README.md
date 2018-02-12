@@ -75,7 +75,8 @@ TODO
 
 
 ### WebView module
-TODO
+
+WebView module is just a simple webview which can be used as a front page for the application. The module expects `locale` and `src` as screenProps.
 
 
 ### Feedback module
@@ -130,6 +131,9 @@ The default configuration is shown below. Any configuration fields can be overri
   "MAX_ATTACHMENTS": 5,
 }
 ```
+
+The module also expects `locale` and `colors` screenProps. 
+
 ### HomeView module
 #### Installation
 The homeview module has some peer dependencies which use native platform feature on android and iOS. This requires using `react-native-link` or manual linking after installing the npm packages.
@@ -145,6 +149,11 @@ Homeview module exports the module itself and also a function to configure the m
 
 `import { HomeViewModule, configureHomeView } from 'open-city-modules';`
 
+HomeView module consists of 4 main features: Hero, Event feed, Hearings feed and RSS feed(s). To disable any of the features just pass in a false value for the corresponding screenProp `showHero`, `showEvents`, `showHearings` or `
+showFeed`. By default all of the values are true.
+
+The module also expects `colors` and `locale` screenProps.
+
 The default configuration is shown below. Any configuration fields can be overrided by creating a JSON-file as shown below and calling the configuration function with the new configuration JSON.
 
 `configureHomeView(my_configuration.json);`
@@ -156,6 +165,10 @@ The default configuration is shown below. Any configuration fields can be overri
   "HEARINGS_API_BASE_URL": "https://api.hel.fi/kerrokantasi/v1/hearing/",
   "FEATURED_EVENT_API_BASE_URL": "https://www.myhelsinki.fi/api/path/%2Ffi%2Fnae-ja-koe%2Ftapahtumat",
   "LINKED_EVENTS_API_BASE_URL": "https://api.hel.fi/linkedevents/v1/event/",
+  "RSS_FEED_EVENTS": "https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/tapahtumat/rss2.xml.stx",
+  "RSS_FEED_NEWS": "https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/tiedotteet/rss.xml.stx",
+  "RSS_FEED_ANNOUNCEMENTS": "https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/ilmoitukset/rss.xml",
+  "RSS_FEED_ARTICLES": "https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/artikkelit/rss.xml.stx",
 
   // OPENID Settings
   "OPENID_AUTHORITY": "https://profile.dev.hel.ninja/openid",
@@ -167,10 +180,14 @@ The default configuration is shown below. Any configuration fields can be overri
   "TIMEOUT_THRESHOLD": 40000,
   "TIMEOUT_MESSAGE": "timeout",
 
-
 }
 ```
 
+Two new color theme values (`homebg`, `homefg`) must be added to the color theme object when using the module. 
+
+`homebg = HomeView background color`
+
+`homefg = HomeView banner color` 
 
 
 ## Contributing
