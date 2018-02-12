@@ -5,7 +5,7 @@ import {
   Image,
   Text,
 } from 'react-native';
-import { t } from 'open-city-modules/src/modules/translations';
+import { changeLanguage, t } from 'open-city-modules/src/modules/translations';
 import { connect } from 'react-redux';
 import HeroDecoration from 'open-city-modules/img/main-hero-decoration.png';
 import { bindActionCreators } from 'redux';
@@ -45,6 +45,16 @@ class HomeView extends Component {
 
     if (showHearings) {
       this.props.hearingActions.getHearings();
+    }
+
+    if (this.props.screenProps.locale) {
+      changeLanguage(this.props.screenProps.locale);
+    }
+  }
+
+  componentWillReceiveProps(nextProps: ModuleProps) {
+    if (this.props.screenProps.locale !== nextProps.screenProps.locale) {
+      changeLanguage(nextProps.screenProps.locale);
     }
   }
 
