@@ -191,4 +191,4 @@ Two new color theme values (`homebg`, `homefg`) must be added to the color theme
 
 
 ## Contributing
-TODO
+If you have made a custom module you think should be added as one of the default modules, send a pull request for your changes.
