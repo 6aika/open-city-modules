@@ -27,6 +27,8 @@ const colors = {
   min: 'white',
   med: 'blue',
   max: 'black',
+  homefg: '#ffc61e',
+  homebg: '#9fc9eb'
 };
 
 initColors(colors);
@@ -84,11 +86,26 @@ const FeedbackModuleMock = () => {
 };
 
 const HomeViewModuleMock = () => {
+  const homeViewColors = {
+    min: 'white',
+    med: 'blue',
+    max: 'black',
+    homebg: '#ffc61e',
+    homefg: '#9fc9eb'
+  };
+
+  initColors(homeViewColors);
+
   const screenProps = {
     Header,
     heroBanner: heroDecorationImage,
     mainImage: mainImage,
     marker: marker,
+    showEvents: true,
+    showHearings: false,
+    showHero: false,
+    locale: 'en',
+    colors: homeViewColors
   };
 
   return (
