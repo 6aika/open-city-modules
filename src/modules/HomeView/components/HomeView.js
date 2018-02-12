@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { t } from 'open-city-modules/src/modules/translations';
 import { connect } from 'react-redux';
+import HeroDecoration from 'open-city-modules/img/main-hero-decoration.png';
 import { bindActionCreators } from 'redux';
 import EventActions from '../redux/events/actions';
 import HearingActions from '../redux/hearings/actions';
@@ -59,7 +60,7 @@ class HomeView extends Component {
     } = this.props;
     const {
       Header,
-      heroBanner,
+      heroBanner = HeroDecoration,
       showHero = true,
       showEvents = true,
       showHearings = true,
