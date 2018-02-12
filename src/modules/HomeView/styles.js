@@ -12,7 +12,7 @@ const BRAND_DARK_THREE = '#009246'; // Helsinki Tram
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: BRAND_LIGHT_TWO,
+    backgroundColor: '$colors.homebg',
   },
   icon: {
     width: 26,
@@ -23,7 +23,7 @@ const styles = EStyleSheet.create({
   },
   cardWrapper: {
     width: 240,
-    backgroundColor: '#FFF',
+    backgroundColor: '$colors.min',
   },
   cardImage: {
     width: undefined,
@@ -44,13 +44,13 @@ const styles = EStyleSheet.create({
   },
   eventWrapper: {
     flex: 1,
-    backgroundColor: BRAND_LIGHT_TWO,
+    backgroundColor: '$colors.homebg',
     paddingTop: 50,
     paddingBottom: 50,
   },
   hearingWrapper: {
     flex: 1,
-    backgroundColor: BRAND_LIGHT_TWO,
+    backgroundColor: '$colors.homebg',
     paddingTop: 50,
     paddingBottom: 50,
   },
@@ -69,10 +69,10 @@ const styles = EStyleSheet.create({
   heroDecoration: {
     width: '100%',
     height: 30,
-    backgroundColor: BRAND_LIGHT_TWO,
+    tintColor: '$colors.homefg',
   },
   heroOverlay: {
-    backgroundColor: BRAND_LIGHT_ONE,
+    backgroundColor: '$colors.homefg',
     paddingTop: 30,
     paddingRight: 20,
     paddingLeft: 20,
@@ -91,7 +91,7 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
   },
   view: {
-    backgroundColor: '#FFF',
+    backgroundColor: '$colors.min',
   },
   image: {
     width: undefined,
