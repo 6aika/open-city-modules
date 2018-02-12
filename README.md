@@ -71,7 +71,6 @@ be shown before the actual steps. It can be customized using the following props
 * marginTopMultiplier: number
 
 ## Modules
-TODO
 
 
 ### WebView module
