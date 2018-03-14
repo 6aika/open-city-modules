@@ -80,9 +80,21 @@ const styles = EStyleSheet.create({
     paddingLeft: 20,
     paddingBottom: 10,
   },
-  heroHeadline: 40,
-  heroPlace: 20,
-  heroDate: 20,
+  heroHeadline: {
+    color: '$colors.min',
+    fontSize: 28,
+    fontWeight: 'bold'
+  },
+  heroPlace: {
+    color: '$colors.min',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  heroDate: {
+    color: '$colors.min',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
   loadingOverlay: {
     position: 'absolute',
     top: 0,

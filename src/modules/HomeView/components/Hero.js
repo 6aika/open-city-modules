@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 import styles from '../styles';
 
