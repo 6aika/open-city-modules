@@ -4,6 +4,8 @@ import {
   View,
   Image,
   Text,
+  Button,
+  Linking
 } from 'react-native';
 import { changeLanguage, t } from 'open-city-modules/src/modules/translations';
 import { connect } from 'react-redux';
@@ -12,15 +14,22 @@ import { bindActionCreators } from 'redux';
 import EventActions from '../redux/events/actions';
 import HearingActions from '../redux/hearings/actions';
 import FeedActions from '../redux/feed/actions';
+import PromotionActions from '../redux/promotions/actions';
 import Hero from './Hero';
 import MenuItem from './MenuItem';
-import { getConfig, feeds } from '../config';
+import { getConfig, getFeeds, getPromotions } from '../config';
 import HearingList from './HearingList';
 import EventList from './EventList';
-import FeedList from './FeedList';
+import Promotion from './Promotion';
 import styles from '../styles';
+import PromotionManager from '../util/promotionManager';
+import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
+const promotionManager = new PromotionManager()
 const Config = getConfig();
+
+const feeds = getFeeds();
 
 class HomeView extends Component {
   constructor(props) {
@@ -33,10 +42,15 @@ class HomeView extends Component {
       showHearings = true,
       showFeed = true,
       showHero = true,
+      showPromotions = true,
     } = this.props.screenProps;
 
     if (showHero) {
       this.props.eventActions.getHero();
+    }
+
+    if (showPromotions) {
+      this.props.promotionActions.getPromotions();
     }
 
     if (showEvents) {
@@ -50,12 +64,26 @@ class HomeView extends Component {
     if (this.props.screenProps.locale) {
       changeLanguage(this.props.screenProps.locale);
     }
+
+
+    Linking.getInitialURL().then((url) => {
+      //this.loading = true;
+      if(url) console.warn(url)
+    }).catch((err) => {
+      // console.warn('Error occured', err);
+    });
   }
+
 
   componentWillReceiveProps(nextProps: ModuleProps) {
     if (this.props.screenProps.locale !== nextProps.screenProps.locale) {
       changeLanguage(nextProps.screenProps.locale);
     }
+  }
+
+  onPromotionClose = (id) => {
+    console.warn('closing')
+    promotionManager.markPromotionAsRead(id);
   }
 
   goToFeedListView = feed => this.props.navigation.navigate('FeedListView', { feed });
@@ -66,6 +94,7 @@ class HomeView extends Component {
       hearingList,
       eventList,
       feedList,
+      promotionList,
       heroLoading,
     } = this.props;
     const {
@@ -75,6 +104,7 @@ class HomeView extends Component {
       showEvents = true,
       showHearings = true,
       showFeed = true,
+      showPromotions = true,
     } = this.props.screenProps;
 
     return (
@@ -82,14 +112,17 @@ class HomeView extends Component {
         <Header />
         <ScrollView style={styles.container}>
           <View>
+            { showPromotions &&
+              <View>
+              <Text>{promotionList.length}</Text>
+              <Text>{'promotionList.length'}</Text>
+              </View>
+            }
             { !showHero &&
               <View>
                 <View style={styles.heroOverlay} />
-                <Image
-                  source={heroBanner}
-                  resizeMode="cover"
-                  style={styles.heroDecoration}
-                />
+                <Wave topColor={EStyleSheet.value('$colors.max')}/>
+
               </View>
             }
             { showHero &&
@@ -104,12 +137,30 @@ class HomeView extends Component {
               navigation={this.props.navigation}
             />
             }
+
+            { showPromotions &&
+              <View style={styles.promotionsContainer}>
+                { promotionList.map((item, index) => {
+                  const child = index < promotionList.length ? promotionList[index + 1] : null;
+
+                  return (
+                    <Promotion
+                      promotion={item}
+                      index={index}
+                      onClose={(id) => this.onPromotionClose(id)}
+                    />
+                  );
+                })}
+              </View>
+            }
+
             { showEvents &&
               <EventList
                 navigation={this.props.navigation}
                 eventList={eventList}
               />
             }
+
           </View>
 
           { showHearings &&
@@ -144,6 +195,7 @@ function mapStateToProps(state) {
     hearingList: state.hearings.hearingList,
     eventList: state.events.eventList,
     feedList: state.feed.feedList,
+    promotionList: state.promotions.promotionList,
   };
 }
 
@@ -152,6 +204,7 @@ function mapDispatchToProps(dispatch) {
     eventActions: bindActionCreators(EventActions, dispatch),
     hearingActions: bindActionCreators(HearingActions, dispatch),
     feedActions: bindActionCreators(FeedActions, dispatch),
+    promotionActions: bindActionCreators(PromotionActions, dispatch),
   };
 }
 

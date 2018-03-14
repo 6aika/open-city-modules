@@ -5,14 +5,7 @@ import events from 'open-city-modules/img/events.png';
 import announcements from 'open-city-modules/img/announcements.png';
 import articles from 'open-city-modules/img/articles.png';
 
-let config = defaultConfig;
-export const configureHomeView = (configJSON) => {
-  config = Object.assign(defaultConfig, configJSON);
-};
-
-export const getConfig = () => config;
-
-export const feeds = [
+const defaultFeeds = [
   {
     name: 'news',
     icon: news,
@@ -31,3 +24,43 @@ export const feeds = [
     url: 'https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/artikkelit/rss.xml.stx',
   },
 ];
+
+const defaultPromotions = [
+  {
+    id: 'prom4',
+    title: 'Puhelimesta kirjastokortiksi',
+    body: 'Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina',
+    bgColor: 'green',
+    textColor: 'white',
+  },
+  {
+    id: 'prom5',
+    title: 'Puhelimesta kirjastokortiksi2',
+    body: 'Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina',
+    bgColor: 'blue',
+    textColor: 'white',
+  },
+  {
+    id: 'prom6',
+    title: 'Puhelimesta kirjastokortiksi2',
+    body: 'Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina',
+    bgColor: 'yellow',
+    textColor: 'white',
+  }
+]
+
+let config = defaultConfig;
+let feeds = defaultFeeds;
+let promotions = defaultPromotions;
+
+export const configureHomeView = (configJSON, customFeeds = defaultFeeds, customPromotions = promotions) => {
+  config = Object.assign(defaultConfig, configJSON);
+  feeds = customFeeds;
+  promotions = customPromotions;
+};
+
+export const getConfig = () => config;
+
+export const getFeeds = () => feeds;
+
+export const getPromotions = () => promotions;

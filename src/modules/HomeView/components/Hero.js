@@ -9,6 +9,7 @@ import {
   TouchableNativeFeedback,
   ActivityIndicator,
 } from 'react-native';
+import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
 
 import styles from '../styles';
 
@@ -50,11 +51,8 @@ class Hero extends Component {
           <Text style={styles.heroPlace}>{place}</Text>
           <Text style={styles.heroHeadline}>{headline}</Text>
         </View>
-        <Image
-          source={banner}
-          resizeMode="cover"
-          style={styles.heroDecoration}
-        />
+        <Wave topColor={EStyleSheet.value('$colors.max')}/>
+
         {loading &&
           <View style={styles.loadingOverlay}>
             <ActivityIndicator size="large" />
