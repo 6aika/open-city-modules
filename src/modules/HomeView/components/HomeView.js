@@ -112,12 +112,6 @@ class HomeView extends Component {
         <Header />
         <ScrollView style={styles.container}>
           <View>
-            { showPromotions &&
-              <View>
-              <Text>{promotionList.length}</Text>
-              <Text>{'promotionList.length'}</Text>
-              </View>
-            }
             { !showHero &&
               <View>
                 <View style={styles.heroOverlay} />
