@@ -30,7 +30,8 @@ const fetchHero = function*() {
 
 const getEvents = function*() {
   try {
-    const url = Config.LINKED_EVENTS_API_BASE_URL + Config.LINKED_EVENTS_GET_PARAMS;
+    const currentTime = Moment(new Date()).format('YYYY-MM-DD');
+    const url = Config.LINKED_EVENTS_API_BASE_URL + Config.LINKED_EVENTS_GET_PARAMS + '&start=' + currentTime;
     const response = yield call(makeRequest, url, 'GET', null)
     const eventList = parseEventList(response.data)
     yield put(EventActions.getListSuccess(eventList))
