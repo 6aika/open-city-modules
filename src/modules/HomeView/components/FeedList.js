@@ -3,37 +3,38 @@ import {
   View,
   Text,
 } from 'react-native';
-import { t } from 'open-city-modules/src/modules/translations';
 import CardList from './CardList';
 import transHearings from '../../translations';
 import Config from '../config.json';
 import styles from '../styles';
 
-class HearingList extends Component {
+class FeedList extends Component {
   constructor(props) {
     super(props);
   }
 
   onPressItem = (item) => {
-    this.props.navigation.navigate('HearingDetailView', {
-      url: Config.HEARINGS_WEB_URL + item.urlSlug,
-      JStoInject: 'document.querySelector(".navbar-primary").style.display="none";',
-    });
+    console.warn('item pressed')
+    // this.props.navigation.navigate('HearingDetailView', {
+    //   url: Config.HEARINGS_WEB_URL + item.urlSlug,
+    //   JStoInject: 'document.querySelector(".navbar-primary").style.display="none";',
+    // });
   }
 
   render() {
-    const { hearingList } = this.props;
+    const { feedList } = this.props;
+    console.warn(feedList.length)
     // console.warn(hearingList)
 
     return (
       <View style={styles.hearingWrapper}>
         <View style={styles.headline}>
           <Text style={styles.headlineText}>
-            {t('hearings')}
+            {'tapahtumat'}
           </Text>
         </View>
         <CardList
-          listData={hearingList}
+          listData={feedList}
           onPress={this.onPressItem}
         />
       </View>
@@ -41,4 +42,4 @@ class HearingList extends Component {
   }
 }
 
-export default HearingList;
+export default FeedList;

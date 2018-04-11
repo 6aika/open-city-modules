@@ -1,5 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions  } from 'react-native';
+import Color from 'color';
 
 const BRAND_LIGHT_ONE = '#ffc61e'; // Helsinki Summer
 const BRAND_LIGHT_TWO = '#9fc9eb'; // Helsinki Fog
@@ -10,8 +11,10 @@ const BRAND_DARK_TWO = '#fd4f00'; // Helsinki Metro
 const BRAND_DARK_THREE = '#009246'; // Helsinki Tram
 
 const styles = EStyleSheet.create({
+  $cardBG: () => Color(EStyleSheet.value('$colors.min')).darken(0.15),
   container: {
     flex: 1,
+    backgroundColor: '$colors.min',
   },
   icon: {
     width: 26,
@@ -22,7 +25,7 @@ const styles = EStyleSheet.create({
   },
   cardWrapper: {
     width: 240,
-    backgroundColor: '#FFF',
+    backgroundColor: '$cardBG',
   },
   cardImage: {
     width: undefined,
@@ -43,13 +46,13 @@ const styles = EStyleSheet.create({
   },
   eventWrapper: {
     flex: 1,
-    backgroundColor: BRAND_LIGHT_TWO,
+    backgroundColor: '$colors.min',
     paddingTop: 50,
     paddingBottom: 50,
   },
   hearingWrapper: {
     flex: 1,
-    backgroundColor: BRAND_LIGHT_TWO,
+    backgroundColor: '$colors.min',
     paddingTop: 50,
     paddingBottom: 50,
   },
@@ -68,18 +71,30 @@ const styles = EStyleSheet.create({
   heroDecoration: {
     width: '100%',
     height: 30,
-    backgroundColor: BRAND_LIGHT_TWO,
+    tintColor: '$colors.max',
   },
   heroOverlay: {
-    backgroundColor: BRAND_LIGHT_ONE,
+    backgroundColor: '$colors.max',
     paddingTop: 30,
     paddingRight: 20,
     paddingLeft: 20,
     paddingBottom: 10,
   },
-  heroHeadline: 40,
-  heroPlace: 20,
-  heroDate: 20,
+  heroHeadline: {
+    color: '$colors.min',
+    fontSize: 28,
+    fontWeight: 'bold'
+  },
+  heroPlace: {
+    color: '$colors.min',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  heroDate: {
+    color: '$colors.min',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
   loadingOverlay: {
     position: 'absolute',
     top: 0,
@@ -90,7 +105,7 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
   },
   view: {
-    backgroundColor: '#FFF',
+    backgroundColor: '$colors.min',
   },
   image: {
     width: undefined,
@@ -134,6 +149,13 @@ const styles = EStyleSheet.create({
   markerIcon: {
     height: 30,
     width: 30,
+  },
+  feedContainer: {
+    flex: 1,
+    alignItems: 'stretch',
+    borderRadius: 2,
+    marginTop: 5,
+    marginBottom: 10,
   },
   headlineText: 30,
   cardHeadline: 20,

@@ -8,6 +8,7 @@ import {
   Dimensions,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { withProps } from 'recompose';
 
 import OptionButton from 'open-city-modules/src/steps/components/OptionButton';
 import SquareButton from 'open-city-modules/src/steps/components/SquareButton';
@@ -27,7 +28,7 @@ type Props = {
   t: any,
   i18n: any,
   // Customization props
-  mode: 'list' | 'grid',
+  mode: 'list' | 'grid' | 'custom',
   containerStyle: ?StyleObj,
   contentStyle: ?StyleObj,
   topImage: any,
@@ -46,7 +47,7 @@ const ChoiceView = ({
   mode, options, onOptionPress, onPreviousPress, onNextPress, step,
   totalSteps, nextDisabled, containerStyle, contentStyle, topImage, topImageStyle,
   t, questionStyle, buttonProps, bottomBarProps, bgImage, bgImageAspectRatio = 9 / 16,
-  marginTopMultiplier,
+  marginTopMultiplier, customView, next, profile
 }: Props) => {
   const screenWidth = Dimensions.get('window').width;
 
@@ -78,6 +79,11 @@ const ChoiceView = ({
         ))}
       </View>
     );
+  } else if (mode === 'custom') {
+    buttons = React.cloneElement(customView, {
+      next,
+      profile,
+    })
   }
   return (
     <View style={[styles.container, containerStyle]}>
@@ -101,7 +107,7 @@ const ChoiceView = ({
       <StepBottomBar
         onPreviousPress={onPreviousPress}
         onNextPress={onNextPress}
-        nextDisabled={nextDisabled}
+        nextDisabled={mode === 'custom' ? false : nextDisabled}
         step={step}
         totalSteps={totalSteps}
         {...bottomBarProps}

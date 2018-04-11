@@ -11,7 +11,7 @@ import 'moment/locale/fi';
 import 'moment/locale/sv';
 import { stripTags, unescapeHTML } from 'underscore.string';
 import { getConfig } from '../config';
-import makeRequest from '../util/requests';
+import { makeRequest } from '../util/requests';
 import { default as EventActions, EventTypes } from '../redux/events/actions';
 
 const Config = getConfig();
@@ -30,7 +30,7 @@ const fetchHero = function*() {
 
 const getEvents = function*() {
   try {
-    const url = Config.LINKED_EVENTS_API_BASE_URL + "?start=today&include=location&sort=start_time"
+    const url = Config.LINKED_EVENTS_API_BASE_URL + Config.LINKED_EVENTS_GET_PARAMS;
     const response = yield call(makeRequest, url, 'GET', null)
     const eventList = parseEventList(response.data)
     yield put(EventActions.getListSuccess(eventList))
@@ -73,15 +73,17 @@ const parseHeroData = (linkedEventData, myHelsinkiEventData) => {
 }
 
 const parseEventData = (linkedEventData) => {
+  let linkedEvent = linkedEventData;
+  if (linkedEvent.data) linkedEvent = linkedEvent.data;
   return {
-    key: linkedEventData["@id"],
-    eventUrl: linkedEventData["@id"],
-    date: getEventDuration(linkedEventData),
-    place: getEventPlace(linkedEventData),
-    headline: getEventHeadline(linkedEventData),
-    description: getEventDescription(linkedEventData),
-    region: getEventRegion(linkedEventData),
-    imageUrl: getEventImage(linkedEventData)
+    key: linkedEvent["@id"],
+    eventUrl: linkedEvent["@id"],
+    date: getEventDuration(linkedEvent),
+    place: getEventPlace(linkedEvent),
+    headline: getEventHeadline(linkedEvent),
+    description: getEventDescription(linkedEvent),
+    region: getEventRegion(linkedEvent),
+    imageUrl: getEventImage(linkedEvent)
   }
 }
 
@@ -91,6 +93,7 @@ const parseEventList = (linkedEventList) => {
   return linkedEventList
     .map(parseEventData)
     .filter((parsedEvent) => {
+      // return parsedEvent
       return Object.values(parsedEvent).every((item) => {
         return (item !== undefined && item !== null && item !== "")
       })
@@ -112,11 +115,14 @@ const getEventHeadline = (linkedEvent) => {
 }
 
 const getEventImage = (linkedEvent) => {
-  if(!linkedEvent.images || linkedEvent.images.length===0) {
-    return null
+  if (linkedEvent.images && linkedEvent.images.length > 0) {
+    return linkedEvent.images[0].url;
+  } else if (linkedEvent.image && linkedEvent.image.length > 0) {
+    return linkedEvent.image;
   }
-  return linkedEvent.images[0].url
-}
+
+  return null;
+};
 
 const getEventDuration = (linkedEvent) => {
   Moment.locale(LOCALE)
@@ -131,15 +137,15 @@ const getEventDuration = (linkedEvent) => {
   })
 }
 
-const getEventRegion = (linkedEvent, myHelsinkiLocation = {lat: 60.192059, lng: 24.945831} ) => {
+const getEventRegion = (linkedEvent, myHelsinkiLocation) => {
 
   let parsedLocation = {
     latitudeDelta: 0.01,
     longitudeDelta: 0.01
   }
 
-  parsedLocation.latitude = linkedEvent.location.position.coordinates[1] || myHelsinkiLocation.lat
-  parsedLocation.longitude = linkedEvent.location.position.coordinates[0] || myHelsinkiLocation.lng
+  parsedLocation.latitude = linkedEvent.location && linkedEvent.location.position && linkedEvent.location.position.coordinates[1] || myHelsinkiLocation && myHelsinkiLocation.lat
+  parsedLocation.longitude = linkedEvent.location && linkedEvent.location.position && linkedEvent.location.position.coordinates[0] || myHelsinkiLocation && myHelsinkiLocation.lng
 
   return parsedLocation
 }

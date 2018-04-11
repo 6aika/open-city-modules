@@ -4,28 +4,21 @@
 
   // API URLs
   "OPENAHJO_API_BASE_URL": "http://dev.hel.fi/openahjo/v1/",
-  "OPEN311_SERVICE_LIST_URL": "https://asiointi.hel.fi/palautews/rest/v1/services.json",
-  "OPEN311_SERVICE_LIST_LOCALE": "?locale=",
-  "OPEN311_SEND_SERVICE_URL": "https://asiointi.hel.fi/palautews/rest/v1/requests.json",
-  "OPEN311_SERVICE_REQUESTS_URL": "https://asiointi.hel.fi/palautews/rest/v1/requests.json",
-  "OPEN311_SERVICE_REQUEST_BASE_URL": "https://asiointi.hel.fi/palautews/rest/v1/requests/",
-  "OPEN311_SERVICE_REQUEST_PARAMETERS_URL": ".json?extensions=true",
-  "OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX": "&extensions=true",
   "PROFILE_URL": "https://profile.dev.hel.ninja/own-profile",
   "FEATURED_EVENT_API_BASE_URL": "https://www.myhelsinki.fi/api/path/%2Ffi%2Fnae-ja-koe%2Ftapahtumat",
   "HEARINGS_API_BASE_URL": "https://api.hel.fi/kerrokantasi/v1/hearing/",
   "HEARINGS_WEB_URL": "https://kerrokantasi.hel.fi/",
-  "LINKED_EVENTS_API_BASE_URL": "https://api.hel.fi/linkedevents/v1/event/",
+  "LINKED_EVENTS_API_BASE_URL": "http://linkedevents.tampere.fi/v1/event/",
+  "LINKED_EVENTS_GET_PARAMS": "?include=location&sort=start_time",
+  "RSS_FEED_EVENTS": "https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/tapahtumat/rss2.xml.stx",
+  "RSS_FEED_NEWS": "https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/tiedotteet/rss.xml.stx",
+  "RSS_FEED_ANNOUNCEMENTS": "https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/ilmoitukset/rss.xml",
+  "RSS_FEED_ARTICLES": "https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/artikkelit/rss.xml.stx",
+
 
   // OTHER URLs
   "PRIVACY_POLICY_URL": "https://digi.hel.fi/helsinki-app-privacy-policy",
 
-  // API Settings
-  "OPEN311_DESCRIPTION_MIN_LENGTH": 10,
-  "OPEN311_DESCRIPTION_MAX_LENGTH": 5000,
-
-  // API Key for sending new service requests
-  "OPEN311_SEND_SERVICE_API_KEY": "", // Enter API Key here
 
   // OPENID Settings
   "OPENID_AUTHORITY": "https://profile.dev.hel.ninja/openid",
@@ -36,14 +29,6 @@
   // App feedback view
   "APP_FEEDBACK_SERVICE_CODE": 2802,
 
-  // Map
-  "STATUS_OPEN": "open",  // Defines the string which the Open311 API returns. The string is used for status comparison
-  "REFRESH_THRESHOLD": 7200000, // The amount of milliseconds that need to pass before the map is refreshed
-
-  // ServiceRequest list
-  "DETAILED_SERVICE_REQUEST_LIMIT": 50,
-  "TIME_SPAN_IN_MONTHS": 2,
-
   // GPS Settings
   "GPS_HIGH_ACCURACY": true,
   "GPS_TIMEOUT": 10000,
@@ -53,19 +38,7 @@
   "TIMEOUT_THRESHOLD": 40000,
   "TIMEOUT_MESSAGE": "timeout",
 
-  // Feedback attachment settings
-  "IMAGE_MAX_HEIGHT": 1080,
-  "IMAGE_MAX_WIDTH": 1980,
-  "IMAGE_QUALITY": 60,
-  "IMAGE_FORMAT": "JPEG",
-
-  // Service category blacklist, these categories are not used and need to be excluded
-  "SERVICE_BLACKLIST": [172, 246, 176, 171, 198, 199, 174, 211, 234, 180],
-  "DEFAULT_SERVICE_CATEGORY": 2809,
-
-  "TASK_TYPES": ["moved_to_other_system", "created_in_other_system", "informed", "assigned", "wait_for_answer", "wait_for_comment", "transferred_out"],
-
   // Storage keys
-  //"STORAGE_IS_FIRST_TIME": "@OpenCity:is_first_time",
+  //"STORAGE_IS_FIRST_TIME": "@OpenCity:is_first_time"
 
 }

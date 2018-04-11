@@ -24,6 +24,7 @@ class CardList extends Component {
         collapsable={false}
       >
         <Card
+          image={item.image}
           imageUrl={item.imageUrl}
           headline={item.headline}
           onPressItem={() => this.onPressItem(item)}

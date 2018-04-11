@@ -102,6 +102,8 @@ const createMultiChoiceStep = (ViewComponent: React.ComponentType<any>) =>
           onOptionPress={this.toggle}
           onPreviousPress={this.handlePreviousPress}
           onNextPress={this.handleNextPress}
+          next={this.props.next}
+          profile={this.props.profile}
           nextDisabled={false}
           step={step}
           totalSteps={totalSteps}
