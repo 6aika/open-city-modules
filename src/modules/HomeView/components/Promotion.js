@@ -28,14 +28,23 @@ class Promotion extends Component {
 
     // Using zIndex to place concurrent promotions under the previous one.
     return (
-      <TouchableWithoutFeedback onPress={onPress}>
+      <TouchableWithoutFeedback onPress={() => {
+        console.warn('click')
+        this.props.navigation.navigate('Profile', {
+
+          })
+        }}>
         <View style={[bodyStyle, {zIndex: -1 - index}]}>
           <View style={[styles.container, { backgroundColor: promotion.bgColor }]}>
             { !customView &&
-            <View>
-              <Text style={[styles.titleText, { color: promotion.textColor }]}>{promotion.title}</Text>
-              <Text style={[styles.bodyText, { color: promotion.textColor }]}>{promotion.body}</Text>
-            </View>
+              <View style={{ alignItems: 'center', flexDirection: 'row'}}>
+                { promotion.image &&<Image style={styles.image} source={promotion.image}/> }
+                <View>
+                  <Text style={[styles.titleText, { color: promotion.textColor }]}>{promotion.title}</Text>
+                  <Text style={[styles.bodyText, { color: promotion.textColor }]}>{promotion.body}</Text>
+                  { promotion.footer && <Text style={[styles.footer, { color: promotion.textColor }]}>{promotion.footer}</Text> }
+                </View>
+              </View>
             }
             { customView && customView }
           </View>
@@ -68,6 +77,7 @@ const styles = EStyleSheet.create({
     paddingBottom: 24,
     marginBottom: 32,
     zIndex: -1,
+    paddingHorizontal: 12
 
   },
   wave: {
@@ -80,6 +90,13 @@ const styles = EStyleSheet.create({
   titleText: {
     fontWeight: 'bold',
     fontSize: 32,
+    marginHorizontal: 8,
+    color: '$colors.max',
+  },
+  footer: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginTop: 8,
     marginHorizontal: 8,
     color: '$colors.max',
   },
@@ -96,6 +113,10 @@ const styles = EStyleSheet.create({
   },
   hidden: {
     height: 0,
+  },
+  image: {
+    height: 64,
+    width: 64,
   }
 });
 
