@@ -155,8 +155,11 @@ The module also expects `colors` and `locale` screenProps.
 
 The default configuration is shown below. Any configuration fields can be overrided by creating a JSON-file as shown below and calling the configuration function with the new configuration JSON.
 
-`configureHomeView(my_configuration.json);`
+configureHomeView function takes 3 arguments, the configuration json file, list of RSS feeds and list of front page Promotions. Null can be passed as an argument if you want to use only the default values. 
 
+`configureHomeView(my_configuration.json, feeds, promotions);`
+ 
+Default configuration:
 ```
 {
   // API URLs
@@ -182,11 +185,45 @@ The default configuration is shown below. Any configuration fields can be overri
 }
 ```
 
-Two new color theme values (`homebg`, `homefg`) must be added to the color theme object when using the module. 
+Default feeds:
+```
+const defaultFeeds = [
+  {
+    name: 'news',
+    icon: news,
+    url: 'https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/tiedotteet/rss.xml.stx',
+  }, {
+    name: 'events',
+    icon: events,
+    url: 'https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/tapahtumat/rss2.xml.stx',
+  }, {
+    name: 'announcements',
+    icon: announcements,
+    url: 'https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/ilmoitukset/rss.xml',
+  }, {
+    name: 'articles',
+    icon: articles,
+    url: 'https://www.tampere.fi/tampereen-kaupunki/ajankohtaista/artikkelit/rss.xml.stx',
+  },
+];
+```
 
-`homebg = HomeView background color`
+Default promotions:
+```
+const defaultPromotions = [
+  {
+    id: 'prom1',
+    title: 'Tämä on mainos',
+    body: 'Tässä on mainoksen kuvaus',
+    bgColor: 'green',
+    textColor: 'white',
+  },
+]
+```
 
-`homefg = HomeView banner color` 
+Promotions also take an `image` property, if you want to add an image to the promotion.
+
+Promotions are shown for the user on the front page. After user dismisses a promotion, the id of the promotion is saved to the device and it will not be shown to the user again.
 
 
 ## Contributing
