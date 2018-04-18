@@ -139,6 +139,7 @@ class HomeView extends Component {
 
                   return (
                     <Promotion
+                      navigation={this.props.sreenProps.rootNavigation}
                       promotion={item}
                       index={index}
                       onClose={(id) => this.onPromotionClose(id)}
