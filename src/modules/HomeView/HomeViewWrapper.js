@@ -49,7 +49,10 @@ class HomeViewWrapper extends Component<{}> {
             enabled
           >
             <HomeStack
-              screenProps={this.props.screenProps}
+              screenProps={{
+                ...this.props.screenProps,
+                rootNavigation: this.props.navigation,
+              }}
             />
           </ConnectedAuthView>
         </OidcProvider>

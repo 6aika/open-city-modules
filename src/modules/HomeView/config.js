@@ -27,26 +27,12 @@ const defaultFeeds = [
 
 const defaultPromotions = [
   {
-    id: 'prom4',
-    title: 'Puhelimesta kirjastokortiksi',
-    body: 'Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina',
+    id: 'prom1',
+    title: 'Tämä on mainos',
+    body: 'Tässä on mainoksen kuvaus',
     bgColor: 'green',
     textColor: 'white',
   },
-  {
-    id: 'prom5',
-    title: 'Puhelimesta kirjastokortiksi2',
-    body: 'Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina',
-    bgColor: 'blue',
-    textColor: 'white',
-  },
-  {
-    id: 'prom6',
-    title: 'Puhelimesta kirjastokortiksi2',
-    body: 'Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina Voit käyttää nyt puhelimesi lähilukuominaisuutta kirjastokorttina',
-    bgColor: 'yellow',
-    textColor: 'white',
-  }
 ]
 
 let config = defaultConfig;

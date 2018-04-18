@@ -1,5 +1,6 @@
 /* @flow */
 import React, { Component } from 'react';
+import { NavigationActions } from 'react-navigation';
 
 import { UIManager, View, Text, TouchableWithoutFeedback, Image, TouchableOpacity, LayoutAnimation } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -29,16 +30,13 @@ class Promotion extends Component {
     // Using zIndex to place concurrent promotions under the previous one.
     return (
       <TouchableWithoutFeedback onPress={() => {
-        console.warn('click')
-        this.props.navigation.navigate('Profile', {
-
-          })
+          this.props.navigation.navigate(promotion.targetTab);
         }}>
         <View style={[bodyStyle, {zIndex: -1 - index}]}>
           <View style={[styles.container, { backgroundColor: promotion.bgColor }]}>
             { !customView &&
               <View style={{ alignItems: 'center', flexDirection: 'row'}}>
-                { promotion.image &&<Image style={styles.image} source={promotion.image}/> }
+                { promotion.image && <Image style={styles.image} source={promotion.image}/> }
                 <View>
                   <Text style={[styles.titleText, { color: promotion.textColor }]}>{promotion.title}</Text>
                   <Text style={[styles.bodyText, { color: promotion.textColor }]}>{promotion.body}</Text>
