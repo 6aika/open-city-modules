@@ -8,7 +8,8 @@ import {
   Platform,
   Image,
   UIManager,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  BackHandler
 } from 'react-native';
 import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView'
 import ServiceRequestDetail from 'open-city-modules/src/modules/Feedback/views/ServiceRequestDetail'
@@ -314,16 +315,32 @@ class Feedback extends React.Component<ModuleProps> {
     }
 
     this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
+
+    this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
+    const timeoutId = setTimeout(() => {
+      BackHandler.addEventListener('hardwareBackPress', this.goBack)
+    }, 1000);
   }
 
   componentWillUnmount() {
     this.tabChangeListener.remove();
+    BackHandler.removeEventListener('hardWareBackPress', this.goBack);
   }
 
   componentWillReceiveProps(nextProps: ModuleProps) {
     if (this.props.screenProps.locale !== nextProps.screenProps.locale) {
       changeLanguage(nextProps.screenProps.locale);
     }
+  }
+
+  goBack = () => {
+    const index = this.navigator.state.nav.index
+    if (index > 0) {
+      this.navigator._navigation.goBack();
+      return false;
+    }
+
+    return true;
   }
 
   onTabChange = (params) => {

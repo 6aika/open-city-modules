@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DeviceEventEmitter } from 'react-native';
+import { DeviceEventEmitter, BackHandler } from 'react-native';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { OidcProvider } from 'redux-oidc';
@@ -42,14 +42,28 @@ class HomeViewWrapper extends Component<{}> {
 
   componentWillMount() {
     this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
+    const timeoutId = setTimeout(() => {
+      BackHandler.addEventListener('hardwareBackPress', this.goBack)
+    }, 1000);
   }
 
   componentWillUnmount() {
     this.tabChangeListener.remove();
+    BackHandler.removeEventListener('hardWareBackPress', this.goBack);
   }
 
   componentWillReceiveProps(nextProps: ModuleProps) {
 
+  }
+
+  goBack = () => {
+    const index = this.navigator.state.nav.index
+    if (index > 0) {
+      this.navigator._navigation.goBack();
+      return false;
+    }
+
+    return true;
   }
 
   onTabChange = (params) => {
