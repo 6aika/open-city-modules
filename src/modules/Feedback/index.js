@@ -326,7 +326,7 @@ class Feedback extends React.Component<ModuleProps> {
     }
   }
 
-  onTabChange = () => {
+  onTabChange = (params) => {
     // Reset navigator when switching tabs
 
     const resetAction = NavigationActions.reset({
@@ -336,7 +336,7 @@ class Feedback extends React.Component<ModuleProps> {
       ]
     });
 
-    this.navigator._navigation.dispatch(resetAction);
+    if (params.route === 'Feedback') this.navigator._navigation.dispatch(resetAction);
   }
 
   render() {

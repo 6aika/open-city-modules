@@ -52,7 +52,7 @@ class HomeViewWrapper extends Component<{}> {
 
   }
 
-  onTabChange = () => {
+  onTabChange = (params) => {
     // Reset navigator when switching tabs
 
     const resetAction = NavigationActions.reset({
@@ -62,7 +62,7 @@ class HomeViewWrapper extends Component<{}> {
       ]
     });
 
-    this.navigator._navigation.dispatch(resetAction);
+    if (params.route === 'HomeView') this.navigator._navigation.dispatch(resetAction);
   }
 
   render() {
