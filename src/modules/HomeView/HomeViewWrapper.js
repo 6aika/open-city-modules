@@ -1,4 +1,5 @@
-import React, { Component, DeviceEventEmitter } from 'react';
+import React, { Component } from 'react';
+import { DeviceEventEmitter } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { OidcProvider } from 'redux-oidc';
