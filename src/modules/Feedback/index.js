@@ -336,7 +336,9 @@ class Feedback extends React.Component<ModuleProps> {
       ]
     });
 
-    if (params.route === 'Feedback') this.navigator._navigation.dispatch(resetAction);
+    const index = this.navigator.state.nav.index;
+
+    if (params.route === 'Feedback' && index > 0) this.navigator._navigation.dispatch(resetAction);
   }
 
   render() {

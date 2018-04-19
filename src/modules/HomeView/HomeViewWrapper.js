@@ -61,8 +61,9 @@ class HomeViewWrapper extends Component<{}> {
         NavigationActions.navigate({ routeName: 'HomeView' }),
       ]
     });
+    const index = this.navigator.state.nav.index;
 
-    if (params.route === 'HomeView') this.navigator._navigation.dispatch(resetAction);
+    if (params.route === 'HomeView' && index > 0) this.navigator._navigation.dispatch(resetAction);
   }
 
   render() {
