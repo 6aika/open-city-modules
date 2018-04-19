@@ -8,11 +8,12 @@ import {
   Platform,
   Image,
   UIManager,
+  DeviceEventEmitter
 } from 'react-native';
 import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView'
 import ServiceRequestDetail from 'open-city-modules/src/modules/Feedback/views/ServiceRequestDetail'
 import { getServiceTypes, getServiceRequests } from 'open-city-modules/src/modules/Feedback/requests'
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, NavigationActions } from 'react-navigation';
 import { type ServiceType } from 'open-city-modules/src/types'
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import MapView from 'react-native-maps';
@@ -305,10 +306,18 @@ type ModuleProps = {
 
 // eslint-disable-next-line
 class Feedback extends React.Component<ModuleProps> {
+  tabChangeListener: Object;
+
   componentWillMount() {
     if (this.props.screenProps.locale) {
       changeLanguage(this.props.screenProps.locale);
     }
+
+    this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
+  }
+
+  componentWillUnmount() {
+    this.tabChangeListener.remove();
   }
 
   componentWillReceiveProps(nextProps: ModuleProps) {
@@ -317,8 +326,24 @@ class Feedback extends React.Component<ModuleProps> {
     }
   }
 
+  onTabChange = () => {
+    // Reset navigator when switching tabs
+
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Map' }),
+      ]
+    });
+
+    this.navigator._navigation.dispatch(resetAction);
+  }
+
   render() {
-    return <FeedbackStack screenProps={this.props.screenProps} />;
+    return <FeedbackStack
+      screenProps={this.props.screenProps}
+      ref={(ref) => this.navigator = ref}
+    />;
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, DeviceEventEmitter } from 'react';
 import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { OidcProvider } from 'redux-oidc';
@@ -33,8 +33,41 @@ const HomeStack = StackNavigator({
 });
 
 class HomeViewWrapper extends Component<{}> {
+  tabChangeListener: Object;
+
   constructor(props) {
     super(props);
+  }
+
+  componentWillMount() {
+    if (this.props.screenProps.locale) {
+      changeLanguage(this.props.screenProps.locale);
+    }
+
+    this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
+  }
+
+  componentWillUnmount() {
+    this.tabChangeListener.remove();
+  }
+
+  componentWillReceiveProps(nextProps: ModuleProps) {
+    if (this.props.screenProps.locale !== nextProps.screenProps.locale) {
+      changeLanguage(nextProps.screenProps.locale);
+    }
+  }
+
+  onTabChange = () => {
+    // Reset navigator when switching tabs
+
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'HomeView' }),
+      ]
+    });
+
+    this.navigator._navigation.dispatch(resetAction);
   }
 
   render() {
@@ -49,6 +82,7 @@ class HomeViewWrapper extends Component<{}> {
             enabled
           >
             <HomeStack
+              ref={(ref) => this.navigator = ref}
               screenProps={{
                 ...this.props.screenProps,
                 rootNavigation: this.props.navigation,
