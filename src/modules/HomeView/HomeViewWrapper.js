@@ -48,8 +48,8 @@ class HomeViewWrapper extends Component<{}> {
   }
 
   componentWillUnmount() {
-    this.tabChangeListener.remove();
     BackHandler.removeEventListener('hardWareBackPress', this.goBack);
+    this.tabChangeListener.remove();
   }
 
   componentWillReceiveProps(nextProps: ModuleProps) {
@@ -60,10 +60,10 @@ class HomeViewWrapper extends Component<{}> {
     const index = this.navigator.state.nav.index
     if (index > 0) {
       this.navigator._navigation.goBack();
-      return false;
+      return true;
     }
 
-    return true;
+    return false;
   }
 
   onTabChange = (params) => {
@@ -77,8 +77,19 @@ class HomeViewWrapper extends Component<{}> {
     });
     const index = this.navigator.state.nav.index;
 
-    if (params.route === 'HomeView' && index > 0) this.navigator._navigation.dispatch(resetAction);
+    if (params.prevRoute === 'HomeView') {
+      BackHandler.removeEventListener('hardWareBackPress', this.goBack);
+
+      if(index > 0) {
+        this.navigator._navigation.dispatch(resetAction);
+      }
+    }
+
+    if (params.nextRoute === 'HomeView') {
+      BackHandler.addEventListener('hardwareBackPress', this.goBack)
+    }
   }
+
 
   render() {
     return (

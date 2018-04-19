@@ -315,16 +315,11 @@ class Feedback extends React.Component<ModuleProps> {
     }
 
     this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
-
-    this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
-    const timeoutId = setTimeout(() => {
-      BackHandler.addEventListener('hardwareBackPress', this.goBack)
-    }, 1000);
   }
 
   componentWillUnmount() {
-    this.tabChangeListener.remove();
     BackHandler.removeEventListener('hardWareBackPress', this.goBack);
+    this.tabChangeListener.remove();
   }
 
   componentWillReceiveProps(nextProps: ModuleProps) {
@@ -337,10 +332,10 @@ class Feedback extends React.Component<ModuleProps> {
     const index = this.navigator.state.nav.index
     if (index > 0) {
       this.navigator._navigation.goBack();
-      return false;
+      return true;
     }
 
-    return true;
+    return false;
   }
 
   onTabChange = (params) => {
@@ -355,7 +350,19 @@ class Feedback extends React.Component<ModuleProps> {
 
     const index = this.navigator.state.nav.index;
 
-    if (params.route === 'Feedback' && index > 0) this.navigator._navigation.dispatch(resetAction);
+    if (params.prevRoute === 'Feedback') {
+      BackHandler.removeEventListener('hardWareBackPress', this.goBack);
+
+      if(index > 0) {
+        this.navigator._navigation.dispatch(resetAction);
+      }
+    }
+
+    console.warn(params.nextRoute)
+    if (params.nextRoute === 'Feedback') {
+      BackHandler.addEventListener('hardwareBackPress', this.goBack)
+    }
+
   }
 
   render() {
