@@ -40,10 +40,6 @@ class HomeViewWrapper extends Component<{}> {
   }
 
   componentWillMount() {
-    if (this.props.screenProps.locale) {
-      changeLanguage(this.props.screenProps.locale);
-    }
-
     this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
   }
 
@@ -52,9 +48,7 @@ class HomeViewWrapper extends Component<{}> {
   }
 
   componentWillReceiveProps(nextProps: ModuleProps) {
-    if (this.props.screenProps.locale !== nextProps.screenProps.locale) {
-      changeLanguage(nextProps.screenProps.locale);
-    }
+
   }
 
   onTabChange = () => {
