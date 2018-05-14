@@ -183,13 +183,13 @@ class ServiceRequestDetail extends React.Component<Props, State> {
             </MapView>
           </View>
           }
-          {!this.state.fullScreenMap && (serviceRequest.mediaUrl && !serviceRequest.mediaUrls) &&
+          {!this.state.fullScreenMap && (!!serviceRequest.mediaUrl && !serviceRequest.mediaUrls) &&
             this.renderSingleMedia(serviceRequest.mediaUrl)
           }
-          {!this.state.fullScreenMap && (serviceRequest.mediaUrls && serviceRequest.mediaUrls.length === 1) &&
+          {!this.state.fullScreenMap && (!!serviceRequest.mediaUrls && serviceRequest.mediaUrls.length === 1) &&
             this.renderSingleMedia(serviceRequest.mediaUrls[0])
           }
-          {!this.state.fullScreenMap && (serviceRequest.mediaUrls && serviceRequest.mediaUrls.length > 1) &&
+          {!this.state.fullScreenMap && (!!serviceRequest.mediaUrls && serviceRequest.mediaUrls.length > 1) &&
             this.renderMultipleMedia(serviceRequest.mediaUrls)
           }
         </View>
@@ -219,14 +219,14 @@ class ServiceRequestDetail extends React.Component<Props, State> {
         {(!this.state.fullScreenMap && !this.state.fullScreenImage) &&
         <View style={styles.content}>
           <ScrollView>
-          { serviceRequest.title &&
+          { !!serviceRequest.title &&
             <Text style={styles.title}>{serviceRequest.title}</Text>
           }
           <Text style={styles.description}>{serviceRequest.description}</Text>
           <View style={styles.statusRow}>
             <Text style={styles.status}>{parseDate(serviceRequest.updatedDateTime) + " " + t('serviceRequestReceived')}</Text>
           </View>
-            { serviceRequest.statusNotes &&
+            { !!serviceRequest.statusNotes &&
             <View style={styles.statusNotesContainer}>
               <Text
                 multiline
@@ -240,7 +240,7 @@ class ServiceRequestDetail extends React.Component<Props, State> {
         </View>
         }
 
-        { (this.state.fullScreenMap || this.state.fullScreenImage) &&
+        { (!!this.state.fullScreenMap || !!this.state.fullScreenImage) &&
           <TouchableOpacity
             onPress={this.hideFullScreenMap}
           >
