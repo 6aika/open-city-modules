@@ -26,8 +26,8 @@ class Promotion extends Component {
     this.hidePromotion = this.hidePromotion.bind(this)
   }
 
-  hidePromotion = () => {
-    this.props.onClose(promotion.id);
+  hidePromotion = (id) => () => {
+    this.props.onClose(id);
     this.setState({ hidden: true });
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
@@ -68,7 +68,7 @@ class Promotion extends Component {
             />
           </View>
           <TouchableOpacity
-            onPress={this.hidePromotion}
+            onPress={this.hidePromotion(promotion.id)}
             style={styles.closeButton}
           >
             <Icon name="close" size={24} color={'white'} />
