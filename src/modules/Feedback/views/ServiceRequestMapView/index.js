@@ -13,6 +13,7 @@ import Marker from 'open-city-modules/src/components/Marker';
 import MarkerNew from 'open-city-modules/img/marker_new.png';
 import LocationImage from 'open-city-modules/img/my_location.png';
 import styles from './styles';
+
 const Config = getConfig();
 // Button which will have an absolute position on the bottom right corner
 
@@ -69,7 +70,9 @@ const ServiceRequestMapView = ({
               <Marker
                 icon={MarkerNew}
               />
-              <MapView.Callout tooltip={true}/>
+              <MapView.Callout
+                tooltip={true}
+              />
             </MapView.Marker>
           );
         }
@@ -88,6 +91,4 @@ const ServiceRequestMapView = ({
   </View>
 );
 
-
-
-  export default ServiceRequestMapView;
+export default ServiceRequestMapView;

@@ -71,6 +71,11 @@ class FeedbackModule extends React.Component<Props, State> {
       activeServiceRequest: null,
     };
 
+    this.goToServiceRequestDetail = this.goToServiceRequestDetail.bind(this);
+    this.getGeoLocation = this.getGeoLocation.bind(this);
+    this.onMapViewClick = this.onMapViewClick.bind(this);
+    this.toggleFeedbackModal = this.toggleFeedbackModal.bind(this);
+
     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 
@@ -139,7 +144,6 @@ class FeedbackModule extends React.Component<Props, State> {
         longitudeDelta: 0.02,
       })
     })
-
   }
 
   getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
@@ -181,10 +185,10 @@ class FeedbackModule extends React.Component<Props, State> {
     });
   }
 
-  goToServiceRequestDetail = (serviceRequest) => {
+  goToServiceRequestDetail = (serviceRequest) => () => {
     this.props.navigation.navigate('Detail', {
       serviceRequest
-    })
+    });
   }
 
   toggleFeedbackModal = () => {
@@ -220,8 +224,8 @@ class FeedbackModule extends React.Component<Props, State> {
     const serviceRequestDetailPopup =
       (<MarkerPopup
         data={this.state.popupData}
-        onClick={() => this.goToServiceRequestDetail(this.state.activeServiceRequest)}
-        onClose={() => this.setState({ showMapPopup: false })}
+        onClick={this.goToServiceRequestDetail(this.state.activeServiceRequest)}
+        onClose={this.onMapViewClick}
       />);
     return (
       <View style={styles.container}>
@@ -232,7 +236,7 @@ class FeedbackModule extends React.Component<Props, State> {
             buttons={buttons}
           />
           <ServiceRequestMap
-            centerToGeoLocation={() => this.getGeoLocation()}
+            centerToGeoLocation={this.getGeoLocation}
             onRegionChange={this.onMapRegionChange}
             region={this.state.region}
             onMarkerPressed={this.handleMarkerPressed}
@@ -273,9 +277,7 @@ class FeedbackModule extends React.Component<Props, State> {
 
         <FloatingActionButton
           icon={PlusIcon}
-          onPress={() => {
-            this.toggleFeedbackModal();
-          }}
+          onPress={this.toggleFeedbackModal}
         />
 
         {this.state.showMapPopup && serviceRequestDetailPopup}
@@ -290,8 +292,8 @@ const FeedbackStack = StackNavigator(
       screen: FeedbackModule,
     },
     Detail: {
-      screen: ServiceRequestDetail
-    }
+      screen: ServiceRequestDetail,
+    },
   },
   {
     navigationOptions: {

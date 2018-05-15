@@ -1,23 +1,16 @@
 /* @flow */
-
-
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   Text,
-  Image,
-  StyleSheet,
-  Platform,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  TextInput,
 } from 'react-native';
-import { type ServiceRequest } from 'open-city-modules/src/types'
+import { type ServiceRequest } from 'open-city-modules/src/types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import MarkerPin from 'open-city-modules/img/marker_pin.png';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import styles from './styles';
 import Color from 'color';
+import styles from './styles';
 
 type Props = {
   data: { title: ?string, body: ?string };
@@ -29,16 +22,17 @@ type Props = {
 const MarkerPopup = ({
   data,
   onClick,
-  onClose
+  onClose,
 }: Props) => {
-  const tintColor = Color(EStyleSheet.value('$colors.med'))
+  const tintColor = Color(EStyleSheet.value('$colors.med'));
   return (
     <TouchableWithoutFeedback
       style={styles.container}
       onPress={onClose}
-     >
+    >
       <View
-        style={styles.container}>
+        style={styles.container}
+      >
         <TouchableOpacity onPress={onClick} style={styles.popup}>
           <View style={styles.header}>
             <Text
@@ -72,6 +66,5 @@ const MarkerPopup = ({
     </TouchableWithoutFeedback>
   );
 };
-
 
 export default MarkerPopup;

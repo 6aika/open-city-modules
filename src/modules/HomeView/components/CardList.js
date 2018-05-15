@@ -11,9 +11,10 @@ import styles from '../styles';
 class CardList extends Component {
   constructor(props) {
     super(props);
+    this.onPressItem = this.onPressItem.bind(this);
   }
 
-  onPressItem = (item) => {
+  onPressItem = (item) => () => {
     this.props.onPress(item);
   }
 
@@ -27,7 +28,7 @@ class CardList extends Component {
           image={item.image}
           imageUrl={item.imageUrl}
           headline={item.headline}
-          onPressItem={() => this.onPressItem(item)}
+          onPressItem={this.onPressItem(item)}
         />
       </View>
     );

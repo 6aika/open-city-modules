@@ -31,15 +31,15 @@ const FeedDetailView = (props: Props) => {
   return (
     <View style={styles.container}>
       <Header
-        style={{backgroundColor: EStyleSheet.value('$colors.max')}}
-        titleStyle={{color: EStyleSheet.value('$colors.min')}}
+        style={{ backgroundColor: EStyleSheet.value('$colors.max') }}
+        titleStyle={{ color: EStyleSheet.value('$colors.min') }}
       />
       <ScrollView>
         <View style={styles.topContent}>
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.date}>{t('published')} {item.date}</Text>
         </View>
-        <Wave topColor={EStyleSheet.value('$colors.max')}/>
+        <Wave topColor={EStyleSheet.value('$colors.max')} />
         <View style={styles.bottomContent}>
           <Text style={styles.description}>{item.description}</Text>
           <TouchableOpacity onPress={() => Linking.openURL(item.link)}>

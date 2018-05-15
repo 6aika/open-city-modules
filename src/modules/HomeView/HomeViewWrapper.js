@@ -21,12 +21,14 @@ const HomeStack = StackNavigator({
   },
   HearingDetailView: { screen: HearingDetailView },
   EventDetailView: { screen: EventDetailView },
-  FeedListView: { screen: FeedListView,
+  FeedListView: {
+    screen: FeedListView,
     navigationOptions: {
       header: null,
     },
   },
-  FeedDetailView: { screen: FeedDetailView,
+  FeedDetailView: {
+    screen: FeedDetailView,
     navigationOptions: {
       header: null,
     },
@@ -52,10 +54,6 @@ class HomeViewWrapper extends Component<{}> {
     this.tabChangeListener.remove();
   }
 
-  componentWillReceiveProps(nextProps: ModuleProps) {
-
-  }
-
   goBack = () => {
     const index = this.navigator.state.nav.index
     if (index > 0) {
@@ -73,20 +71,20 @@ class HomeViewWrapper extends Component<{}> {
       index: 0,
       actions: [
         NavigationActions.navigate({ routeName: 'HomeView' }),
-      ]
+      ],
     });
     const index = this.navigator.state.nav.index;
 
     if (params.prevRoute === 'HomeView') {
       BackHandler.removeEventListener('hardWareBackPress', this.goBack);
 
-      if(index > 0) {
+      if (index > 0) {
         this.navigator._navigation.dispatch(resetAction);
       }
     }
 
     if (params.nextRoute === 'HomeView') {
-      BackHandler.addEventListener('hardwareBackPress', this.goBack)
+      BackHandler.addEventListener('hardwareBackPress', this.goBack);
     }
   }
 

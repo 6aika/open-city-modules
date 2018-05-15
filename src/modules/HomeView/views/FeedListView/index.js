@@ -6,7 +6,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import he from 'he';
 import { t } from 'open-city-modules/src/modules/translations';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -35,14 +34,6 @@ type State = {
 };
 
 class FeedListView extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      feedList: [],
-      loading: true,
-    };
-  }
-
   componentWillMount() {
     const { feed } = this.props.navigation.state.params;
 
@@ -80,8 +71,8 @@ class FeedListView extends React.Component<Props, State> {
     return (
       <View style={{ flex: 1 }}>
         <Header
-          style={{backgroundColor: EStyleSheet.value('$colors.max')}}
-          titleStyle={{color: EStyleSheet.value('$colors.min')}}
+          style={{ backgroundColor: EStyleSheet.value('$colors.max') }}
+          titleStyle={{ color: EStyleSheet.value('$colors.min') }}
           title={t(feed.name).toUpperCase()}
         />
         <View style={{ flex: 1 }}>

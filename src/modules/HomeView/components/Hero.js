@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import FastImage from 'react-native-fast-image';
 import {
-  Image,
   View,
   Text,
   Platform,
@@ -52,7 +51,7 @@ class Hero extends Component {
           <Text style={styles.heroPlace}>{place}</Text>
           <Text style={styles.heroHeadline}>{headline}</Text>
         </View>
-        <Wave topColor={EStyleSheet.value('$colors.max')}/>
+        <Wave topColor={EStyleSheet.value('$colors.max')} />
 
         {loading &&
           <View style={styles.loadingOverlay}>

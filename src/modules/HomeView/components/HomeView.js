@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import {
   ScrollView,
   View,
-  Image,
-  Text,
-  Button,
-  Linking
+  Linking,
 } from 'react-native';
 import { changeLanguage, t } from 'open-city-modules/src/modules/translations';
 import { connect } from 'react-redux';
 import HeroDecoration from 'open-city-modules/img/main-hero-decoration.png';
+import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { bindActionCreators } from 'redux';
 import EventActions from '../redux/events/actions';
 import HearingActions from '../redux/hearings/actions';
@@ -23,8 +22,6 @@ import EventList from './EventList';
 import Promotion from './Promotion';
 import styles from '../styles';
 import PromotionManager from '../util/promotionManager';
-import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 const promotionManager = new PromotionManager()
 const Config = getConfig();
@@ -34,6 +31,8 @@ const feeds = getFeeds();
 class HomeView extends Component {
   constructor(props) {
     super(props);
+
+    this.goToFeedListView = this.goToFeedListView.bind(this);
   }
 
   componentWillMount() {
@@ -68,7 +67,7 @@ class HomeView extends Component {
 
     Linking.getInitialURL().then((url) => {
       //this.loading = true;
-      if(url) console.warn(url)
+      if (url) console.warn(url)
     }).catch((err) => {
       // console.warn('Error occured', err);
     });
@@ -82,11 +81,10 @@ class HomeView extends Component {
   }
 
   onPromotionClose = (id) => {
-    console.warn('closing')
     promotionManager.markPromotionAsRead(id);
   }
 
-  goToFeedListView = feed => this.props.navigation.navigate('FeedListView', { feed });
+  goToFeedListView = (feed) => () => this.props.navigation.navigate('FeedListView', { feed });
 
   render() {
     const {
@@ -115,8 +113,7 @@ class HomeView extends Component {
             { !showHero &&
               <View>
                 <View style={styles.heroOverlay} />
-                <Wave topColor={EStyleSheet.value('$colors.max')}/>
-
+                <Wave topColor={EStyleSheet.value('$colors.max')} />
               </View>
             }
             { showHero &&
@@ -171,7 +168,7 @@ class HomeView extends Component {
                   key={feed.name}
                   label={t(feed.name)}
                   icon={feed.icon}
-                  onPress={() => this.goToFeedListView(feed)}
+                  onPress={this.goToFeedListView(feed)}
                 />
               ))}
             </View>

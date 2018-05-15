@@ -33,7 +33,7 @@ const defaultPromotions = [
     bgColor: 'green',
     textColor: 'white',
   },
-]
+];
 
 let config = defaultConfig;
 let feeds = defaultFeeds;

@@ -17,27 +17,21 @@ export default class PromotionManager {
         if (readPromotionIds) {
           parsedPromotionIds = readPromotionIds;
         }
-
         if (parsedPromotionIds) {
           for (let i = 0; i < promotions.length; i++) {
 
             const id = promotions[i].id;
             if (parsedPromotionIds.indexOf(id) === -1) {
-
               unreadPromotions.push(promotions[i]);
             }
           }
-
           resolve(unreadPromotions);
         }
-
         resolve(promotions);
-
       } catch (error) {
-        reject(error)
+        reject(error);
       }
-    })
-
+    });
   }
 
   getPromotions = () => {

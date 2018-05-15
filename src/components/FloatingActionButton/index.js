@@ -1,10 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
-  Text,
   Image,
-  StyleSheet,
-  Platform,
   TouchableOpacity,
 } from 'react-native';
 import styles from './styles';
@@ -18,7 +15,7 @@ type Props = {
 
 const FloatingActionButton = ({
   icon,
-  onPress
+  onPress,
 }) => (
   <TouchableOpacity
     style={styles.container}

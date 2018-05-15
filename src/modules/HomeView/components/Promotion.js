@@ -1,11 +1,18 @@
 /* @flow */
 import React, { Component } from 'react';
-import { NavigationActions } from 'react-navigation';
-
-import { UIManager, View, Text, TouchableWithoutFeedback, Image, TouchableOpacity, LayoutAnimation } from 'react-native';
+import {
+  UIManager,
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  Image,
+  TouchableOpacity,
+  LayoutAnimation,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 class Promotion extends Component {
@@ -14,16 +21,23 @@ class Promotion extends Component {
 
     this.state = {
       hidden: false,
-    }
+    };
+
+    this.hidePromotion = this.hidePromotion.bind(this)
   }
 
   hidePromotion = () => {
-    this.setState({ hidden: true })
+    this.props.onClose(promotion.id);
+    this.setState({ hidden: true });
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
   render = () => {
-    const { promotion, index, customView, onClose, onPress } = this.props;
+    const {
+      promotion,
+      index,
+      customView,
+    } = this.props;
 
     const bodyStyle = this.state.hidden ? [styles.hidden] : styles.body;
 
@@ -31,12 +45,13 @@ class Promotion extends Component {
     return (
       <TouchableWithoutFeedback onPress={() => {
           this.props.navigation.navigate(promotion.targetTab);
-        }}>
-        <View style={[bodyStyle, {zIndex: -1 - index}]}>
+        }}
+      >
+        <View style={[bodyStyle, { zIndex: -1 - index }]}>
           <View style={[styles.container, { backgroundColor: promotion.bgColor }]}>
             { !customView &&
               <View style={{ alignItems: 'center', flexDirection: 'row'}}>
-                { promotion.image && <Image style={styles.image} source={promotion.image}/> }
+                { promotion.image && <Image style={styles.image} source={promotion.image} /> }
                 <View>
                   <Text style={[styles.titleText, { color: promotion.textColor }]}>{promotion.title}</Text>
                   <Text style={[styles.bodyText, { color: promotion.textColor }]}>{promotion.body}</Text>
@@ -53,17 +68,14 @@ class Promotion extends Component {
             />
           </View>
           <TouchableOpacity
-            onPress={() => {
-              console.warn('onclose')
-              this.hidePromotion()
-              onClose(promotion.id)
-            }}
-            style={styles.closeButton}>
+            onPress={this.hidePromotion}
+            style={styles.closeButton}
+          >
             <Icon name="close" size={24} color={'white'} />
           </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>
-    )
+    );
   }
 }
 
@@ -75,7 +87,7 @@ const styles = EStyleSheet.create({
     paddingBottom: 24,
     marginBottom: 32,
     zIndex: -1,
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
 
   },
   wave: {
@@ -115,7 +127,7 @@ const styles = EStyleSheet.create({
   image: {
     height: 64,
     width: 64,
-  }
+  },
 });
 
 export default Promotion;

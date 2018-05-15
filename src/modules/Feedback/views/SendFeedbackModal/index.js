@@ -95,7 +95,6 @@ class SendFeedbackModal extends Component {
         this.setState({ loadingAttachment: false });
         source = null;
       } else {
-
         if (Platform.OS === 'ios') {
           source = { uri: response.uri.replace('file://', ''), isStatic: true };
         } else {
@@ -113,33 +112,31 @@ class SendFeedbackModal extends Component {
           const resizedSource = { uri: resizedImageUri, isStatic: true };
           response.path = resizedImageUri;
           response.uri = resizedImageUri;
-          const tempArray = this.state.attachments
+          const tempArray = this.state.attachments;
           const image = {
             source: resizedSource,
-            name: response.fileName
-          }
+            name: response.fileName,
+          };
 
           const index = tempArray.length - 1;
           const attachment = {
             index,
             image,
             onPress: () => {
-              this.removeAttachment(index)
+              this.removeAttachment(index);
             },
           };
 
-          tempArray.push(attachment)
+          tempArray.push(attachment);
 
           this.setState({
             attachments: tempArray,
             loadingAttachment: false,
           });
-
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
         }).catch((err) => {
-          console.warn("error resize")
-          this.setState({ loadingAttachment: false, })
+          console.warn("error resize");
+          this.setState({ loadingAttachment: false });
           // showAlert(transError.feedbackImageErrorTitle, transError.feedbackImageErrorMessage, transError.feedbackImageErrorButton)
         });
       }
@@ -147,7 +144,7 @@ class SendFeedbackModal extends Component {
   }
 
   sendServiceRequest = () => {
-    console.warn("Sending...")
+    console.warn("Sending...");
     this.setState({ loading: true });
     const data = new FormData();
 
@@ -168,13 +165,13 @@ class SendFeedbackModal extends Component {
           name: attachment.image.name,
           uri: attachment.image.source.uri.uri,
           isStored: true,
-          type: 'image/jpeg'
+          type: 'image/jpeg',
         },
       ));
     }
 
     const {
-      requests
+      requests,
     } = this.props.screenProps;
 
     if (requests && requests.postServiceRequest) {
@@ -194,19 +191,18 @@ class SendFeedbackModal extends Component {
         this.props.toggleFeedbackModal();
       });
     }
-
   }
 
   onServiceTypeChange = (service: ServiceType) => {
-    this.setState({ selectedServiceType: service })
+    this.setState({ selectedServiceType: service });
   }
 
   onChangeFeedbackText = (text: string) => {
-    this.setState({ descriptionText: text })
+    this.setState({ descriptionText: text });
   }
 
   onChangeTitleText = (text: string) => {
-    this.setState({ titleText: text })
+    this.setState({ titleText: text });
   }
 
   handleCheckBoxPress = () => {
@@ -217,7 +213,7 @@ class SendFeedbackModal extends Component {
   }
 
   onMinimapRegionChange = (region) => {
-    this.setState({ userPosition: region })
+    this.setState({ userPosition: region });
   }
 
   validateFields = () => {
@@ -281,7 +277,6 @@ class SendFeedbackModal extends Component {
                 enabled={this.state.locationEnabled}
                 style={styles.checkbox}
                 size={20}
-                onPress={() => this.handleCheckBoxPress}
                 label={t('includeLocation')}
               />
             </View>

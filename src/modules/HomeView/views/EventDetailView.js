@@ -14,22 +14,8 @@ import EventActions from '../redux/events/actions';
 import styles from '../styles';
 
 class EventDetailView extends Component {
-  // static navigationOptions = {
-  //   headerTitle: (
-  //     <Image
-  //       style={styles.headerLogo}
-  //       resizeMode="contain"
-  //       source={require('./../../img/city-logo.png')}
-  //     />
-  //   )
-  // };
-
-  constructor(props) {
-    super(props)
-  }
-
   componentWillMount() {
-    this.props.eventActions.getEvent(this.props.navigation.state.params.eventUrl)
+    this.props.eventActions.getEvent(this.props.navigation.state.params.eventUrl);
   }
 
   render() {
@@ -44,7 +30,7 @@ class EventDetailView extends Component {
     } = this.props;
 
 
-    let pic = {
+    const pic = {
       uri: imageUrl,
     };
 

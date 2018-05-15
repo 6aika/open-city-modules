@@ -9,9 +9,9 @@ import feedReducer from './feed/reducer';
 import promotionReducer from './promotions/reducer';
 
 const persistConfig = {
-  key: "root",
-  storage: AsyncStorage
-}
+  key: 'root',
+  storage: AsyncStorage,
+};
 
 export default persistCombineReducers(persistConfig, {
   OIDC: oidcReducer,

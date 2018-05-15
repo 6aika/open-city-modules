@@ -2,14 +2,13 @@
 import * as React from 'react';
 import {
   View,
-  FlatList,
   SectionList,
-  Text
+  Text,
 } from 'react-native';
 import { t } from 'open-city-modules/src/modules/Feedback/translations';
 import { type ServiceRequest } from 'open-city-modules/src/types';
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
-import ListItem from './components/ListItem'
+import ListItem from './components/ListItem';
 import styles from './styles';
 
 const MAP_PAGE = 'map';
@@ -39,25 +38,24 @@ class ServiceRequestList extends React.Component<Props, State> {
   }
 
 
-
   componentWillMount = () => {
-    if(this.props.data) {
-      const sections = this.parseDataToSections(this.props.data)
-      this.setState({ sections })
+    if (this.props.data) {
+      const sections = this.parseDataToSections(this.props.data);
+      this.setState({ sections });
     }
   }
 
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.data) {
-      const sections = this.parseDataToSections(nextProps.data)
-      this.setState({ sections })
+      const sections = this.parseDataToSections(nextProps.data);
+      this.setState({ sections });
     }
   }
 
   resolveMonthString = (date) => {
     const monthNames = [t('january'), t('february'), t('march'), t('april'),
-    t('may'), t('june'), t('july'), t('august'), t('september'), t('october'),
-    t('november'), t('december')];
+      t('may'), t('june'), t('july'), t('august'), t('september'), t('october'),
+      t('november'), t('december')];
 
     const mDate = new Date(date);
     return monthNames[mDate.getMonth()] + ", " + mDate.getFullYear();
@@ -86,12 +84,12 @@ class ServiceRequestList extends React.Component<Props, State> {
         sections.push({
           data: [item],
           key,
-          title
+          title,
         });
         found = false;
       }
-    })
-    return sections
+    });
+    return sections;
   }
 
   keyExtractor = (item, index) => item.id;
@@ -108,15 +106,15 @@ class ServiceRequestList extends React.Component<Props, State> {
   renderItem = (serviceRequest) => {
     return (
       <ListItem
-        style={{flex:1}}
+        style={{ flex: 1 }}
         serviceRequest={serviceRequest}
         onPress={this.goToDetail}
       />
-    )
+    );
   }
 
   renderFooter = () => {
-    return (<View style={styles.footer} />)
+    return (<View style={styles.footer} />);
   }
 
   renderSectionHeader = (section) => {
@@ -124,7 +122,7 @@ class ServiceRequestList extends React.Component<Props, State> {
       <View style={styles.sectionHeaderContainer}>
         <Text style={styles.sectionHeader}>{section.section.title}</Text>
       </View>
-    )
+    );
   }
 
   render() {

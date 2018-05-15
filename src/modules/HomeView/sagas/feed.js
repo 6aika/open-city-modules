@@ -1,24 +1,21 @@
 import {
-  select,
   put,
   call,
-  takeLatest
+  takeLatest,
 } from 'redux-saga/effects';
-// import translations                             from '../translations/general';
-import Moment from 'moment';
+// import Moment from 'moment';
 import 'moment/locale/fi';
 import 'moment/locale/sv';
-import { stripTags, unescapeHTML } from 'underscore.string';
 import he from 'he';
-import EventIcon from 'open-city-modules/img/events.png'
-import { getConfig } from '../config';
+import EventIcon from 'open-city-modules/img/events.png';
 import { parseString } from 'react-native-xml2js';
+import { getConfig } from '../config';
 import { xmlRequest } from '../util/requests';
 import { default as FeedActions, FeedTypes } from '../redux/feed/actions';
 
-const Config = getConfig();
+// const Config = getConfig();
 // const LOCALE = translations.getLanguage()
-const LOCALE = 'fi';
+// const LOCALE = 'fi';
 
 
 const parseFeedList = (feedListData) => {
@@ -36,7 +33,6 @@ const parseFeedList = (feedListData) => {
           headline: item.title[0],
         };
       });
-
       resolve(data);
     }).catch((error) => {
       clearTimeout(timeoutId);
@@ -48,21 +44,18 @@ const parseFeedList = (feedListData) => {
 
 const getFeedList = function*({ feedUrl }) {
   try {
-    const response = yield call(xmlRequest, feedUrl)
-    const parsedResponse = yield call(parseFeedList, response._bodyText)
-    yield put(FeedActions.getFeedListSuccess(parsedResponse))
-
-
+    const response = yield call(xmlRequest, feedUrl);
+    const parsedResponse = yield call(parseFeedList, response._bodyText);
+    yield put(FeedActions.getFeedListSuccess(parsedResponse));
   } catch (err) {
     yield put(FeedActions.getFeedListFailure(err.message))
   }
-}
+};
 
 const watchGetFeedList = function*() {
   yield takeLatest(FeedTypes.GET_FEED_LIST, getFeedList)
-}
-
+};
 
 export {
   watchGetFeedList,
-}
+};

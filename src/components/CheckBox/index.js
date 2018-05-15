@@ -37,10 +37,11 @@ const CheckBox = ({
             width: size,
             height: size,
           },
-        ]}>
-        {enabled &&
-          <Icon name="done" style={styles.icon}  size={size * 0.8} color={color} />
-        }
+          ]}
+        >
+          {enabled &&
+            <Icon name="done" style={styles.icon} size={size * 0.8} color={color} />
+          }
         </View>
         <View style={styles.label}>
           <Text style={styles.labelText}>{label}</Text>

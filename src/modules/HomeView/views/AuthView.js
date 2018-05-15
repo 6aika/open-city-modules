@@ -12,8 +12,8 @@ import AuthActions from '../redux/auth/actions';
 const styles = StyleSheet.create({
   rootView: {
     flex: 1,
-    flexDirection: 'column'
-  }
+    flexDirection: 'column',
+  },
 });
 
 const onLoadStartListeners = [];

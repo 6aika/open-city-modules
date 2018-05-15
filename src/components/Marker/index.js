@@ -1,17 +1,9 @@
 /* @flow */
-
-
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  View,
-  Text,
   Image,
-  StyleSheet,
-  Platform,
   TouchableOpacity,
-  TextInput,
 } from 'react-native';
-
 import MarkerPin from 'open-city-modules/img/marker_pin.png';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './styles';
@@ -51,6 +43,5 @@ const Marker = ({
     </TouchableOpacity>
   );
 };
-
 
 export default Marker;

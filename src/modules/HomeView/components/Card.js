@@ -16,7 +16,12 @@ class Card extends Component {
   }
 
   render() {
-    const { imageUrl, headline, onPressItem, image } = this.props;
+    const {
+      imageUrl,
+      headline,
+      onPressItem,
+      image,
+    } = this.props;
     let pic;
     if (imageUrl) {
       pic = {
@@ -30,7 +35,14 @@ class Card extends Component {
     const CardContent = (
       <View>
         { imageUrl && <ImageBackground source={pic} style={styles.cardImage} resizeMode="cover" /> }
-        { image && <Image source={pic} tintColor={'black'} style={[{ width: 48, height: 48, alignSelf: 'center', margin: 24,}]} resizeMode="cover" /> }
+        { image &&
+          <Image
+            source={pic}
+            tintColor={'black'}
+            style={{ width: 48, height: 48, alignSelf: 'center', margin: 24 }}
+            resizeMode="cover"
+          />
+        }
         <View style={styles.cardOverlay}>
           <Text style={styles.cardHeadline}>{headline}</Text>
         </View>

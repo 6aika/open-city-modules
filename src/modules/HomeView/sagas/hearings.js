@@ -1,19 +1,19 @@
 import {
   put,
   call,
-  takeLatest
+  takeLatest,
 } from 'redux-saga/effects';
 // import translations                                 from '../translations/general';
 import { getConfig } from '../config';
 import { makeRequest } from '../util/requests';
-import { default as HearingActions, HearingTypes }  from '../redux/hearings/actions';
+import { default as HearingActions, HearingTypes } from '../redux/hearings/actions';
 
 const Config = getConfig();
-const LOCALE = 'fi'
+const LOCALE = 'fi';
 
 const getHeadlineForHearing = function(hearing) {
   return hearing.title[LOCALE] || hearing.title.fi
-}
+};
 
 const fetchHearings = function*() {
   try {
@@ -24,22 +24,22 @@ const fetchHearings = function*() {
         imageUrl: hearing.main_image.url,
         headline: getHeadlineForHearing(hearing),
         headline: 'hearings',
-        urlSlug: hearing.slug
+        urlSlug: hearing.slug,
       }
-    })
+    });
 
-    yield put(HearingActions.getHearingsSuccess(hearings))
+    yield put(HearingActions.getHearingsSuccess(hearings));
   } catch(err) {
-    console.log("error fetching hearings", err.message)
-    yield put(HearingActions.getHearingsFailure(err.message))
+    console.log('error fetching hearings', err.message);
+    yield put(HearingActions.getHearingsFailure(err.message));
   }
-}
+};
 
 
 const watchGetHearings = function*() {
   yield takeLatest(HearingTypes.GET_HEARINGS, fetchHearings)
-}
+};
 
 export {
-  watchGetHearings
-}
+  watchGetHearings,
+};

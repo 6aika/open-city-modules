@@ -83,17 +83,17 @@ const styles = EStyleSheet.create({
   heroHeadline: {
     color: '$colors.min',
     fontSize: 28,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   heroPlace: {
     color: '$colors.min',
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   heroDate: {
     color: '$colors.min',
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   loadingOverlay: {
     position: 'absolute',
