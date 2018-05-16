@@ -8,11 +8,12 @@ import {
   Platform,
   Image,
   UIManager,
+  ActivityIndicator,
 } from 'react-native';
 import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView'
 import ServiceRequestDetail from 'open-city-modules/src/modules/Feedback/views/ServiceRequestDetail'
 import { getServiceTypes, getServiceRequests } from 'open-city-modules/src/modules/Feedback/requests'
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator } from 'react-navigation';
 import { type ServiceType } from 'open-city-modules/src/types'
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import MapView from 'react-native-maps';
@@ -27,6 +28,7 @@ import MarkerNew from 'open-city-modules/img/marker_new.png';
 import MarkerPopup from 'open-city-modules/src/components/MarkerPopup';
 import { changeLanguage, t } from 'open-city-modules/src/modules/Feedback/translations';
 import styles from './styles';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const MAP_PAGE = 'map';
 const LIST_PAGE = 'list';
@@ -73,17 +75,40 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 
   componentWillMount = async () => {
+    console.warn(Object.keys(this.props.screenProps))
     const {
       requests
     } = this.props.screenProps;
+    const {
+      serviceRequests,
+      serviceTypes,
+    } = this.props.screenProps
+    console.warn("received props")
+    this.setState({
+      serviceRequests,
+      serviceTypes,
+    })
+    // if (requests) {
+    //   this.getServiceTypes(requests.getServiceTypes);
+    //   this.getServiceRequests(requests.getServiceRequests);
+    // } else {
+    //   this.getServiceTypes(getServiceTypes);
+    //   this.getServiceRequests(getServiceRequests);
+    // }
+  }
 
-    if (requests) {
-      this.getServiceTypes(requests.getServiceTypes);
-      this.getServiceRequests(requests.getServiceRequests);
-    } else {
-      this.getServiceTypes(getServiceTypes);
-      this.getServiceRequests(getServiceRequests);
-    }
+  componentWillReceiveProps = () => {
+    console.warn(this.props.screenProps.serviceTypes)
+
+    const {
+      serviceRequests,
+      serviceTypes,
+    } = this.props.screenProps
+    console.warn("received props")
+    this.setState({
+      serviceRequests,
+      serviceTypes,
+    })
   }
 
   onMapViewClick() {
@@ -223,14 +248,11 @@ class FeedbackModule extends React.Component<Props, State> {
       />);
     return (
       <View style={styles.container}>
-        {!this.state.showFeedbackModal && this.state.activePage === MAP_PAGE &&
         <View style={styles.map}>
           {!!Header &&
             <Header />
           }
-          <SubHeader
-            buttons={buttons}
-          />
+
           <ServiceRequestMap
             centerToGeoLocation={() => this.getGeoLocation()}
             onRegionChange={this.onMapRegionChange}
@@ -241,21 +263,7 @@ class FeedbackModule extends React.Component<Props, State> {
             customMapStyle={customMapStyle}
           />
         </View>
-        }
-        { !this.state.showFeedbackModal && this.state.activePage === LIST_PAGE &&
-        <View style={styles.map}>
-          {!!Header &&
-            <Header />
-          }
-          <SubHeader
-            buttons={buttons}
-          />
-          <ServiceRequestListView
-            data={this.state.serviceRequests}
-            navigation={this.props.navigation}
-          />
-        </View>
-        }
+
         <Modal
           style={[styles.modal]}
           animationType="slide"
@@ -286,9 +294,24 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 }
 
+const FeedbackTabNavigator = TabNavigator({
+  MapView: {
+    screen: FeedbackModule,
+    navigationOptions: () => ({
+      tabBarLabel: t('map').toUpperCase(),
+    }),
+  },
+  ListView: {
+    screen: ServiceRequestListView,
+    navigationOptions: () => ({
+      tabBarLabel: t('list').toUpperCase(),
+    }),
+  }
+})
+
 const FeedbackStack = StackNavigator({
   Map: {
-    screen: FeedbackModule,
+    screen: FeedbackTabNavigator,
     navigationOptions: {
       header: null,
     },
@@ -305,15 +328,56 @@ const FeedbackStack = StackNavigator({
   // },
 );
 
+
 type ModuleProps = {
   screenProps: { locale: string },
 };
 
 // eslint-disable-next-line
 class Feedback extends React.Component<ModuleProps> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      serviceTypes: [],
+      serviceRequests: [],
+    };
+
+    console.disableYellowBox = true;
+  }
+
+  getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
+    const result = await serviceTypeFetch();
+    this.setState({ serviceTypes: result });
+  }
+
+  getServiceRequests = async (serviceRequestsFetch: () => Array<ServiceRequest>) => {
+    const result = await serviceRequestsFetch();
+    console.warn(result)
+    console.warn("GOT REQUESTS")
+    this.setState({ serviceRequests: result });
+  }
+
+  getServiceRequest = async (serviceRequestFetch: () => Array<ServiceRequest>, requestId: string) => {
+    const result = await serviceRequestFetch(requestId);
+    return result
+    // this.setState({ serviceRequests: result });
+  }
+
   componentWillMount() {
     if (this.props.screenProps.locale) {
       changeLanguage(this.props.screenProps.locale);
+    }
+
+    const {
+      requests
+    } = this.props.screenProps;
+
+    if (requests) {
+      this.getServiceTypes(requests.getServiceTypes);
+      this.getServiceRequests(requests.getServiceRequests);
+    } else {
+      this.getServiceTypes(getServiceTypes);
+      this.getServiceRequests(getServiceRequests);
     }
   }
 
@@ -324,7 +388,24 @@ class Feedback extends React.Component<ModuleProps> {
   }
 
   render() {
-    return <FeedbackStack screenProps={this.props.screenProps} />;
+    if(this.state.serviceRequests.length === 0) {
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator
+            size="large"
+            color={EStyleSheet.value('$colors.med')}
+          />
+        </View>
+      )
+    }
+
+    return <FeedbackStack screenProps={
+      {
+        ...this.props.screenProps,
+        serviceTypes: this.state.serviceTypes,
+        serviceRequests: this.state.serviceRequests
+      }
+    }/>;
   }
 }
 

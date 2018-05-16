@@ -41,17 +41,14 @@ class ServiceRequestList extends React.Component<Props, State> {
 
 
   componentWillMount = () => {
-    if(this.props.data) {
-      const sections = this.parseDataToSections(this.props.data)
+    if(this.props.screenProps.serviceRequests) {
+      const sections = this.parseDataToSections(this.props.screenProps.serviceRequests)
       this.setState({ sections })
     }
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.data) {
-      const sections = this.parseDataToSections(nextProps.data)
-      this.setState({ sections })
-    }
+
   }
 
   resolveMonthString = (date) => {
@@ -129,13 +126,13 @@ class ServiceRequestList extends React.Component<Props, State> {
 
   render() {
     return (
-      <SectionList
-        sections={this.state.sections}
-        renderSectionFooter={this.renderFooter}
-        renderSectionHeader={this.renderSectionHeader}
-        renderItem={this.renderItem}
-        keyExtractor={this.keyExtractor}
-      />
+        <SectionList
+          sections={this.state.sections}
+          renderSectionFooter={this.renderFooter}
+          renderSectionHeader={this.renderSectionHeader}
+          renderItem={this.renderItem}
+          keyExtractor={this.keyExtractor}
+        />
     );
   }
 }
