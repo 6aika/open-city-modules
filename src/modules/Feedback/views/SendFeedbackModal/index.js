@@ -244,21 +244,45 @@ class SendFeedbackModal extends Component {
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : null}
       >
-        <Header
-          title={t('newFeedback').toUpperCase()}
-          style={styles.header}
-          titleStyle={styles.headerTitle}
-          rightAction={{
-            icon: SendIcon,
-            action: validFields ? this.sendServiceRequest : null,
-            style: validFields ? styles.headerIcon : styles.disabledIcon,
-          }}
-          leftAction={{
-            icon: BackIcon,
-            action: (this.props.toggleFeedbackModal),
-            style: styles.headerIcon,
-          }}
-        />
+        {!!Header &&
+          <Header
+            title={t('newFeedback').toUpperCase()}
+            style={styles.header}
+            titleStyle={styles.headerTitle}
+            rightAction={{
+              icon: SendIcon,
+              action: validFields ? this.sendServiceRequest : null,
+              style: validFields ? styles.headerIcon : styles.disabledIcon,
+            }}
+            leftAction={{
+              icon: BackIcon,
+              action: (this.props.toggleFeedbackModal),
+              style: styles.headerIcon,
+            }}
+          />
+        }
+        {!Header &&
+          <View
+            style={{ flexDirection: 'row', padding: 8, justifyContent: 'space-between' }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                  this.props.toggleFeedbackModal();
+              }}
+            >
+              <Image source={BackIcon} style={[styles.headerIcon, { tintColor: 'black' }]} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                if (validFields) {
+                  this.sendServiceRequest();
+                }
+              }}
+            >
+              <Image source={SendIcon} style={[{ tintColor: 'black' }, validFields ? styles.headerIcon : styles.disabledIcon]} />
+            </TouchableOpacity>
+          </View>
+        }
         <ScrollView style={{ flex: 1 }}>
           { this.state.locationEnabled &&
             <View style={minimapStyle} >

@@ -202,18 +202,20 @@ class ServiceRequestDetail extends React.Component<Props, State> {
     const { serviceRequest } = this.props.navigation.state.params;
     return (
       <View style={styles.container}>
-        <Header
-          style={styles.header}
-          titleStyle={styles.headerTitle}
-          title={parseDate(serviceRequest.updatedDateTime)}
-          leftAction={{
-            icon: BackIcon,
-            action: this.goBack,
-            style: {
-              tintColor: EStyleSheet.value('$colors.min'),
-            },
-          }}
-        />
+        {!!Header &&
+          <Header
+            style={styles.header}
+            titleStyle={styles.headerTitle}
+            title={parseDate(serviceRequest.updatedDateTime)}
+            leftAction={{
+              icon: BackIcon,
+              action: this.goBack,
+              style: {
+                tintColor: EStyleSheet.value('$colors.min'),
+              },
+            }}
+          />
+        }
         { this.renderMetadata(serviceRequest) }
 
         {(!this.state.fullScreenMap && !this.state.fullScreenImage) &&

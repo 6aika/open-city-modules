@@ -225,7 +225,9 @@ class FeedbackModule extends React.Component<Props, State> {
       <View style={styles.container}>
         {!this.state.showFeedbackModal && this.state.activePage === MAP_PAGE &&
         <View style={styles.map}>
-          <Header />
+          {!!Header &&
+            <Header />
+          }
           <SubHeader
             buttons={buttons}
           />
@@ -242,7 +244,9 @@ class FeedbackModule extends React.Component<Props, State> {
         }
         { !this.state.showFeedbackModal && this.state.activePage === LIST_PAGE &&
         <View style={styles.map}>
-          <Header />
+          {!!Header &&
+            <Header />
+          }
           <SubHeader
             buttons={buttons}
           />
@@ -282,21 +286,23 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 }
 
-const FeedbackStack = StackNavigator(
-  {
-    Map: {
-      screen: FeedbackModule,
-    },
-    Detail: {
-      screen: ServiceRequestDetail
-    }
-  },
-  {
+const FeedbackStack = StackNavigator({
+  Map: {
+    screen: FeedbackModule,
     navigationOptions: {
       header: null,
-      gesturesEnabled: false,
     },
   },
+  Detail: {
+    screen: ServiceRequestDetail,
+  },
+},
+  // {
+  //   navigationOptions: {
+  //     header: null,
+  //     gesturesEnabled: false,
+  //   },
+  // },
 );
 
 type ModuleProps = {
