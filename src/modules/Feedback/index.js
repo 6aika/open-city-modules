@@ -23,8 +23,6 @@ import MarkerPopup from 'open-city-modules/src/components/MarkerPopup';
 import { changeLanguage, t } from 'open-city-modules/src/modules/Feedback/translations';
 import styles from './styles';
 
-const MAP_PAGE = 'map';
-const LIST_PAGE = 'list';
 
 const Config = getConfig();
 
@@ -49,10 +47,10 @@ class FeedbackModule extends React.Component<Props, State> {
         title: '',
         body: '',
       },
+      region: this.props.screenProps.region,
       // markerPosition: null,
       showFeedbackModal: false,
       showMapPopup: false,
-      activePage: MAP_PAGE,
       serviceTypes: [],
       serviceRequests: [],
       activeServiceRequest: null,
@@ -76,28 +74,7 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 
   componentDidMount = () => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.setState({
-          region: new MapView.AnimatedRegion({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.02,
-          }),
-        });
-      },
-      (error) => {
-        this.setState({
-          region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
-            latitude: Config.DEFAULT_LATITUDE,
-            longitude: Config.DEFAULT_LONGITUDE,
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.02,
-          }),
-        });
-      },
-    );
+
   }
 
   getCurrentLocation = () => {
@@ -122,22 +99,6 @@ class FeedbackModule extends React.Component<Props, State> {
     if (this.state.showMapPopup) {
       this.setState({
         showMapPopup: false,
-      });
-    }
-  }
-
-  onMapPress = () => {
-    if (this.state.activePage !== MAP_PAGE) {
-      this.setState({
-        activePage: MAP_PAGE,
-      });
-    }
-  }
-
-  onListPress = () => {
-    if (this.state.activePage !== LIST_PAGE) {
-      this.setState({
-        activePage: LIST_PAGE,
       });
     }
   }
@@ -234,18 +195,7 @@ class FeedbackModule extends React.Component<Props, State> {
       customMapStyle,
     } = this.props.screenProps;
 
-    const buttons = [
-      {
-        onPress: this.onMapPress,
-        active: this.state.activePage === MAP_PAGE,
-        title: t('map').toUpperCase(),
-      },
-      {
-        onPress: this.onListPress,
-        active: this.state.activePage === LIST_PAGE,
-        title: t('list').toUpperCase(),
-      },
-    ];
+
     const serviceRequestDetailPopup =
       (<MarkerPopup
         data={this.state.popupData}
@@ -338,6 +288,7 @@ class Feedback extends React.Component<ModuleProps> {
     this.state = {
       serviceTypes: [],
       serviceRequests: [],
+      region: null,
     };
   }
 
@@ -362,6 +313,30 @@ class Feedback extends React.Component<ModuleProps> {
       changeLanguage(this.props.screenProps.locale);
     }
 
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.warn(position)
+        this.setState({
+          region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
+            latitude: parseFloat(position.coords.latitude),
+            longitude: parseFloat(position.coords.longitude),
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.02,
+          }),
+        });
+      },
+      (error) => {
+        this.setState({
+          region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
+            latitude: parseFloat(Config.DEFAULT_LATITUDE),
+            longitude: parseFloat(Config.DEFAULT_LONGITUDE),
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.02,
+          }),
+        });
+      },
+    );
+
     const {
       requests
     } = this.props.screenProps;
@@ -382,7 +357,7 @@ class Feedback extends React.Component<ModuleProps> {
   }
 
   render() {
-    if (this.state.serviceRequests.length === 0) {
+    if (this.state.serviceTypes.length === 0 || !this.state.region) {
       return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator
@@ -397,7 +372,8 @@ class Feedback extends React.Component<ModuleProps> {
       {
         ...this.props.screenProps,
         serviceTypes: this.state.serviceTypes,
-        serviceRequests: this.state.serviceRequests
+        serviceRequests: this.state.serviceRequests,
+        region: this.state.region
       }
     }/>;
   }
