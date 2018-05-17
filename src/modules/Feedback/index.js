@@ -117,7 +117,6 @@ class FeedbackModule extends React.Component<Props, State> {
         this.centerMapToLocation(position.coords);
       },
       (error) => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
   };
 
@@ -133,19 +132,40 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 
   getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
-    const result = await serviceTypeFetch();
-    this.setState({ serviceTypes: result });
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await serviceTypeFetch();
+        resolve(result)
+      } catch(error) {
+        reject(error)
+      }
+      // this.setState({ serviceTypes: result });
+    });
+
   }
 
   getServiceRequests = async (serviceRequestsFetch: () => Array<ServiceRequest>) => {
-    const result = await serviceRequestsFetch();
-    this.setState({ serviceRequests: result });
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await serviceRequestsFetch();
+        resolve(result)
+      } catch(error) {
+        reject(error)
+      }
+    });
+
+    // this.setState({ serviceRequests: result });
   }
 
   getServiceRequest = async (serviceRequestFetch: () => Array<ServiceRequest>, requestId: string) => {
-    const result = await serviceRequestFetch(requestId);
-    return result
-    // this.setState({ serviceRequests: result });
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await serviceRequestFetch(requestId);
+        resolve(result)
+      } catch(error) {
+        reject(error)
+      }
+    });
   }
 
   handleMarkerPressed = (serviceRequest) => {
@@ -210,7 +230,7 @@ class FeedbackModule extends React.Component<Props, State> {
           }
 
           <ServiceRequestMap
-            centerToGeoLocation={() => this.getGeoLocation()}
+            centerToGeoLocation={this.getGeoLocation}
             onRegionChange={this.onMapRegionChange}
             region={this.state.region}
             onMarkerPressed={this.handleMarkerPressed}
@@ -289,33 +309,54 @@ class Feedback extends React.Component<ModuleProps> {
       serviceTypes: [],
       serviceRequests: [],
       region: null,
+      loading: true,
     };
   }
 
   getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
-    const result = await serviceTypeFetch();
-    this.setState({ serviceTypes: result });
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await serviceTypeFetch();
+        resolve(result)
+      } catch(error) {
+        reject(error)
+      }
+      // this.setState({ serviceTypes: result });
+    });
+
   }
 
   getServiceRequests = async (serviceRequestsFetch: () => Array<ServiceRequest>) => {
-    const result = await serviceRequestsFetch();
-    this.setState({ serviceRequests: result });
-  }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await serviceRequestsFetch();
+        resolve(result)
+      } catch(error) {
+        reject(error)
+      }
+    });
 
-  getServiceRequest = async (serviceRequestFetch: () => Array<ServiceRequest>, requestId: string) => {
-    const result = await serviceRequestFetch(requestId);
-    return result
     // this.setState({ serviceRequests: result });
   }
 
-  componentWillMount() {
+  getServiceRequest = async (serviceRequestFetch: () => Array<ServiceRequest>, requestId: string) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await serviceRequestFetch(requestId);
+        resolve(result)
+      } catch(error) {
+        reject(error)
+      }
+    });
+  }
+
+  async componentWillMount() {
     if (this.props.screenProps.locale) {
       changeLanguage(this.props.screenProps.locale);
     }
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.warn(position)
         this.setState({
           region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
             latitude: parseFloat(position.coords.latitude),
@@ -342,11 +383,23 @@ class Feedback extends React.Component<ModuleProps> {
     } = this.props.screenProps;
 
     if (requests) {
-      this.getServiceTypes(requests.getServiceTypes);
-      this.getServiceRequests(requests.getServiceRequests);
+      const serviceTypes = await this.getServiceTypes(requests.getServiceTypes);
+      const serviceRequests = await this.getServiceRequests(requests.getServiceRequests);
+
+      this.setState({
+        serviceTypes,
+        serviceRequests,
+        loading: false,
+      });
     } else {
-      this.getServiceTypes(getServiceTypes);
-      this.getServiceRequests(getServiceRequests);
+      const serviceTypes = await this.getServiceTypes(getServiceTypes);
+      const serviceRequests = await this.getServiceRequests(getServiceRequests);
+
+      this.setState({
+        serviceTypes,
+        serviceRequests,
+        loading: false,
+      });
     }
   }
 
@@ -357,7 +410,8 @@ class Feedback extends React.Component<ModuleProps> {
   }
 
   render() {
-    if (this.state.serviceTypes.length === 0 || !this.state.region) {
+
+    if (this.state.loading || !this.state.region) {
       return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator
