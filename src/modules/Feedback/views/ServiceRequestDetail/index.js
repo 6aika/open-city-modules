@@ -99,19 +99,18 @@ class ServiceRequestDetail extends React.Component<Props, State> {
       return (
         <View style={styles.attachmentsFullScreen}>
           <Swiper style={{}}>
-          {mediaUrls.map(media => {
-            return (
-              <Image
-                style={styles.attachmentImageFullScreen}
-                source={{ uri: media }}
-              />
-            )
-          })}
+            {mediaUrls.map(media => {
+              return (
+                <Image
+                  style={styles.attachmentImageFullScreen}
+                  source={{ uri: media }}
+                />
+              );
+            })}
           </Swiper>
         </View>
-      )
+      );
     }
-
   }
 
   renderSingleMedia = (mediaUrl) => {

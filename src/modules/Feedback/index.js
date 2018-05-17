@@ -2,33 +2,26 @@
 import * as React from 'react';
 import {
   View,
-  Dimensions,
-  LayoutAnimation,
   Modal,
-  Platform,
-  Image,
   UIManager,
   ActivityIndicator,
 } from 'react-native';
-import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView'
-import ServiceRequestDetail from 'open-city-modules/src/modules/Feedback/views/ServiceRequestDetail'
-import { getServiceTypes, getServiceRequests } from 'open-city-modules/src/modules/Feedback/requests'
+import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView';
+import ServiceRequestDetail from 'open-city-modules/src/modules/Feedback/views/ServiceRequestDetail';
+import { getServiceTypes, getServiceRequests } from 'open-city-modules/src/modules/Feedback/requests';
 import { StackNavigator, TabNavigator } from 'react-navigation';
-import { type ServiceType } from 'open-city-modules/src/types'
+import { type ServiceType } from 'open-city-modules/src/types';
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import MapView from 'react-native-maps';
-import { parseDate } from 'open-city-modules/src/util'
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { parseDate } from 'open-city-modules/src/util';
 import FloatingActionButton from 'open-city-modules/src/components/FloatingActionButton';
 import ServiceRequestListView from 'open-city-modules/src/modules/Feedback/views/ServiceRequestList';
 import SendFeedbackModal from 'open-city-modules/src/modules/Feedback/views/SendFeedbackModal';
-import SubHeader from 'open-city-modules/src/components/Header';
-import PlusIcon from 'open-city-modules/img/plus.png'
-import Marker from 'open-city-modules/src/components/Marker';
-import MarkerNew from 'open-city-modules/img/marker_new.png';
+import PlusIcon from 'open-city-modules/img/plus.png';
 import MarkerPopup from 'open-city-modules/src/components/MarkerPopup';
 import { changeLanguage, t } from 'open-city-modules/src/modules/Feedback/translations';
 import styles from './styles';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 const MAP_PAGE = 'map';
 const LIST_PAGE = 'list';
@@ -52,12 +45,6 @@ class FeedbackModule extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
-        latitude: Config.DEFAULT_LATITUDE,
-        longitude: Config.DEFAULT_LONGITUDE,
-        latitudeDelta: 0.02,
-        longitudeDelta: 0.02,
-      }),
       popupData: {
         title: '',
         body: '',
@@ -75,40 +62,60 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 
   componentWillMount = async () => {
-    console.warn(Object.keys(this.props.screenProps))
     const {
-      requests
+      requests,
     } = this.props.screenProps;
     const {
       serviceRequests,
       serviceTypes,
-    } = this.props.screenProps
-    console.warn("received props")
+    } = this.props.screenProps;
     this.setState({
       serviceRequests,
       serviceTypes,
-    })
-    // if (requests) {
-    //   this.getServiceTypes(requests.getServiceTypes);
-    //   this.getServiceRequests(requests.getServiceRequests);
-    // } else {
-    //   this.getServiceTypes(getServiceTypes);
-    //   this.getServiceRequests(getServiceRequests);
-    // }
+    });
   }
 
-  componentWillReceiveProps = () => {
-    console.warn(this.props.screenProps.serviceTypes)
+  componentDidMount = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          region: new MapView.AnimatedRegion({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.02,
+          }),
+        });
+      },
+      (error) => {
+        this.setState({
+          region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
+            latitude: Config.DEFAULT_LATITUDE,
+            longitude: Config.DEFAULT_LONGITUDE,
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.02,
+          }),
+        });
+      },
+    );
+  }
 
+  getCurrentLocation = () => {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(position => resolve(position), e => reject(e));
+    });
+  };
+
+
+  componentWillReceiveProps = () => {
     const {
       serviceRequests,
       serviceTypes,
-    } = this.props.screenProps
-    console.warn("received props")
+    } = this.props.screenProps;
     this.setState({
       serviceRequests,
       serviceTypes,
-    })
+    });
   }
 
   onMapViewClick() {
@@ -136,17 +143,17 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 
   onMapRegionChange = (region) => {
-    this.state.region.setValue(region)
+    this.state.region.setValue(region);
   }
 
   onMinimapRegionChange = (region) => {
-    this.state.region.setValue(region)
+    this.state.region.setValue(region);
   }
 
   getGeoLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        this.centerMapToLocation(position.coords)
+        this.centerMapToLocation(position.coords);
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
@@ -160,9 +167,8 @@ class FeedbackModule extends React.Component<Props, State> {
         longitude: position.longitude,
         latitudeDelta: 0.02,
         longitudeDelta: 0.02,
-      })
-    })
-
+      }),
+    });
   }
 
   getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
@@ -190,7 +196,7 @@ class FeedbackModule extends React.Component<Props, State> {
         longitude: serviceRequest.location.longitude,
         latitudeDelta: 0.02,
         longitudeDelta: 0.02,
-      })
+      });
       this.state.region.setValue(region);
     }
 
@@ -199,15 +205,15 @@ class FeedbackModule extends React.Component<Props, State> {
       activeServiceRequest: serviceRequest,
       popupData: {
         title: parseDate(serviceRequest.requestedDateTime),
-        body: serviceRequest.description
+        body: serviceRequest.description,
       },
     });
   }
 
   goToServiceRequestDetail = (serviceRequest) => {
     this.props.navigation.navigate('Detail', {
-      serviceRequest
-    })
+      serviceRequest,
+    });
   }
 
   toggleFeedbackModal = () => {
@@ -272,7 +278,6 @@ class FeedbackModule extends React.Component<Props, State> {
         >
           <SendFeedbackModal
             screenProps={this.props.screenProps}
-
             toggleFeedbackModal={this.toggleFeedbackModal}
             region={this.state.region}
             onMinimapRegionChange={this.onMinimapRegionChange}
@@ -306,8 +311,8 @@ const FeedbackTabNavigator = TabNavigator({
     navigationOptions: () => ({
       tabBarLabel: t('list').toUpperCase(),
     }),
-  }
-})
+  },
+});
 
 const FeedbackStack = StackNavigator({
   Map: {
@@ -319,14 +324,7 @@ const FeedbackStack = StackNavigator({
   Detail: {
     screen: ServiceRequestDetail,
   },
-},
-  // {
-  //   navigationOptions: {
-  //     header: null,
-  //     gesturesEnabled: false,
-  //   },
-  // },
-);
+});
 
 
 type ModuleProps = {
@@ -341,8 +339,6 @@ class Feedback extends React.Component<ModuleProps> {
       serviceTypes: [],
       serviceRequests: [],
     };
-
-    console.disableYellowBox = true;
   }
 
   getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
@@ -352,8 +348,6 @@ class Feedback extends React.Component<ModuleProps> {
 
   getServiceRequests = async (serviceRequestsFetch: () => Array<ServiceRequest>) => {
     const result = await serviceRequestsFetch();
-    console.warn(result)
-    console.warn("GOT REQUESTS")
     this.setState({ serviceRequests: result });
   }
 
@@ -388,7 +382,7 @@ class Feedback extends React.Component<ModuleProps> {
   }
 
   render() {
-    if(this.state.serviceRequests.length === 0) {
+    if (this.state.serviceRequests.length === 0) {
       return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator
@@ -396,7 +390,7 @@ class Feedback extends React.Component<ModuleProps> {
             color={EStyleSheet.value('$colors.med')}
           />
         </View>
-      )
+      );
     }
 
     return <FeedbackStack screenProps={

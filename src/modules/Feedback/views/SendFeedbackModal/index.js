@@ -14,12 +14,12 @@ import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import SendIcon from 'open-city-modules/img/send.png';
-import BackIcon from 'open-city-modules/img/arrow_back.png'
-import CheckBox from 'open-city-modules/src/components/CheckBox'
-import UpIcon from 'open-city-modules/img/map_up.png'
-import { postServiceRequest } from 'open-city-modules/src/modules/Feedback/requests'
+import BackIcon from 'open-city-modules/img/arrow_back.png';
+import CheckBox from 'open-city-modules/src/components/CheckBox';
+import UpIcon from 'open-city-modules/img/map_up.png';
+import { postServiceRequest } from 'open-city-modules/src/modules/Feedback/requests';
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
-import FeedbackForm from 'open-city-modules/src/modules/Feedback/components/FeedbackForm'
+import FeedbackForm from 'open-city-modules/src/modules/Feedback/components/FeedbackForm';
 import { type AttachmentType, ServiceType } from 'open-city-modules/src/types';
 import Minimap from 'open-city-modules/src/modules/Feedback/components/Minimap';
 import { t } from 'open-city-modules/src/modules/Feedback/translations';
@@ -31,23 +31,21 @@ class SendFeedbackModal extends Component {
   constructor(props, context) {
     super(props, context);
 
-
     this.state = {
       loadingAttachment: false,
       fullScreenMap: true,
       attachments: [],
       selectedServiceType: null,
       locationEnabled: true,
-      userPosition: null,
+      location: null,
       descriptionText: '',
       titleText: '',
     };
   }
 
   componentDidMount = () => {
-    this.setState({ fullScreenMap: false, userPosition: this.props.region })
+    this.setState({ fullScreenMap: false, location: this.props.region });
   }
-
 
   showFullScreenMap = () => {
     this.setState({ fullScreenMap: true });
@@ -64,7 +62,7 @@ class SendFeedbackModal extends Component {
     for (let i = 0; i < tempAttachments.length; i++) {
       if (tempAttachments[i].index === index) {
         tempAttachments.splice(i, 1);
-        this.setState({ attachments: tempAttachments })
+        this.setState({ attachments: tempAttachments });
         return true;
       }
     }
@@ -89,13 +87,11 @@ class SendFeedbackModal extends Component {
         // TODO: Error handling
         console.warn("error picker")
         this.setState({ loadingAttachment: false });
-
         // showAlert(transError.attachmentErrorTitle, transError.attachmentErrorMessage, transError.attachmentError);
       } else if (response.didCancel) {
         this.setState({ loadingAttachment: false });
         source = null;
       } else {
-
         if (Platform.OS === 'ios') {
           source = { uri: response.uri.replace('file://', ''), isStatic: true };
         } else {
@@ -113,22 +109,22 @@ class SendFeedbackModal extends Component {
           const resizedSource = { uri: resizedImageUri, isStatic: true };
           response.path = resizedImageUri;
           response.uri = resizedImageUri;
-          const tempArray = this.state.attachments
+          const tempArray = this.state.attachments;
           const image = {
             source: resizedSource,
-            name: response.fileName
-          }
+            name: response.fileName,
+          };
 
           const index = tempArray.length - 1;
           const attachment = {
             index,
             image,
             onPress: () => {
-              this.removeAttachment(index)
+              this.removeAttachment(index);
             },
           };
 
-          tempArray.push(attachment)
+          tempArray.push(attachment);
 
           this.setState({
             attachments: tempArray,
@@ -138,8 +134,8 @@ class SendFeedbackModal extends Component {
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
         }).catch((err) => {
-          console.warn("error resize")
-          this.setState({ loadingAttachment: false, })
+          console.warn("error resize");
+          this.setState({ loadingAttachment: false });
           // showAlert(transError.feedbackImageErrorTitle, transError.feedbackImageErrorMessage, transError.feedbackImageErrorButton)
         });
       }
@@ -147,7 +143,6 @@ class SendFeedbackModal extends Component {
   }
 
   sendServiceRequest = () => {
-    console.warn("Sending...")
     this.setState({ loading: true });
     const data = new FormData();
 
@@ -156,8 +151,8 @@ class SendFeedbackModal extends Component {
     data.append('title', this.state.titleText !== null ? this.state.titleText : '');
 
     if (this.state.locationEnabled) {
-      data.append('lat', this.state.userPosition.latitude);
-      data.append('long', this.state.userPosition.longitude);
+      data.append('lat', this.state.location.latitude);
+      data.append('long', this.state.location.longitude);
     }
 
     const attachments = this.state.attachments;
@@ -168,13 +163,13 @@ class SendFeedbackModal extends Component {
           name: attachment.image.name,
           uri: attachment.image.source.uri.uri,
           isStored: true,
-          type: 'image/jpeg'
+          type: 'image/jpeg',
         },
       ));
     }
 
     const {
-      requests
+      requests,
     } = this.props.screenProps;
 
     if (requests && requests.postServiceRequest) {
@@ -190,23 +185,21 @@ class SendFeedbackModal extends Component {
         this.setState({
           loading: false,
         });
-
         this.props.toggleFeedbackModal();
       });
     }
-
   }
 
   onServiceTypeChange = (service: ServiceType) => {
-    this.setState({ selectedServiceType: service })
+    this.setState({ selectedServiceType: service });
   }
 
   onChangeFeedbackText = (text: string) => {
-    this.setState({ descriptionText: text })
+    this.setState({ descriptionText: text });
   }
 
   onChangeTitleText = (text: string) => {
-    this.setState({ titleText: text })
+    this.setState({ titleText: text });
   }
 
   handleCheckBoxPress = () => {
@@ -217,7 +210,7 @@ class SendFeedbackModal extends Component {
   }
 
   onMinimapRegionChange = (region) => {
-    this.setState({ userPosition: region })
+    this.setState({ location: region });
   }
 
   validateFields = () => {
@@ -239,6 +232,7 @@ class SendFeedbackModal extends Component {
     } = this.props.screenProps;
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
     const validFields = this.validateFields();
+
     return (
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -288,7 +282,7 @@ class SendFeedbackModal extends Component {
             <View style={minimapStyle} >
               <Minimap
                 {...this.props}
-                userPosition={this.state.userPosition}
+                userPosition={this.state.location}
                 region={this.props.region}
                 locationEnabled
                 fullScreenMap={this.state.fullScreenMap}

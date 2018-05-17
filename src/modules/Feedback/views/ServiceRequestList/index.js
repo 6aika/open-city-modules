@@ -38,23 +38,20 @@ class ServiceRequestList extends React.Component<Props, State> {
     };
   }
 
-
-
   componentWillMount = () => {
-    if(this.props.screenProps.serviceRequests) {
-      const sections = this.parseDataToSections(this.props.screenProps.serviceRequests)
-      this.setState({ sections })
+    if (this.props.screenProps.serviceRequests) {
+      const sections = this.parseDataToSections(this.props.screenProps.serviceRequests);
+      this.setState({ sections });
     }
   }
 
   componentWillReceiveProps = (nextProps) => {
-
   }
 
   resolveMonthString = (date) => {
     const monthNames = [t('january'), t('february'), t('march'), t('april'),
-    t('may'), t('june'), t('july'), t('august'), t('september'), t('october'),
-    t('november'), t('december')];
+      t('may'), t('june'), t('july'), t('august'), t('september'), t('october'),
+      t('november'), t('december')];
 
     const mDate = new Date(date);
     return monthNames[mDate.getMonth()] + ", " + mDate.getFullYear();
@@ -83,12 +80,12 @@ class ServiceRequestList extends React.Component<Props, State> {
         sections.push({
           data: [item],
           key,
-          title
+          title,
         });
         found = false;
       }
-    })
-    return sections
+    });
+    return sections;
   }
 
   keyExtractor = (item, index) => item.id;
@@ -105,15 +102,15 @@ class ServiceRequestList extends React.Component<Props, State> {
   renderItem = (serviceRequest) => {
     return (
       <ListItem
-        style={{flex:1}}
+        style={{ flex: 1 }}
         serviceRequest={serviceRequest}
         onPress={this.goToDetail}
       />
-    )
+    );
   }
 
   renderFooter = () => {
-    return (<View style={styles.footer} />)
+    return (<View style={styles.footer} />);
   }
 
   renderSectionHeader = (section) => {
@@ -121,18 +118,18 @@ class ServiceRequestList extends React.Component<Props, State> {
       <View style={styles.sectionHeaderContainer}>
         <Text style={styles.sectionHeader}>{section.section.title}</Text>
       </View>
-    )
+    );
   }
 
   render() {
     return (
-        <SectionList
-          sections={this.state.sections}
-          renderSectionFooter={this.renderFooter}
-          renderSectionHeader={this.renderSectionHeader}
-          renderItem={this.renderItem}
-          keyExtractor={this.keyExtractor}
-        />
+      <SectionList
+        sections={this.state.sections}
+        renderSectionFooter={this.renderFooter}
+        renderSectionHeader={this.renderSectionHeader}
+        renderItem={this.renderItem}
+        keyExtractor={this.keyExtractor}
+      />
     );
   }
 }
