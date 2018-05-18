@@ -10,8 +10,6 @@ import HeroDecoration from 'open-city-modules/img/main-hero-decoration.png';
 import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { bindActionCreators } from 'redux';
-import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import EventActions from '../redux/events/actions';
 import HearingActions from '../redux/hearings/actions';
 import FeedActions from '../redux/feed/actions';
