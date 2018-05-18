@@ -5,7 +5,7 @@ import {
   Modal,
   UIManager,
   DeviceEventEmitter,
-  BackHandler
+  BackHandler,
   ActivityIndicator,
 } from 'react-native';
 import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView';
