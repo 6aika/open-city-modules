@@ -361,7 +361,7 @@ class Feedback extends React.Component<ModuleProps> {
     if (this.props.screenProps.locale) {
       changeLanguage(this.props.screenProps.locale);
     }
-    this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
+    // this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -413,7 +413,7 @@ class Feedback extends React.Component<ModuleProps> {
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardWareBackPress', this.goBack);
-    this.tabChangeListener.remove();
+    // this.tabChangeListener.remove();
   }
 
   componentWillReceiveProps(nextProps: ModuleProps) {
@@ -434,28 +434,28 @@ class Feedback extends React.Component<ModuleProps> {
 
   onTabChange = (params) => {
     // Reset navigator when switching tabs
-
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Map' }),
-      ]
-    });
-
-    const index = this.navigator.state.nav.index;
-
-    if (params.prevRoute === 'Feedback') {
-      BackHandler.removeEventListener('hardWareBackPress', this.goBack);
-
-      if(index > 0) {
-        this.navigator._navigation.dispatch(resetAction);
-      }
-    }
-
-    console.warn(params.nextRoute)
-    if (params.nextRoute === 'Feedback') {
-      BackHandler.addEventListener('hardwareBackPress', this.goBack)
-    }
+    //
+    // const resetAction = NavigationActions.reset({
+    //   index: 0,
+    //   actions: [
+    //     NavigationActions.navigate({ routeName: 'Map' }),
+    //   ]
+    // });
+    //
+    // const index = this.navigator.state.nav.index;
+    //
+    // if (params.prevRoute === 'Feedback') {
+    //   BackHandler.removeEventListener('hardWareBackPress', this.goBack);
+    //
+    //   if(index > 0) {
+    //     this.navigator._navigation.dispatch(resetAction);
+    //   }
+    // }
+    //
+    // console.warn(params.nextRoute)
+    // if (params.nextRoute === 'Feedback') {
+    //   BackHandler.addEventListener('hardwareBackPress', this.goBack)
+    // }
 
   }
 
