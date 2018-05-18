@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import {
   ScrollView,
   View,
-  Image,
-  Text,
-  Button,
-  Linking
+  Linking,
 } from 'react-native';
 import { changeLanguage, t } from 'open-city-modules/src/modules/translations';
 import { connect } from 'react-redux';
 import HeroDecoration from 'open-city-modules/img/main-hero-decoration.png';
 import { bindActionCreators } from 'redux';
+import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import EventActions from '../redux/events/actions';
 import HearingActions from '../redux/hearings/actions';
 import FeedActions from '../redux/feed/actions';
@@ -23,10 +22,8 @@ import EventList from './EventList';
 import Promotion from './Promotion';
 import styles from '../styles';
 import PromotionManager from '../util/promotionManager';
-import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
-const promotionManager = new PromotionManager()
+const promotionManager = new PromotionManager();
 const Config = getConfig();
 
 const feeds = getFeeds();
@@ -65,15 +62,13 @@ class HomeView extends Component {
       changeLanguage(this.props.screenProps.locale);
     }
 
-
     Linking.getInitialURL().then((url) => {
       //this.loading = true;
-      if(url) console.warn(url)
+      if (url) console.warn(url);
     }).catch((err) => {
       // console.warn('Error occured', err);
     });
   }
-
 
   componentWillReceiveProps(nextProps: ModuleProps) {
     if (this.props.screenProps.locale !== nextProps.screenProps.locale) {
@@ -97,6 +92,7 @@ class HomeView extends Component {
       promotionList,
       heroLoading,
     } = this.props;
+
     const {
       Header,
       heroBanner = HeroDecoration,
@@ -105,10 +101,11 @@ class HomeView extends Component {
       showHearings = true,
       showFeed = true,
       showPromotions = true,
+      homeViewBGColor = 'white',
     } = this.props.screenProps;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: homeViewBGColor }}>
         {!!Header &&
           <Header />
         }
@@ -133,7 +130,6 @@ class HomeView extends Component {
               navigation={this.props.navigation}
             />
             }
-
             { showPromotions &&
               <View style={styles.promotionsContainer}>
                 { promotionList.map((item, index) => {
@@ -149,14 +145,12 @@ class HomeView extends Component {
                 })}
               </View>
             }
-
             { showEvents &&
               <EventList
                 navigation={this.props.navigation}
                 eventList={eventList}
               />
             }
-
           </View>
 
           { showHearings &&

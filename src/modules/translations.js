@@ -17,7 +17,7 @@ const translations = {
   },
   fi: {
     WebViewError: 'Virhe ladatessa nettisivua',
-    toDo: 'Tekemistä sinulle',
+    toDo: 'Tekemistä lähelläsi',
     hearings: 'Kerro kantasi',
     news: 'Uutiset',
     events: 'Tapahtumat',
