@@ -107,7 +107,9 @@ class HomeView extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <Header />
+        {!!Header &&
+          <Header />
+        }
         <ScrollView style={styles.container}>
           <View>
             { !showHero &&

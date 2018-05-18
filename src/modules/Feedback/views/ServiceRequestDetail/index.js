@@ -99,19 +99,18 @@ class ServiceRequestDetail extends React.Component<Props, State> {
       return (
         <View style={styles.attachmentsFullScreen}>
           <Swiper style={{}}>
-          {mediaUrls.map(media => {
-            return (
-              <Image
-                style={styles.attachmentImageFullScreen}
-                source={{ uri: media }}
-              />
-            )
-          })}
+            {mediaUrls.map(media => {
+              return (
+                <Image
+                  style={styles.attachmentImageFullScreen}
+                  source={{ uri: media }}
+                />
+              );
+            })}
           </Swiper>
         </View>
-      )
+      );
     }
-
   }
 
   renderSingleMedia = (mediaUrl) => {
@@ -202,18 +201,20 @@ class ServiceRequestDetail extends React.Component<Props, State> {
     const { serviceRequest } = this.props.navigation.state.params;
     return (
       <View style={styles.container}>
-        <Header
-          style={styles.header}
-          titleStyle={styles.headerTitle}
-          title={parseDate(serviceRequest.updatedDateTime)}
-          leftAction={{
-            icon: BackIcon,
-            action: this.goBack,
-            style: {
-              tintColor: EStyleSheet.value('$colors.min'),
-            },
-          }}
-        />
+        {!!Header &&
+          <Header
+            style={styles.header}
+            titleStyle={styles.headerTitle}
+            title={parseDate(serviceRequest.updatedDateTime)}
+            leftAction={{
+              icon: BackIcon,
+              action: this.goBack,
+              style: {
+                tintColor: EStyleSheet.value('$colors.min'),
+              },
+            }}
+          />
+        }
         { this.renderMetadata(serviceRequest) }
 
         {(!this.state.fullScreenMap && !this.state.fullScreenImage) &&
