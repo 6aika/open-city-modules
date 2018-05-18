@@ -14,7 +14,6 @@ const styles = EStyleSheet.create({
   $cardBG: () => Color(EStyleSheet.value('$colors.min')).darken(0.15),
   container: {
     flex: 1,
-    backgroundColor: '$colors.min',
   },
   icon: {
     width: 26,
@@ -46,19 +45,23 @@ const styles = EStyleSheet.create({
   },
   eventWrapper: {
     flex: 1,
-    backgroundColor: '$colors.min',
-    paddingTop: 50,
-    paddingBottom: 50,
   },
   hearingWrapper: {
     flex: 1,
-    backgroundColor: '$colors.min',
-    paddingTop: 50,
-    paddingBottom: 50,
+    paddingBottom: 16,
+  },
+  cardHeadline: {
+    fontSize: 20,
+    color: '$colors.max',
   },
   headline: {
     paddingVertical: 15,
     alignItems: 'center',
+  },
+  headlineText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '$colors.max',
   },
   heroWrapper: {
     alignContent: 'flex-start',
@@ -157,8 +160,6 @@ const styles = EStyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
   },
-  headlineText: 30,
-  cardHeadline: 20,
 });
 
 export default styles;
