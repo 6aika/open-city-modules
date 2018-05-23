@@ -2,7 +2,7 @@
 import React from 'react';
 import {
   Image,
-  TouchableOpacity,
+  View,
 } from 'react-native';
 import MarkerPin from 'open-city-modules/img/marker_pin.png';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -18,12 +18,10 @@ type Props = {
 const Marker = ({
   tintColor = EStyleSheet.value('$colors.med'),
   icon,
-  onPress,
   customStyle,
 }: Props) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
+    <View
       style={styles.markerContainer}
     >
       <Image
@@ -40,7 +38,7 @@ const Marker = ({
           style={styles.markerIcon}
         />
       }
-    </TouchableOpacity>
+    </View>
   );
 };
 

@@ -114,6 +114,13 @@ class FeedbackModule extends React.Component<Props, State> {
     this.state.region.setValue(region);
   }
 
+  onMapRegionChangeComplete = (region) => {
+    this.setState({
+      regionChanged: region,
+    })
+    this.state.region.setValue(region);
+  }
+
   onMinimapRegionChange = (region) => {
     this.state.region.setValue(region);
   }
@@ -216,6 +223,30 @@ class FeedbackModule extends React.Component<Props, State> {
     }
   }
 
+  isLocationVisible = (location) => {
+    const region = this.state.region;
+
+    const latitudeDelta = parseFloat(JSON.stringify(region.latitudeDelta))
+    const longitudeDelta = parseFloat(JSON.stringify(region.longitudeDelta))
+    const longitude = parseFloat(JSON.stringify(region.longitude));
+    const latitude = parseFloat(JSON.stringify(region.latitude));
+    const topBorder = longitude + (longitudeDelta);
+    const bottomBorder = longitude - (longitudeDelta);
+    const rightBorder = latitude + (latitudeDelta);
+    const leftBorder = latitude - (latitudeDelta);
+
+    if (
+      location.latitude > rightBorder ||
+      location.latitude < leftBorder ||
+      location.longitude > topBorder ||
+      location.longitude < bottomBorder
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+
   render() {
     const {
       Header,
@@ -241,9 +272,11 @@ class FeedbackModule extends React.Component<Props, State> {
             onRegionChange={this.onMapRegionChange}
             region={this.state.region}
             onMarkerPressed={this.handleMarkerPressed}
-            onRegionChangeComplete={this.onMapRegionChange}
+            onRegionChangeComplete={this.onMapRegionChangeComplete}
             serviceRequests={this.state.serviceRequests}
             customMapStyle={customMapStyle}
+            isLocationVisible={this.isLocationVisible}
+            customMapMarker={this.props.screenProps.customMapMarker}
           />
         </View>
 
