@@ -255,7 +255,7 @@ class SendFeedbackModal extends Component {
         }
         {!Header &&
           <View
-            style={{ flexDirection: 'row', padding: 8, justifyContent: 'space-between' }}
+            style={{ flexDirection: 'row', padding: 8, justifyContent: 'space-between', marginTop: Platform.OS === 'ios' ? 24 : 0 }}
           >
             <TouchableOpacity
               onPress={() => {

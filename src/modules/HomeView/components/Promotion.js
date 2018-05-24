@@ -40,9 +40,14 @@ class Promotion extends Component {
       customView,
     } = this.props;
 
-    const bodyStyle = this.state.hidden ? [styles.hidden] : styles.body;
+    const bodyStyle = styles.body;
 
     // Using zIndex to place concurrent promotions under the previous one.
+
+    if (this.state.hidden) {
+      return (<View/>)
+    }
+
     return (
       <TouchableWithoutFeedback onPress={() => {
           this.props.navigation.navigate(promotion.targetTab);
