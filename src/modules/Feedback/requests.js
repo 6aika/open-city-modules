@@ -30,20 +30,23 @@ const request = (url, method, headers, body, data) =>
 export const parseServiceTypes = (response): Array<ServiceType> => {
   const serviceTypeList: Array<ServiceType> = [];
   const responseData = JSON.parse(response);
+  const blacklist = CONFIG.SERVICE_BLACKLIST || [];
 
-  responseData.forEach(item => serviceTypeList.push({
-    key: item.service_code,
-    label: item.service_name,
-    serviceCode: item.service_code,
-    serviceName: item.service_name,
-    description: item.description,
-    metadata: item.metadata,
-    type: item.type,
-    keywords: item.keywords,
-    group: item.group,
-  }));
-
-  return serviceTypeList;
+  responseData.forEach((item) => {
+    if (blacklist.indexOf(parseInt(item.service_code, 10)) === -1) {
+      serviceTypeList.push({
+        key: item.service_code,
+        label: item.service_name,
+        serviceCode: item.service_code,
+        serviceName: item.service_name,
+        description: item.description,
+        metadata: item.metadata,
+        type: item.type,
+        keywords: item.keywords,
+        group: item.group,
+      });
+    }
+  });
 };
 
 export const parseServiceRequest = (serviceRequest): ServiceRequest => {
@@ -94,8 +97,8 @@ export const parseServiceRequests = (serviceRequestsData): Array<ServiceRequest>
   return serviceRequestList;
 };
 
-export const getServiceTypes = () => {
-  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_SERVICES;
+export const getServiceTypes = (locale = 'fi') => {
+  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_SERVICES + CONFIG.OPEN311OPEN311_SERVICE_LIST_LOCALE + locale;
   const headers = { Accept: 'application/json', 'Content-Type': 'application/json' };
 
   return new Promise((resolve, reject) => {

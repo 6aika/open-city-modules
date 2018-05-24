@@ -356,14 +356,13 @@ class Feedback extends React.Component<ModuleProps> {
   getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const result = await serviceTypeFetch();
+        const result = await serviceTypeFetch(this.props.screenProps.locale);
         resolve(result)
       } catch(error) {
         reject(error)
       }
       // this.setState({ serviceTypes: result });
     });
-
   }
 
   getServiceRequests = async (serviceRequestsFetch: () => Array<ServiceRequest>) => {
