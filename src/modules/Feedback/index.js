@@ -354,81 +354,87 @@ class Feedback extends React.Component<ModuleProps> {
   }
 
   getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result = await serviceTypeFetch(this.props.screenProps.locale);
-        resolve(result)
-      } catch(error) {
-        reject(error)
-      }
-      // this.setState({ serviceTypes: result });
-    });
-  }
-
-  getServiceRequests = async (serviceRequestsFetch: () => Array<ServiceRequest>) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result = await serviceRequestsFetch();
-        resolve(result)
-      } catch(error) {
-        reject(error)
-      }
-    });
-
-    // this.setState({ serviceRequests: result });
-  }
-
-  getServiceRequest = async (serviceRequestFetch: () => Array<ServiceRequest>, requestId: string) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result = await serviceRequestFetch(requestId);
-        resolve(result)
-      } catch(error) {
-        reject(error)
-      }
-    });
-  }
-
-  async componentWillMount() {
-    if (this.props.screenProps.locale) {
-      changeLanguage(this.props.screenProps.locale);
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await serviceTypeFetch(this.props.screenProps.locale);
+      this.setState({
+        serviceTypes: result,
+      })
+      resolve(result)
+    } catch(error) {
+      reject(error)
     }
-    // this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
+    // this.setState({ serviceTypes: result });
+  });
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.setState({
-          region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
-            latitude: parseFloat(position.coords.latitude),
-            longitude: parseFloat(position.coords.longitude),
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.02,
-          }),
-        });
-      },
-      (error) => {
-        this.setState({
-          region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
-            latitude: parseFloat(Config.DEFAULT_LATITUDE),
-            longitude: parseFloat(Config.DEFAULT_LONGITUDE),
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.02,
-          }),
-        });
-      },
-    );
+}
 
-    const {
-      requests
-    } = this.props.screenProps;
+getServiceRequests = async (serviceRequestsFetch: () => Array<ServiceRequest>) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await serviceRequestsFetch();
+      this.setState({
+        serviceRequests: result,
+      })
+      resolve(result)
+    } catch (error) {
+      reject(error)
+    }
+  });
 
+  // this.setState({ serviceRequests: result });
+}
+
+getServiceRequest = async (serviceRequestFetch: () => Array<ServiceRequest>, requestId: string) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await serviceRequestFetch(requestId);
+      resolve(result)
+    } catch (error) {
+      reject(error)
+    }
+  });
+}
+
+async componentWillMount() {
+  if (this.props.screenProps.locale) {
+    changeLanguage(this.props.screenProps.locale);
+  }
+  // this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      this.setState({
+        region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
+          latitude: parseFloat(position.coords.latitude),
+          longitude: parseFloat(position.coords.longitude),
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.02,
+        }),
+      });
+    },
+    (error) => {
+      this.setState({
+        region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
+          latitude: parseFloat(Config.DEFAULT_LATITUDE),
+          longitude: parseFloat(Config.DEFAULT_LONGITUDE),
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.02,
+        }),
+      });
+    },
+  );
+
+  const {
+    requests
+  } = this.props.screenProps;
+  try {
     if (requests) {
-      const serviceTypes = await this.getServiceTypes(requests.getServiceTypes);
-      const serviceRequests = await this.getServiceRequests(requests.getServiceRequests);
+
+      const serviceTypes = await this.getServiceTypes(requests.getServiceTypes)
+      const serviceRequests = await this.getServiceRequests(requests.getServiceRequests)
 
       this.setState({
-        serviceTypes,
-        serviceRequests,
         loading: false,
       });
     } else {
@@ -441,7 +447,12 @@ class Feedback extends React.Component<ModuleProps> {
         loading: false,
       });
     }
+  } catch(error) {
+    this.setState({
+      loading: false,
+    });
   }
+}
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardWareBackPress', this.goBack);
