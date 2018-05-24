@@ -59,6 +59,7 @@ class Minimap extends Component {
   }
 
   render() {
+    const MapMarker = this.props.screenProps.customMapMarker || Marker
     return (
       <Animated.View style={[styles.container, this.mapHeight()]}>
         {this.props.locationEnabled &&
@@ -102,7 +103,7 @@ class Minimap extends Component {
                 style={[styles.markerContainer, { marginBottom: 30 }]}
                 pointerEvents="none"
               >
-                <Marker icon={MarkerIcon} />
+                <MapMarker icon={MarkerIcon} />
               </View>
             </TouchableWithoutFeedback>
           </View>

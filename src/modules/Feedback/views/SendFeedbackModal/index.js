@@ -168,24 +168,28 @@ class SendFeedbackModal extends Component {
 
     const {
       requests,
+      piwik
     } = this.props.screenProps;
 
     if (requests && requests.postServiceRequest) {
-      requests.postServiceRequest(data).then(() => {
+      requests.postServiceRequest(data).then((response) => {
         this.setState({
           loading: false,
         });
-
+        if (piwik) piwik.trackEvent("feedback", "feedback_sent", "User has sent a feedback: " + response, 1)
         this.props.toggleFeedbackModal();
       });
     } else {
-      postServiceRequest(data).then(() => {
+      postServiceRequest(data).then((response) => {
         this.setState({
           loading: false,
         });
+        if (piwik) piwik.trackEvent("feedback", "feedback_sent", "User has sent a feedback: " + response, 1)
         this.props.toggleFeedbackModal();
       });
     }
+
+
   }
 
   onServiceTypeChange = (service: ServiceType) => {
