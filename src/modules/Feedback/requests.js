@@ -98,7 +98,7 @@ export const parseServiceRequests = (serviceRequestsData): Array<ServiceRequest>
 };
 
 export const getServiceTypes = (locale = 'fi') => {
-  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_SERVICES + CONFIG.OPEN311OPEN311_SERVICE_LIST_LOCALE + locale;
+  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_SERVICES + CONFIG.OPEN311_SERVICE_LIST_LOCALE + locale;
   const headers = { Accept: 'application/json', 'Content-Type': 'application/json' };
 
   return new Promise((resolve, reject) => {
