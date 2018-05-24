@@ -12,6 +12,7 @@ const BRAND_DARK_THREE = '#009246'; // Helsinki Tram
 
 const styles = EStyleSheet.create({
   $cardBG: () => Color(EStyleSheet.value('$colors.min')).darken(0.15),
+  $cardOverlayColor: () => Color(EStyleSheet.value('$colors.max')).alpha(0.3),
   container: {
     flex: 1,
   },
@@ -23,7 +24,7 @@ const styles = EStyleSheet.create({
     height: 26,
   },
   cardWrapper: {
-    width: 240,
+    width: 180,
     backgroundColor: '$cardBG',
   },
   cardImage: {
@@ -33,9 +34,12 @@ const styles = EStyleSheet.create({
     justifyContent: 'flex-end',
   },
   cardOverlay: {
-    minHeight: 100,
+    minHeight: 60,
     width: '100%',
     padding: 10,
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: '$cardOverlayColor'
   },
   list: {
     alignItems: 'stretch',
@@ -51,8 +55,9 @@ const styles = EStyleSheet.create({
     paddingBottom: 16,
   },
   cardHeadline: {
-    fontSize: 20,
-    color: '$colors.max',
+    fontSize: 16,
+    textAlign: 'center',
+    color: '$colors.min',
   },
   headline: {
     paddingVertical: 15,
