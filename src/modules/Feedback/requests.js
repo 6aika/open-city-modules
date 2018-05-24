@@ -47,6 +47,8 @@ export const parseServiceTypes = (response): Array<ServiceType> => {
       });
     }
   });
+
+  return serviceTypeList;
 };
 
 export const parseServiceRequest = (serviceRequest): ServiceRequest => {
