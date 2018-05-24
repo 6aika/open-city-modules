@@ -110,10 +110,13 @@ class HomeView extends Component {
         {!!Header &&
           <Header />
         }
-        <ScrollView style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          bounces={false}
+        >
           <View>
             { !showHero &&
-              <View>
+              <View style={{ zIndex: 1 }}>
                 <View style={styles.heroOverlay} />
                 <Wave topColor={EStyleSheet.value('$colors.max')} />
               </View>
