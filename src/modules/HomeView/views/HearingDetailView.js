@@ -25,17 +25,17 @@ class HearingDetailView extends Component {
     const { JStoInject } = navigation.state.params;
 
     return (
-      <View style={{ height: this.state.loading ? '0%' : '100%'}}>
+      <View style={{flex: 1}}>
         <WebView
           onLoadStart={this.onLoadStart}
           onLoadEnd={this.onLoadEnd}
           source={{ uri: navigation.state.params.url }}
-          style={{ flex:1, marginTop: 20 }}
+          style={{ flex: this.state.loading ? 0 : 1 }}
           injectedJavaScript={JStoInject}
           javaScriptEnabled={true}
         />
         {this.state.loading &&
-          <View style={styles.loading}>
+          <View style={[styles.loading, { flex: this.state.loading ? 1 : 0}]}>
             <ActivityIndicator
               size={'large'}
               color={EStyleSheet.value('$colors.med')}
@@ -49,11 +49,8 @@ class HearingDetailView extends Component {
 
 const styles = EStyleSheet.create({
   loading: {
-    position: 'absolute',
-    width: '100%',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    top: 0,
   },
 });
 
