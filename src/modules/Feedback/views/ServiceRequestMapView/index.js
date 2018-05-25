@@ -57,6 +57,8 @@ const ServiceRequestMapView = ({
         onRegionChangeComplete={onRegionChangeComplete}
         region={region}
         showsUserLocation
+        showsMyLocationButton={false}
+        showsCompass={false}
         provider={PROVIDER_GOOGLE}
         followUserLocation={false}
         toolbarEnabled={false}

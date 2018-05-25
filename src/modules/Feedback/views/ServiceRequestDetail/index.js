@@ -135,6 +135,7 @@ class ServiceRequestDetail extends React.Component<Props, State> {
 
   renderMetadata = (serviceRequest) => {
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
+    const MapMarker = this.props.screenProps.customMapMarker || Marker
 
     const hiddenStyle = { flex: 0 };
     const hasLocation = serviceRequest.location && serviceRequest.location.latitude ? true : false;
@@ -160,6 +161,8 @@ class ServiceRequestDetail extends React.Component<Props, State> {
                 longitudeDelta: 0.007,
               }}
               provider='google'
+              showsMyLocationButton={false}
+              showsCompass={false}
               onPanDrag={(e) => { if (!this.state.fullScreenMap) this.showFullScreenMap(true); }}
               onPress={(e) => { if (!this.state.fullScreenMap) this.showFullScreenMap(true); }}
               onLongPress={(e) => { if (!this.state.fullScreenMap) this.showFullScreenMap(true); }}
@@ -178,7 +181,7 @@ class ServiceRequestDetail extends React.Component<Props, State> {
                   longitude: parseFloat(serviceRequest.location.longitude),
                 }}
               >
-                <Marker icon={MarkerIcon} />
+                <MapMarker icon={MarkerIcon} />
               </MapView.Marker>
             </MapView>
           </View>

@@ -75,6 +75,8 @@ class Minimap extends Component {
               showsUserLocation={true}
               followUserLocation={false}
               toolbarEnabled={false}
+              showsUserLocation
+              showsMyLocationButton={false}
               scrollEnabled={this.props.fullScreenMap}
               zoomEnabled={this.props.fullScreenMap}
               onPanDrag={(e) => { if (!this.props.fullScreenMap) this.props.setFullScreenMap(true); }}
