@@ -332,10 +332,16 @@ const FeedbackTabNavigator = TabNavigator({
     style: {
       justifyContent: 'center',
       paddingTop: 8,
+      backgroundColor: 'white'
     },
     labelStyle: {
       fontSize: 12,
-      fontWight: 'bold',
+      fontWeight: 'bold',
+      color: 'black'
+    },
+    indicatorStyle: {
+       borderBottomColor: 'black',
+       borderBottomWidth: 3,
     },
   },
 },
