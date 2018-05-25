@@ -251,8 +251,10 @@ class FeedbackModule extends React.Component<Props, State> {
     const {
       Header,
       customMapStyle,
+      floatingButtonBGCOlor = EStyleSheet.value('$colors.med'),
     } = this.props.screenProps;
 
+    console.warn(floatingButtonBGCOlor)
 
     const serviceRequestDetailPopup =
       (<MarkerPopup
@@ -299,6 +301,7 @@ class FeedbackModule extends React.Component<Props, State> {
         <FloatingActionButton
           icon={PlusIcon}
           onPress={this.toggleFeedbackModal}
+          buttonColor={floatingButtonBGCOlor}
         />
 
         {this.state.showMapPopup && serviceRequestDetailPopup}
@@ -320,7 +323,23 @@ const FeedbackTabNavigator = TabNavigator({
       tabBarLabel: t('list').toUpperCase(),
     }),
   },
-});
+},
+{
+  tabBarPosition: 'top',
+  tabBarOptions: {
+    activeTintColor: 'black',
+    inactiveTintColor: '#525a65',
+    style: {
+      justifyContent: 'center',
+      paddingTop: 8,
+    },
+    labelStyle: {
+      fontSize: 12,
+      fontWight: 'bold',
+    },
+  },
+},
+);
 
 const FeedbackStack = StackNavigator({
   Map: {
@@ -515,14 +534,18 @@ async componentWillMount() {
       );
     }
 
-    return <FeedbackStack screenProps={
-      {
-        ...this.props.screenProps,
-        serviceTypes: this.state.serviceTypes,
-        serviceRequests: this.state.serviceRequests,
-        region: this.state.region
-      }
-    }/>;
+    return (
+      <FeedbackStack
+        screenProps={
+          {
+            ...this.props.screenProps,
+            serviceTypes: this.state.serviceTypes,
+            serviceRequests: this.state.serviceRequests,
+            region: this.state.region,
+          }
+        }
+      />
+    );
   }
 }
 

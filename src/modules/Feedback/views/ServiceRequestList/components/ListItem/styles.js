@@ -17,6 +17,7 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
+    shadowOffset: { width: 0, height: 5 },
     shadowRadius: 3,
     shadowColor: '$colors.max',
     shadowOpacity: 0.5,
