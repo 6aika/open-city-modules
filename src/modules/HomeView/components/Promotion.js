@@ -74,7 +74,7 @@ class Promotion extends Component {
                     source={promotion.image}
                   />
                 }
-                <View style={{ borderWidth: 1, paddingRight: 24 }}>
+                <View style={{ marginRight: 56, marginTop: 16, }}>
                   <Text
                     style={[styles.titleText, { color: promotion.textColor }]}
                   >
