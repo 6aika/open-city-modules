@@ -2,11 +2,15 @@
 import * as React from 'react';
 import {
   View,
+  Text,
   Modal,
   UIManager,
+  Dimensions,
   DeviceEventEmitter,
   BackHandler,
   ActivityIndicator,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView';
 import ServiceRequestDetail from 'open-city-modules/src/modules/Feedback/views/ServiceRequestDetail';
@@ -15,10 +19,12 @@ import { StackNavigator, TabNavigator, NavigationActions } from 'react-navigatio
 import { type ServiceType } from 'open-city-modules/src/types';
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import MapView from 'react-native-maps';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { parseDate } from 'open-city-modules/src/util';
 import FloatingActionButton from 'open-city-modules/src/components/FloatingActionButton';
 import ServiceRequestListView from 'open-city-modules/src/modules/Feedback/views/ServiceRequestList';
+import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
 import SendFeedbackModal from 'open-city-modules/src/modules/Feedback/views/SendFeedbackModal';
 import PlusIcon from 'open-city-modules/img/plus.png';
 import MarkerPopup from 'open-city-modules/src/components/MarkerPopup';
@@ -206,6 +212,7 @@ class FeedbackModule extends React.Component<Props, State> {
   }
 
   goToServiceRequestDetail = (serviceRequest) => () => {
+    this.setState({ showMapPopup: false });
     this.props.navigation.navigate('Detail', {
       serviceRequest,
     });
@@ -254,8 +261,6 @@ class FeedbackModule extends React.Component<Props, State> {
       floatingButtonBGCOlor = EStyleSheet.value('$colors.med'),
     } = this.props.screenProps;
 
-    console.warn(floatingButtonBGCOlor)
-
     const serviceRequestDetailPopup =
       (<MarkerPopup
         data={this.state.popupData}
@@ -303,8 +308,80 @@ class FeedbackModule extends React.Component<Props, State> {
           onPress={this.toggleFeedbackModal}
           buttonColor={floatingButtonBGCOlor}
         />
-
-        {this.state.showMapPopup && serviceRequestDetailPopup}
+        {this.state.showMapPopup &&
+        <Modal
+          animationType="slide"
+          transparent
+          visible={this.state.showMapPopup}
+          onRequestClose={() => { this.setState({ showMapPopup: false }); }}
+        >
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              width: Dimensions.get('window').width,
+            }}
+            activeOpacity={1}
+            onPressOut={() => this.setState({ showMapPopup: false })}
+          >
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 0,
+              }}
+            >
+              <Wave
+                topColor="transparent"
+                bottomColor="black"
+              />
+              <TouchableWithoutFeedback
+                onPress={this.goToServiceRequestDetail(this.state.activeServiceRequest)}
+              >
+                <View
+                  style={{
+                    width: Dimensions.get('window').width,
+                    backgroundColor: 'white',
+                  }}
+                >
+                  <TouchableOpacity
+                    style={{ position: 'absolute', top: 10, right: 10 }}
+                    onPress={() => this.onMapViewClick()}
+                  >
+                    <View style={{ padding: 10 }}>
+                      <Icon
+                        name="close"
+                        size={24}
+                        color="#9fc9eb"
+                      />
+                    </View>
+                  </TouchableOpacity>
+                  <View style={{ padding: 20 }}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                        color: 'black',
+                      }}
+                    >
+                      {this.state.popupData.title}
+                    </Text>
+                    <Text
+                      style={{
+                        marginTop: 16,
+                        fontSize: 16,
+                        textAlign: 'center',
+                        color: 'gray',
+                      }}
+                    >
+                      {this.state.popupData.body}
+                    </Text>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </TouchableOpacity>
+        </Modal>
+        }
       </View>
     );
   }
