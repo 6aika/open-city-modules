@@ -9,8 +9,7 @@ import {
   DeviceEventEmitter,
   BackHandler,
   ActivityIndicator,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
+  LayoutAnimation
 } from 'react-native';
 import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView';
 import ServiceRequestDetail from 'open-city-modules/src/modules/Feedback/views/ServiceRequestDetail';
@@ -30,6 +29,7 @@ import PlusIcon from 'open-city-modules/img/plus.png';
 import MarkerPopup from 'open-city-modules/src/components/MarkerPopup';
 import { changeLanguage, t } from 'open-city-modules/src/modules/Feedback/translations';
 import styles from './styles';
+import MarkerPopup2 from 'open-city-modules/src/modules/Feedback/components/MarkerPopup'
 
 
 const Config = getConfig();
@@ -110,6 +110,7 @@ class FeedbackModule extends React.Component<Props, State> {
 
   onMapViewClick() {
     if (this.state.showMapPopup) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
       this.setState({
         showMapPopup: false,
       });
@@ -200,12 +201,13 @@ class FeedbackModule extends React.Component<Props, State> {
       });
       this.state.region.setValue(region);
     }
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
 
     this.setState({
       showMapPopup: true,
       activeServiceRequest: serviceRequest,
       popupData: {
-        title: parseDate(serviceRequest.requestedDateTime),
+        title: serviceRequest.title || parseDate(serviceRequest.requestedDateTime),
         body: serviceRequest.description,
       },
     });
@@ -302,86 +304,23 @@ class FeedbackModule extends React.Component<Props, State> {
             serviceTypes={this.state.serviceTypes}
           />
         </Modal>
-
-        <FloatingActionButton
-          icon={PlusIcon}
-          onPress={this.toggleFeedbackModal}
-          buttonColor={floatingButtonBGCOlor}
-        />
         {this.state.showMapPopup &&
-        <Modal
-          animationType="slide"
-          transparent
-          visible={this.state.showMapPopup}
-          onRequestClose={() => { this.setState({ showMapPopup: false }); }}
-        >
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              width: Dimensions.get('window').width,
-            }}
-            activeOpacity={1}
-            onPressOut={() => this.setState({ showMapPopup: false })}
-          >
-            <View
-              style={{
-                position: 'absolute',
-                bottom: 0,
-              }}
-            >
-              <Wave
-                topColor="transparent"
-                bottomColor="black"
-              />
-              <TouchableWithoutFeedback
-                onPress={this.goToServiceRequestDetail(this.state.activeServiceRequest)}
-              >
-                <View
-                  style={{
-                    width: Dimensions.get('window').width,
-                    backgroundColor: 'white',
-                  }}
-                >
-                  <TouchableOpacity
-                    style={{ position: 'absolute', top: 10, right: 10 }}
-                    onPress={() => this.onMapViewClick()}
-                  >
-                    <View style={{ padding: 10 }}>
-                      <Icon
-                        name="close"
-                        size={24}
-                        color="#9fc9eb"
-                      />
-                    </View>
-                  </TouchableOpacity>
-                  <View style={{ padding: 20 }}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        textAlign: 'center',
-                        color: 'black',
-                      }}
-                    >
-                      {this.state.popupData.title}
-                    </Text>
-                    <Text
-                      style={{
-                        marginTop: 16,
-                        fontSize: 16,
-                        textAlign: 'center',
-                        color: 'gray',
-                      }}
-                    >
-                      {this.state.popupData.body}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableWithoutFeedback>
-            </View>
-          </TouchableOpacity>
-        </Modal>
+          <MarkerPopup2
+            popupData={this.state.popupData}
+            visible={this.state.showMapPopup}
+            toggleVisibility={this.onMapViewClick}
+            onPress={this.goToServiceRequestDetail(this.state.activeServiceRequest).bind(this)}
+            onPressOut={this.onMapViewClick}
+          />
         }
+        {!this.state.showMapPopup &&
+          <FloatingActionButton
+            icon={PlusIcon}
+            onPress={this.toggleFeedbackModal}
+            buttonColor={floatingButtonBGCOlor}
+          />
+        }
+
       </View>
     );
   }
