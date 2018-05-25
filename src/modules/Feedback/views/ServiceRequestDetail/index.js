@@ -12,6 +12,7 @@ import { t } from 'open-city-modules/src/modules/Feedback/translations';
 import MapView from 'react-native-maps';
 import { parseDate } from 'open-city-modules/src/util'
 import BackIcon from 'open-city-modules/img/arrow_back.png';
+import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
 import { type ServiceRequest } from 'open-city-modules/src/types';
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import UpIcon from 'open-city-modules/img/map_up.png';
@@ -228,7 +229,14 @@ class ServiceRequestDetail extends React.Component<Props, State> {
             <Text style={styles.status}>{parseDate(serviceRequest.updatedDateTime) + " " + t('serviceRequestReceived')}</Text>
           </View>
             { !!serviceRequest.statusNotes &&
-            <View style={styles.statusNotesContainer}>
+            <View style={[styles.statusNotesContainer,
+              {
+                backgroundColor: this.props.screenProps.coatColor || EStyleSheet.value('$colors.med')
+              }
+            ]}>
+              <Wave
+                topColor={EStyleSheet.value('$colors.min')}
+              />
               <Text
                 multiline
                 style={styles.statusNote}

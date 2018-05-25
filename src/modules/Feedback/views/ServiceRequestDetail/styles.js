@@ -18,21 +18,26 @@ const styles = EStyleSheet.create({
   },
   content: {
     flex: 7,
-    margin: 24,
+    backgroundColor: '$colors.min'
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 8,
     backgroundColor: 'transparent',
+    marginHorizontal: 24,
+    marginTop: 24,
   },
   description: {
     fontSize: 16,
     backgroundColor: 'transparent',
+    marginHorizontal: 24,
+
   },
   status: {
     marginVertical: 8,
     fontSize: 12,
+    marginHorizontal: 24,
   },
   minimapFullScreen: {
     width: Dimensions.get('window').width,
@@ -82,14 +87,12 @@ const styles = EStyleSheet.create({
     padding: 4,
   },
   statusNotesContainer: {
-    backgroundColor: () => Color(EStyleSheet.value('$colors.med')).alpha(0.05),
-    marginLeft: 12,
-    borderLeftWidth: 3,
-    borderColor: () => Color(EStyleSheet.value('$colors.med')).alpha(0.6),
-
+    marginTop: 24,
   },
   statusNote: {
-    padding: 8
+    marginHorizontal: 24,
+    marginTop: 24,
+    color: '$colors.min'
   }
 });
 
