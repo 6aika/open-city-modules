@@ -103,6 +103,8 @@ class HomeView extends Component {
       showFeed = true,
       showPromotions = true,
       homeViewBGColor = 'white',
+      hearingsBGColor = 'white',
+      separateHomeViewSections = false,
     } = this.props.screenProps;
 
     return (
@@ -157,12 +159,23 @@ class HomeView extends Component {
             }
           </View>
 
-          { showHearings &&
+          {!!showHearings &&
+          <View
+            style={{ backgroundColor: hearingsBGColor }}
+          >
+            {!!separateHomeViewSections &&
+              <Wave
+                topColor={homeViewBGColor}
+                bottomColor={hearingsBGColor}
+              />
+            }
             <HearingList
               navigation={this.props.navigation}
               hearingList={hearingList}
             />
+          </View>
           }
+
           { showFeed &&
             <View style={styles.feedContainer}>
               { feeds.map(feed => (

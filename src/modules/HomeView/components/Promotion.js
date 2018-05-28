@@ -8,7 +8,6 @@ import {
   Image,
   TouchableOpacity,
   LayoutAnimation,
-  Platform,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
@@ -45,7 +44,7 @@ class Promotion extends Component {
     // Using zIndex to place concurrent promotions under the previous one.
 
     if (this.state.hidden) {
-      return (<View/>)
+      return (<View />)
     }
 
     return (
@@ -55,26 +54,23 @@ class Promotion extends Component {
       >
         <View
           style={[bodyStyle,
-            { zIndex: -1 - index }
+            { zIndex: -1 - index },
           ]}
         >
 
           <View style={[styles.container, { backgroundColor: promotion.bgColor }]}>
-            {/* <View style={styles.wave}>
-              <Wave
-                topColor={'transparent'}
-                bottomColor={promotion.bgColor}
-              />
-            </View> */}
             { !customView &&
               <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-                { promotion.image &&
-                  <Image
-                    style={styles.image}
-                    source={promotion.image}
-                  />
+                {!!promotion.image &&
+                  <View style={styles.imageContainer}>
+                    <Image
+                      resizeMode="contain"
+                      style={styles.image}
+                      source={promotion.image}
+                    />
+                  </View>
                 }
-                <View style={{ marginRight: 56, marginTop: 16, }}>
+                <View style={{ marginRight: 56, marginTop: 16 }}>
                   <Text
                     style={[styles.titleText, { color: promotion.textColor }]}
                   >
@@ -86,7 +82,7 @@ class Promotion extends Component {
                   >
                     {promotion.body}
                   </Text>
-                  {promotion.footer &&
+                  {!!promotion.footer &&
                     <Text
                       style={[styles.footer, { color: promotion.textColor }]}
                     >
@@ -101,14 +97,18 @@ class Promotion extends Component {
           <View style={styles.wave}>
             <Wave
               topColor={promotion.bgColor}
-              bottomColor={'transparent'}
+              bottomColor="transparent"
             />
           </View>
           <TouchableOpacity
             onPress={this.hidePromotion(promotion.id)}
             style={styles.closeButton}
           >
-            <Icon name="close" size={24} color={'white'} />
+            <Icon
+              name="close"
+              size={24}
+              color="white"
+            />
           </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>
@@ -162,9 +162,14 @@ const styles = EStyleSheet.create({
   hidden: {
     height: 0,
   },
+  imageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 74,
+  },
   image: {
-    height: 64,
-    width: 64,
+    height: 58,
+    width: 58,
   },
 });
 

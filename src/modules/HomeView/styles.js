@@ -49,10 +49,11 @@ const styles = EStyleSheet.create({
   },
   eventWrapper: {
     flex: 1,
+    paddingVertical: 24,
   },
   hearingWrapper: {
     flex: 1,
-    paddingBottom: 16,
+    paddingVertical: 24,
   },
   cardHeadline: {
     fontSize: 16,
