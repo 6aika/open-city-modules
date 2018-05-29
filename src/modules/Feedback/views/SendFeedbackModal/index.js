@@ -79,32 +79,50 @@ class SendFeedbackModal extends Component {
     };
 
     ImagePicker.showImagePicker(options, (response) => {
+      const {
+        error,
+        uri,
+        originalRotation,
+        didCancel
+      } = response;
+      console.warn("originalRotation: " + originalRotation)
+
       this.setState({ loadingAttachment: true });
 
       let source = null;
       let fileName = null;
-      if (response.error) {
+      let rotation = 0;
+      if (error) {
         // TODO: Error handling
-        console.warn("error picker")
+        console.log("error picker")
         this.setState({ loadingAttachment: false });
         // showAlert(transError.attachmentErrorTitle, transError.attachmentErrorMessage, transError.attachmentError);
-      } else if (response.didCancel) {
+      } else if (didCancel) {
         this.setState({ loadingAttachment: false });
         source = null;
       } else {
         if (Platform.OS === 'ios') {
-          source = { uri: response.uri.replace('file://', ''), isStatic: true };
+          source = { uri: uri.replace('file://', ''), isStatic: true };
         } else {
-          source = { uri: response.uri, isStatic: true };
+          source = { uri: uri, isStatic: true };
+
+
+          if (originalRotation === 90) {
+            rotation = 90;
+          } else if (originalRotation === 180) {
+            // console.warn("270")
+            rotation = 180;
+          }
         }
 
         // Compress image size
         ImageResizer.createResizedImage(
-          response.uri,
+          uri,
           Config.IMAGE_MAX_HEIGHT,
           Config.IMAGE_MAX_WIDTH,
           Config.IMAGE_FORMAT,
           Config.IMAGE_QUALITY,
+          rotation,
         ).then((resizedImageUri) => {
           const resizedSource = { uri: resizedImageUri, isStatic: true };
           response.path = resizedImageUri;
@@ -144,7 +162,7 @@ class SendFeedbackModal extends Component {
     this.setState({ loading: true });
     const data = new FormData();
 
-    data.append('service_code', this.state.selectedServiceType.key);
+    data.append('service_code', '234');
     data.append('description', this.state.descriptionText);
     data.append('title', this.state.titleText !== null ? this.state.titleText : '');
 
@@ -188,8 +206,6 @@ class SendFeedbackModal extends Component {
         this.props.toggleFeedbackModal();
       });
     }
-
-
   }
 
   onServiceTypeChange = (service: ServiceType) => {
