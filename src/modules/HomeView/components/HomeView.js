@@ -102,6 +102,7 @@ class HomeView extends Component {
       showHearings = true,
       showFeed = true,
       showPromotions = true,
+      heroBGColor = 'black',
       homeViewBGColor = 'white',
       hearingsBGColor = 'white',
       separateHomeViewSections = false,
@@ -119,8 +120,8 @@ class HomeView extends Component {
           <View>
             { !showHero &&
               <View style={{ zIndex: 1 }}>
-                <View style={styles.heroOverlay} />
-                <Wave topColor={EStyleSheet.value('$colors.max')} />
+                <View style={[styles.heroOverlay, { backgroundColor: heroBGColor }]} />
+                <Wave topColor={heroBGColor} />
               </View>
             }
             { showHero &&
@@ -133,6 +134,7 @@ class HomeView extends Component {
               eventUrl={heroEvent.eventUrl}
               loading={heroLoading}
               navigation={this.props.navigation}
+              bgColor={heroBGColor}
             />
             }
             { showPromotions &&
