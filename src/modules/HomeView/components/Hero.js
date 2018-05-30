@@ -32,6 +32,7 @@ class Hero extends Component {
       headline,
       loading,
       banner,
+      bgColor,
     } = this.props;
 
     const pic = {
@@ -46,12 +47,12 @@ class Hero extends Component {
           style={styles.heroImage}
           resizeMode="cover"
         />
-        <View style={styles.heroOverlay}>
+        <View style={[styles.heroOverlay, { backgroundColor: bgColor }]}>
           <Text style={styles.heroDate}>{date}</Text>
           <Text style={styles.heroPlace}>{place}</Text>
           <Text style={styles.heroHeadline}>{headline}</Text>
         </View>
-        <Wave topColor={EStyleSheet.value('$colors.max')} />
+        <Wave topColor={bgColor} />
 
         {loading &&
           <View style={styles.loadingOverlay}>

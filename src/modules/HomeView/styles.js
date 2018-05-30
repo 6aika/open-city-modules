@@ -83,7 +83,6 @@ const styles = EStyleSheet.create({
     tintColor: '$colors.max',
   },
   heroOverlay: {
-    backgroundColor: '$colors.max',
     paddingTop: 30,
     paddingRight: 20,
     paddingLeft: 20,
