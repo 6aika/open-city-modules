@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 import { t } from 'open-city-modules/src/modules/translations';
 import CardList from './CardList';
-import transHearings from '../../translations';
 import Config from '../config.json';
 import styles from '../styles';
 
@@ -17,13 +16,12 @@ class HearingList extends Component {
   onPressItem = (item) => {
     this.props.navigation.navigate('HearingDetailView', {
       url: Config.HEARINGS_WEB_URL + item.urlSlug,
-      JStoInject: 'document.querySelector(".navbar-primary").style.display="none";',
+      JStoInject: 'Array.from(document.getElementsByTagName("nav")).map(function(elem){elem.style.display="none"});'
     });
   }
 
   render() {
     const { hearingList } = this.props;
-    // console.warn(hearingList)
 
     return (
       <View style={styles.hearingWrapper}>

@@ -18,33 +18,35 @@ const request = (url, method, headers, body, data) =>
       clearTimeout(timeoutId);
       if (response.status === 200 || response.status === 201) {
         // console.warn(response._bodyInit)
-
         resolve(response._bodyInit);
       } else {
-        console.warn("error")
-        //TODO: Error handling
+        console.warn("error");
+        // TODO: Error handling
         reject(new Error());
       }
-    })
+    });
   });
-
-
 
 export const parseServiceTypes = (response): Array<ServiceType> => {
   const serviceTypeList: Array<ServiceType> = [];
   const responseData = JSON.parse(response);
+  const blacklist = CONFIG.SERVICE_BLACKLIST || [];
 
-  responseData.forEach(item => serviceTypeList.push({
-    key: item.service_code,
-    label: item.service_name,
-    serviceCode: item.service_code,
-    serviceName: item.service_name,
-    description: item.description,
-    metadata: item.metadata,
-    type: item.type,
-    keywords: item.keywords,
-    group: item.group,
-  }));
+  responseData.forEach((item) => {
+    if (blacklist.indexOf(parseInt(item.service_code, 10)) === -1) {
+      serviceTypeList.push({
+        key: item.service_code,
+        label: item.service_name,
+        serviceCode: item.service_code,
+        serviceName: item.service_name,
+        description: item.description,
+        metadata: item.metadata,
+        type: item.type,
+        keywords: item.keywords,
+        group: item.group,
+      });
+    }
+  });
 
   return serviceTypeList;
 };
@@ -97,8 +99,8 @@ export const parseServiceRequests = (serviceRequestsData): Array<ServiceRequest>
   return serviceRequestList;
 };
 
-export const getServiceTypes = () => {
-  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_SERVICES;
+export const getServiceTypes = (locale = 'fi') => {
+  const url = CONFIG.OPEN311_API_URL + CONFIG.OPEN311_SERVICES + CONFIG.OPEN311_SERVICE_LIST_LOCALE + locale;
   const headers = { Accept: 'application/json', 'Content-Type': 'application/json' };
 
   return new Promise((resolve, reject) => {
@@ -127,14 +129,13 @@ export const postServiceRequest = (data) => {
   const headers = {
     'Content-Type': 'multipart/form-data',
     Accept: 'application/json',
-    Authorization: `Bearer ${token}`
+    Authorization: `Bearer ${token}`,
   };
   data.append('api_key', token);
   return new Promise((resolve, reject) =>
     request(url, method, headers, data)
-      .then(result => resolve(result)).catch(err => reject(err))
-  )
-}
+      .then(result => resolve(result)).catch(err => reject(err)));
+};
 
 export const getServiceRequest = (serviceRequestId) => {
   const url = CONFIG.OPEN311_API_URL
@@ -148,9 +149,6 @@ export const getServiceRequest = (serviceRequestId) => {
       resolve(parseServiceRequest(JSON.parse(response)));
     }).catch(err => reject(err));
   });
-}
-
-
-
+};
 
 export default request;

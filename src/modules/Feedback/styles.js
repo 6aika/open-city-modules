@@ -6,8 +6,8 @@ const MARKER_IMAGE_SIZE = 48;
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'stretch',
-    justifyContent: 'center',
+    // alignItems: 'stretch',
+    // justifyContent: 'center',
     backgroundColor: '$colors.min',
   },
   map: {

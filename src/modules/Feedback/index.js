@@ -2,36 +2,35 @@
 import * as React from 'react';
 import {
   View,
-  Dimensions,
-  LayoutAnimation,
+  Text,
   Modal,
-  Platform,
-  Image,
   UIManager,
+  Dimensions,
   DeviceEventEmitter,
-  BackHandler
+  BackHandler,
+  ActivityIndicator,
+  LayoutAnimation
 } from 'react-native';
-import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView'
-import ServiceRequestDetail from 'open-city-modules/src/modules/Feedback/views/ServiceRequestDetail'
-import { getServiceTypes, getServiceRequests } from 'open-city-modules/src/modules/Feedback/requests'
-import { StackNavigator, NavigationActions } from 'react-navigation';
-import { type ServiceType } from 'open-city-modules/src/types'
+import ServiceRequestMap from 'open-city-modules/src/modules/Feedback/views/ServiceRequestMapView';
+import ServiceRequestDetail from 'open-city-modules/src/modules/Feedback/views/ServiceRequestDetail';
+import { getServiceTypes, getServiceRequests } from 'open-city-modules/src/modules/Feedback/requests';
+import { StackNavigator, TabNavigator, NavigationActions } from 'react-navigation';
+import { type ServiceType } from 'open-city-modules/src/types';
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import MapView from 'react-native-maps';
-import { parseDate } from 'open-city-modules/src/util'
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { parseDate } from 'open-city-modules/src/util';
 import FloatingActionButton from 'open-city-modules/src/components/FloatingActionButton';
 import ServiceRequestListView from 'open-city-modules/src/modules/Feedback/views/ServiceRequestList';
+import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
 import SendFeedbackModal from 'open-city-modules/src/modules/Feedback/views/SendFeedbackModal';
-import SubHeader from 'open-city-modules/src/components/Header';
-import PlusIcon from 'open-city-modules/img/plus.png'
-import Marker from 'open-city-modules/src/components/Marker';
-import MarkerNew from 'open-city-modules/img/marker_new.png';
+import PlusIcon from 'open-city-modules/img/plus.png';
 import MarkerPopup from 'open-city-modules/src/components/MarkerPopup';
 import { changeLanguage, t } from 'open-city-modules/src/modules/Feedback/translations';
 import styles from './styles';
+import MarkerPopup2 from 'open-city-modules/src/modules/Feedback/components/MarkerPopup'
 
-const MAP_PAGE = 'map';
-const LIST_PAGE = 'list';
 
 const Config = getConfig();
 
@@ -52,20 +51,14 @@ class FeedbackModule extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
-        latitude: Config.DEFAULT_LATITUDE,
-        longitude: Config.DEFAULT_LONGITUDE,
-        latitudeDelta: 0.02,
-        longitudeDelta: 0.02,
-      }),
       popupData: {
         title: '',
         body: '',
       },
+      region: this.props.screenProps.region,
       // markerPosition: null,
       showFeedbackModal: false,
       showMapPopup: false,
-      activePage: MAP_PAGE,
       serviceTypes: [],
       serviceRequests: [],
       activeServiceRequest: null,
@@ -81,57 +74,70 @@ class FeedbackModule extends React.Component<Props, State> {
 
   componentWillMount = async () => {
     const {
-      requests
+      requests,
     } = this.props.screenProps;
+    const {
+      serviceRequests,
+      serviceTypes,
+    } = this.props.screenProps;
+    this.setState({
+      serviceRequests,
+      serviceTypes,
+    });
+  }
 
-    if (requests) {
-      this.getServiceTypes(requests.getServiceTypes);
-      this.getServiceRequests(requests.getServiceRequests);
-    } else {
-      this.getServiceTypes(getServiceTypes);
-      this.getServiceRequests(getServiceRequests);
-    }
+  componentDidMount = () => {
+
+  }
+
+  getCurrentLocation = () => {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(position => resolve(position), e => reject(e));
+    });
+  };
+
+
+  componentWillReceiveProps = () => {
+    const {
+      serviceRequests,
+      serviceTypes,
+    } = this.props.screenProps;
+    this.setState({
+      serviceRequests,
+      serviceTypes,
+    });
   }
 
   onMapViewClick() {
     if (this.state.showMapPopup) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
       this.setState({
         showMapPopup: false,
       });
     }
   }
 
-  onMapPress = () => {
-    if (this.state.activePage !== MAP_PAGE) {
-      this.setState({
-        activePage: MAP_PAGE,
-      });
-    }
-  }
-
-  onListPress = () => {
-    if (this.state.activePage !== LIST_PAGE) {
-      this.setState({
-        activePage: LIST_PAGE,
-      });
-    }
-  }
-
   onMapRegionChange = (region) => {
-    this.state.region.setValue(region)
+    this.state.region.setValue(region);
+  }
+
+  onMapRegionChangeComplete = (region) => {
+    this.setState({
+      regionChanged: region,
+    })
+    this.state.region.setValue(region);
   }
 
   onMinimapRegionChange = (region) => {
-    this.state.region.setValue(region)
+    this.state.region.setValue(region);
   }
 
   getGeoLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        this.centerMapToLocation(position.coords)
+        this.centerMapToLocation(position.coords);
       },
       (error) => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
   };
 
@@ -142,24 +148,45 @@ class FeedbackModule extends React.Component<Props, State> {
         longitude: position.longitude,
         latitudeDelta: 0.02,
         longitudeDelta: 0.02,
-      })
-    })
+      }),
+    });
   }
 
   getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
-    const result = await serviceTypeFetch();
-    this.setState({ serviceTypes: result });
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await serviceTypeFetch();
+        resolve(result)
+      } catch(error) {
+        reject(error)
+      }
+      // this.setState({ serviceTypes: result });
+    });
+
   }
 
   getServiceRequests = async (serviceRequestsFetch: () => Array<ServiceRequest>) => {
-    const result = await serviceRequestsFetch();
-    this.setState({ serviceRequests: result });
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await serviceRequestsFetch();
+        resolve(result)
+      } catch(error) {
+        reject(error)
+      }
+    });
+
+    // this.setState({ serviceRequests: result });
   }
 
   getServiceRequest = async (serviceRequestFetch: () => Array<ServiceRequest>, requestId: string) => {
-    const result = await serviceRequestFetch(requestId);
-    return result
-    // this.setState({ serviceRequests: result });
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await serviceRequestFetch(requestId);
+        resolve(result)
+      } catch(error) {
+        reject(error)
+      }
+    });
   }
 
   handleMarkerPressed = (serviceRequest) => {
@@ -171,23 +198,25 @@ class FeedbackModule extends React.Component<Props, State> {
         longitude: serviceRequest.location.longitude,
         latitudeDelta: 0.02,
         longitudeDelta: 0.02,
-      })
+      });
       this.state.region.setValue(region);
     }
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
 
     this.setState({
       showMapPopup: true,
       activeServiceRequest: serviceRequest,
       popupData: {
-        title: parseDate(serviceRequest.requestedDateTime),
-        body: serviceRequest.description
+        title: serviceRequest.title || parseDate(serviceRequest.requestedDateTime),
+        body: serviceRequest.description,
       },
     });
   }
 
   goToServiceRequestDetail = (serviceRequest) => () => {
+    this.setState({ showMapPopup: false });
     this.props.navigation.navigate('Detail', {
-      serviceRequest
+      serviceRequest,
     });
   }
 
@@ -203,24 +232,37 @@ class FeedbackModule extends React.Component<Props, State> {
     }
   }
 
+  isLocationVisible = (location) => {
+    const region = this.state.region;
+
+    const latitudeDelta = parseFloat(JSON.stringify(region.latitudeDelta))
+    const longitudeDelta = parseFloat(JSON.stringify(region.longitudeDelta))
+    const longitude = parseFloat(JSON.stringify(region.longitude));
+    const latitude = parseFloat(JSON.stringify(region.latitude));
+    const topBorder = longitude + (longitudeDelta);
+    const bottomBorder = longitude - (longitudeDelta);
+    const rightBorder = latitude + (latitudeDelta);
+    const leftBorder = latitude - (latitudeDelta);
+
+    if (
+      location.latitude > rightBorder ||
+      location.latitude < leftBorder ||
+      location.longitude > topBorder ||
+      location.longitude < bottomBorder
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+
   render() {
     const {
       Header,
       customMapStyle,
+      floatingButtonBGCOlor = EStyleSheet.value('$colors.med'),
     } = this.props.screenProps;
 
-    const buttons = [
-      {
-        onPress: this.onMapPress,
-        active: this.state.activePage === MAP_PAGE,
-        title: t('map').toUpperCase(),
-      },
-      {
-        onPress: this.onListPress,
-        active: this.state.activePage === LIST_PAGE,
-        title: t('list').toUpperCase(),
-      },
-    ];
     const serviceRequestDetailPopup =
       (<MarkerPopup
         data={this.state.popupData}
@@ -229,35 +271,24 @@ class FeedbackModule extends React.Component<Props, State> {
       />);
     return (
       <View style={styles.container}>
-        {!this.state.showFeedbackModal && this.state.activePage === MAP_PAGE &&
         <View style={styles.map}>
-          <Header />
-          <SubHeader
-            buttons={buttons}
-          />
+          {!!Header &&
+            <Header />
+          }
+
           <ServiceRequestMap
             centerToGeoLocation={this.getGeoLocation}
             onRegionChange={this.onMapRegionChange}
             region={this.state.region}
             onMarkerPressed={this.handleMarkerPressed}
-            onRegionChangeComplete={this.onMapRegionChange}
+            onRegionChangeComplete={this.onMapRegionChangeComplete}
             serviceRequests={this.state.serviceRequests}
             customMapStyle={customMapStyle}
+            isLocationVisible={this.isLocationVisible}
+            customMapMarker={this.props.screenProps.customMapMarker}
           />
         </View>
-        }
-        { !this.state.showFeedbackModal && this.state.activePage === LIST_PAGE &&
-        <View style={styles.map}>
-          <Header />
-          <SubHeader
-            buttons={buttons}
-          />
-          <ServiceRequestListView
-            data={this.state.serviceRequests}
-            navigation={this.props.navigation}
-          />
-        </View>
-        }
+
         <Modal
           style={[styles.modal]}
           animationType="slide"
@@ -266,7 +297,6 @@ class FeedbackModule extends React.Component<Props, State> {
         >
           <SendFeedbackModal
             screenProps={this.props.screenProps}
-
             toggleFeedbackModal={this.toggleFeedbackModal}
             region={this.state.region}
             onMinimapRegionChange={this.onMinimapRegionChange}
@@ -274,34 +304,77 @@ class FeedbackModule extends React.Component<Props, State> {
             serviceTypes={this.state.serviceTypes}
           />
         </Modal>
+        {this.state.showMapPopup &&
+          <MarkerPopup2
+            popupData={this.state.popupData}
+            visible={this.state.showMapPopup}
+            toggleVisibility={this.onMapViewClick}
+            onPress={this.goToServiceRequestDetail(this.state.activeServiceRequest).bind(this)}
+            onPressOut={this.onMapViewClick}
+          />
+        }
+        {!this.state.showMapPopup &&
+          <FloatingActionButton
+            icon={PlusIcon}
+            onPress={this.toggleFeedbackModal}
+            buttonColor={floatingButtonBGCOlor}
+          />
+        }
 
-        <FloatingActionButton
-          icon={PlusIcon}
-          onPress={this.toggleFeedbackModal}
-        />
-
-        {this.state.showMapPopup && serviceRequestDetailPopup}
       </View>
     );
   }
 }
 
-const FeedbackStack = StackNavigator(
-  {
-    Map: {
-      screen: FeedbackModule,
+const FeedbackTabNavigator = TabNavigator({
+  MapView: {
+    screen: FeedbackModule,
+    navigationOptions: () => ({
+      tabBarLabel: t('map').toUpperCase(),
+    }),
+  },
+  ListView: {
+    screen: ServiceRequestListView,
+    navigationOptions: () => ({
+      tabBarLabel: t('list').toUpperCase(),
+    }),
+  },
+},
+{
+  tabBarPosition: 'top',
+  tabBarOptions: {
+    activeTintColor: 'black',
+    inactiveTintColor: '#525a65',
+    style: {
+      justifyContent: 'center',
+      paddingTop: 8,
+      backgroundColor: 'white'
     },
-    Detail: {
-      screen: ServiceRequestDetail,
+    labelStyle: {
+      fontSize: 12,
+      fontWeight: 'bold',
+      color: 'black'
+    },
+    indicatorStyle: {
+       borderBottomColor: 'black',
+       borderBottomWidth: 3,
     },
   },
-  {
+},
+);
+
+const FeedbackStack = StackNavigator({
+  Map: {
+    screen: FeedbackTabNavigator,
     navigationOptions: {
       header: null,
-      gesturesEnabled: false,
     },
   },
-);
+  Detail: {
+    screen: ServiceRequestDetail,
+  },
+});
+
 
 type ModuleProps = {
   screenProps: { locale: string },
@@ -311,17 +384,120 @@ type ModuleProps = {
 class Feedback extends React.Component<ModuleProps> {
   tabChangeListener: Object;
 
-  componentWillMount() {
-    if (this.props.screenProps.locale) {
-      changeLanguage(this.props.screenProps.locale);
-    }
-
-    this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      serviceTypes: [],
+      serviceRequests: [],
+      region: null,
+      loading: true,
+    };
   }
+
+  getServiceTypes = async (serviceTypeFetch: () => Array<ServiceType>) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await serviceTypeFetch(this.props.screenProps.locale);
+      this.setState({
+        serviceTypes: result,
+      })
+      resolve(result)
+    } catch(error) {
+      reject(error)
+    }
+    // this.setState({ serviceTypes: result });
+  });
+
+}
+
+getServiceRequests = async (serviceRequestsFetch: () => Array<ServiceRequest>) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await serviceRequestsFetch();
+      this.setState({
+        serviceRequests: result,
+      })
+      resolve(result)
+    } catch (error) {
+      reject(error)
+    }
+  });
+
+  // this.setState({ serviceRequests: result });
+}
+
+getServiceRequest = async (serviceRequestFetch: () => Array<ServiceRequest>, requestId: string) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const result = await serviceRequestFetch(requestId);
+      resolve(result)
+    } catch (error) {
+      reject(error)
+    }
+  });
+}
+
+async componentWillMount() {
+  if (this.props.screenProps.locale) {
+    changeLanguage(this.props.screenProps.locale);
+  }
+  // this.tabChangeListener = DeviceEventEmitter.addListener('tabChanged', this.onTabChange)
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      this.setState({
+        region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
+          latitude: parseFloat(position.coords.latitude),
+          longitude: parseFloat(position.coords.longitude),
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.02,
+        }),
+      });
+    },
+    (error) => {
+      this.setState({
+        region: new MapView.AnimatedRegion({ // Coordinates for the visible area of the map
+          latitude: parseFloat(Config.DEFAULT_LATITUDE),
+          longitude: parseFloat(Config.DEFAULT_LONGITUDE),
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.02,
+        }),
+      });
+    },
+  );
+
+  const {
+    requests
+  } = this.props.screenProps;
+  try {
+    if (requests) {
+
+      const serviceTypes = await this.getServiceTypes(requests.getServiceTypes)
+      const serviceRequests = await this.getServiceRequests(requests.getServiceRequests)
+
+      this.setState({
+        loading: false,
+      });
+    } else {
+      const serviceTypes = await this.getServiceTypes(getServiceTypes);
+      const serviceRequests = await this.getServiceRequests(getServiceRequests);
+
+      this.setState({
+        serviceTypes,
+        serviceRequests,
+        loading: false,
+      });
+    }
+  } catch(error) {
+    this.setState({
+      loading: false,
+    });
+  }
+}
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardWareBackPress', this.goBack);
-    this.tabChangeListener.remove();
+    // this.tabChangeListener.remove();
   }
 
   componentWillReceiveProps(nextProps: ModuleProps) {
@@ -342,36 +518,56 @@ class Feedback extends React.Component<ModuleProps> {
 
   onTabChange = (params) => {
     // Reset navigator when switching tabs
-
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Map' }),
-      ]
-    });
-
-    const index = this.navigator.state.nav.index;
-
-    if (params.prevRoute === 'Feedback') {
-      BackHandler.removeEventListener('hardWareBackPress', this.goBack);
-
-      if(index > 0) {
-        this.navigator._navigation.dispatch(resetAction);
-      }
-    }
-
-    console.warn(params.nextRoute)
-    if (params.nextRoute === 'Feedback') {
-      BackHandler.addEventListener('hardwareBackPress', this.goBack)
-    }
+    //
+    // const resetAction = NavigationActions.reset({
+    //   index: 0,
+    //   actions: [
+    //     NavigationActions.navigate({ routeName: 'Map' }),
+    //   ]
+    // });
+    //
+    // const index = this.navigator.state.nav.index;
+    //
+    // if (params.prevRoute === 'Feedback') {
+    //   BackHandler.removeEventListener('hardWareBackPress', this.goBack);
+    //
+    //   if(index > 0) {
+    //     this.navigator._navigation.dispatch(resetAction);
+    //   }
+    // }
+    //
+    // console.warn(params.nextRoute)
+    // if (params.nextRoute === 'Feedback') {
+    //   BackHandler.addEventListener('hardwareBackPress', this.goBack)
+    // }
 
   }
 
   render() {
-    return <FeedbackStack
-      screenProps={this.props.screenProps}
-      ref={(ref) => this.navigator = ref}
-    />;
+
+    if (this.state.loading || !this.state.region) {
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator
+            size="large"
+            color={EStyleSheet.value('$colors.med')}
+          />
+        </View>
+      );
+    }
+
+    return (
+      <FeedbackStack
+        screenProps={
+          {
+            ...this.props.screenProps,
+            serviceTypes: this.state.serviceTypes,
+            serviceRequests: this.state.serviceRequests,
+            region: this.state.region,
+          }
+        }
+      />
+    );
   }
 }
 

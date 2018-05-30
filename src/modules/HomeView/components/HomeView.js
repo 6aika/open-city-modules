@@ -23,7 +23,7 @@ import Promotion from './Promotion';
 import styles from '../styles';
 import PromotionManager from '../util/promotionManager';
 
-const promotionManager = new PromotionManager()
+const promotionManager = new PromotionManager();
 const Config = getConfig();
 
 const feeds = getFeeds();
@@ -64,15 +64,13 @@ class HomeView extends Component {
       changeLanguage(this.props.screenProps.locale);
     }
 
-
     Linking.getInitialURL().then((url) => {
       //this.loading = true;
-      if (url) console.warn(url)
+      if (url) console.warn(url);
     }).catch((err) => {
       // console.warn('Error occured', err);
     });
   }
-
 
   componentWillReceiveProps(nextProps: ModuleProps) {
     if (this.props.screenProps.locale !== nextProps.screenProps.locale) {
@@ -95,6 +93,7 @@ class HomeView extends Component {
       promotionList,
       heroLoading,
     } = this.props;
+
     const {
       Header,
       heroBanner = HeroDecoration,
@@ -103,15 +102,23 @@ class HomeView extends Component {
       showHearings = true,
       showFeed = true,
       showPromotions = true,
+      homeViewBGColor = 'white',
+      hearingsBGColor = 'white',
+      separateHomeViewSections = false,
     } = this.props.screenProps;
 
     return (
-      <View style={{ flex: 1 }}>
-        <Header />
-        <ScrollView style={styles.container}>
+      <View style={{ flex: 1, backgroundColor: homeViewBGColor }}>
+        {!!Header &&
+          <Header />
+        }
+        <ScrollView
+          style={styles.container}
+          bounces={false}
+        >
           <View>
             { !showHero &&
-              <View>
+              <View style={{ zIndex: 1 }}>
                 <View style={styles.heroOverlay} />
                 <Wave topColor={EStyleSheet.value('$colors.max')} />
               </View>
@@ -128,7 +135,6 @@ class HomeView extends Component {
               navigation={this.props.navigation}
             />
             }
-
             { showPromotions &&
               <View style={styles.promotionsContainer}>
                 { promotionList.map((item, index) => {
@@ -145,22 +151,31 @@ class HomeView extends Component {
                 })}
               </View>
             }
-
             { showEvents &&
               <EventList
                 navigation={this.props.navigation}
                 eventList={eventList}
               />
             }
-
           </View>
 
-          { showHearings &&
+          {!!showHearings &&
+          <View
+            style={{ backgroundColor: hearingsBGColor }}
+          >
+            {!!separateHomeViewSections &&
+              <Wave
+                topColor={homeViewBGColor}
+                bottomColor={hearingsBGColor}
+              />
+            }
             <HearingList
               navigation={this.props.navigation}
               hearingList={hearingList}
             />
+          </View>
           }
+
           { showFeed &&
             <View style={styles.feedContainer}>
               { feeds.map(feed => (

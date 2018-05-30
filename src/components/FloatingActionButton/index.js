@@ -16,9 +16,10 @@ type Props = {
 const FloatingActionButton = ({
   icon,
   onPress,
+  buttonColor,
 }) => (
   <TouchableOpacity
-    style={styles.container}
+    style={[styles.container, { backgroundColor: buttonColor }]}
     onPress={onPress}
   >
     <View style={styles.buttonView}>

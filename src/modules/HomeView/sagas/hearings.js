@@ -23,7 +23,6 @@ const fetchHearings = function*() {
         key: hearing.id,
         imageUrl: hearing.main_image.url,
         headline: getHeadlineForHearing(hearing),
-        headline: 'hearings',
         urlSlug: hearing.slug,
       }
     });

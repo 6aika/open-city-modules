@@ -2,10 +2,15 @@
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { withProps } from 'recompose';
+import {
+  TouchableOpacity,
+  Image,
+} from 'react-native'
 
 import FeedbackModule from 'open-city-modules/src/modules/Feedback';
 import HomeViewModule from 'open-city-modules/src/modules/HomeView';
 import Header from 'open-city-modules/src/components/Header';
+import MarkerPin from 'open-city-modules/img/marker_pin_helsinki.png'
 import {
   ChoiceView,
   createSingleChoiceStep,
@@ -37,6 +42,46 @@ const MyGridView = withProps({ mode: 'grid' })(ChoiceView);
 const MyListView = withProps({ mode: 'list' })(ChoiceView);
 const MultiChoiceStep = createMultiChoiceStep(MyGridView);
 const SingleChoiceStep = createSingleChoiceStep(MyListView);
+
+const MARKER_IMAGE_SIZE = 32;
+
+
+const styles = EStyleSheet.create({
+  markerImage: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+  },
+  markerContainer: {
+    height: MARKER_IMAGE_SIZE,
+    width: MARKER_IMAGE_SIZE,
+  },
+  markerIcon: {
+    height: '100%',
+    width: '100%',
+    position: 'absolute',
+    tintColor: '$colors.min',
+  },
+});
+
+const CustomMarker = ({
+  onPress = () => { console.warn('click') },
+}: Props) => {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={styles.markerContainer}
+    >
+      <Image
+        source={MarkerPin}
+        style={[
+          styles.markerImage,
+        ]}
+      />
+    </TouchableOpacity>
+  );
+};
+
 
 const OnboardingMock = () => {
   const interestOptions = [
@@ -79,7 +124,7 @@ const FeedbackModuleMock = () => {
     colors,
     locale: 'fi',
     profile: { },
-    Header,
+    customMapMarker: CustomMarker
   };
 
   return <FeedbackModule screenProps={screenProps} />;
@@ -117,5 +162,5 @@ const HomeViewModuleMock = () => {
 
 
 // export default OnboardingMock;
-// export default FeedbackModuleMock;
-export default HomeViewModuleMock;
+export default FeedbackModuleMock;
+// export default HomeViewModuleMock;

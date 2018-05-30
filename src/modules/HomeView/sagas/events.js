@@ -20,10 +20,10 @@ const LOCALE = 'fi';
 
 const fetchHero = function*() {
   try {
+    const { heroLink, myHelsinkiEventData } = yield call(fetchHeroLink)
     if (heroLink === undefined) {
       throw new Error('Missing link URL in hero.')
     }
-    const { heroLink, myHelsinkiEventData } = yield call(fetchHeroLink)
     const linkedEventsEventData = yield call(makeRequest, heroLink + "?include=location", 'GET', null)
     yield put(EventActions.getHeroSuccess(parseHeroData(linkedEventsEventData, myHelsinkiEventData)))
   } catch (err) {

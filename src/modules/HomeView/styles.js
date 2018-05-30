@@ -12,9 +12,9 @@ const BRAND_DARK_THREE = '#009246'; // Helsinki Tram
 
 const styles = EStyleSheet.create({
   $cardBG: () => Color(EStyleSheet.value('$colors.min')).darken(0.15),
+  $cardOverlayColor: () => Color(EStyleSheet.value('$colors.max')).alpha(0.3),
   container: {
     flex: 1,
-    backgroundColor: '$colors.min',
   },
   icon: {
     width: 26,
@@ -24,7 +24,7 @@ const styles = EStyleSheet.create({
     height: 26,
   },
   cardWrapper: {
-    width: 240,
+    width: 180,
     backgroundColor: '$cardBG',
   },
   cardImage: {
@@ -34,9 +34,12 @@ const styles = EStyleSheet.create({
     justifyContent: 'flex-end',
   },
   cardOverlay: {
-    minHeight: 100,
+    minHeight: 60,
     width: '100%',
     padding: 10,
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: '$cardOverlayColor'
   },
   list: {
     alignItems: 'stretch',
@@ -46,19 +49,25 @@ const styles = EStyleSheet.create({
   },
   eventWrapper: {
     flex: 1,
-    backgroundColor: '$colors.min',
-    paddingTop: 50,
-    paddingBottom: 50,
+    paddingVertical: 24,
   },
   hearingWrapper: {
     flex: 1,
-    backgroundColor: '$colors.min',
-    paddingTop: 50,
-    paddingBottom: 50,
+    paddingVertical: 24,
+  },
+  cardHeadline: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: '$colors.min',
   },
   headline: {
     paddingVertical: 15,
     alignItems: 'center',
+  },
+  headlineText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '$colors.max',
   },
   heroWrapper: {
     alignContent: 'flex-start',
@@ -157,8 +166,6 @@ const styles = EStyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
   },
-  headlineText: 30,
-  cardHeadline: 20,
 });
 
 export default styles;

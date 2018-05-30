@@ -1,7 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Color from 'color';
 
-
 const styles = EStyleSheet.create({
   container: {
     width: '100%',
@@ -9,10 +8,11 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
+    top: 0,
   },
   popup: {
-    width: '70%',
-    height: 100,
+    width: '100%',
+    height: 200,
     backgroundColor: '$colors.min',
     paddingHorizontal: 32,
   },

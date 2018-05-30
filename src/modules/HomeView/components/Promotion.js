@@ -39,23 +39,56 @@ class Promotion extends Component {
       customView,
     } = this.props;
 
-    const bodyStyle = this.state.hidden ? [styles.hidden] : styles.body;
+    const bodyStyle = styles.body;
 
     // Using zIndex to place concurrent promotions under the previous one.
+
+    if (this.state.hidden) {
+      return (<View />)
+    }
+
     return (
       <TouchableWithoutFeedback onPress={() => {
           this.props.navigation.navigate(promotion.targetTab);
         }}
       >
-        <View style={[bodyStyle, { zIndex: -1 - index }]}>
+        <View
+          style={[bodyStyle,
+            { zIndex: -1 - index },
+          ]}
+        >
+
           <View style={[styles.container, { backgroundColor: promotion.bgColor }]}>
             { !customView &&
-              <View style={{ alignItems: 'center', flexDirection: 'row'}}>
-                { promotion.image && <Image style={styles.image} source={promotion.image} /> }
-                <View>
-                  <Text style={[styles.titleText, { color: promotion.textColor }]}>{promotion.title}</Text>
-                  <Text style={[styles.bodyText, { color: promotion.textColor }]}>{promotion.body}</Text>
-                  { promotion.footer && <Text style={[styles.footer, { color: promotion.textColor }]}>{promotion.footer}</Text> }
+              <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                {!!promotion.image &&
+                  <View style={styles.imageContainer}>
+                    <Image
+                      resizeMode="contain"
+                      style={styles.image}
+                      source={promotion.image}
+                    />
+                  </View>
+                }
+                <View style={{ marginRight: 56, marginTop: 16 }}>
+                  <Text
+                    style={[styles.titleText, { color: promotion.textColor }]}
+                  >
+                    {promotion.title}
+                  </Text>
+                  <Text
+                    multiLine
+                    style={[styles.bodyText, { color: promotion.textColor }]}
+                  >
+                    {promotion.body}
+                  </Text>
+                  {!!promotion.footer &&
+                    <Text
+                      style={[styles.footer, { color: promotion.textColor }]}
+                    >
+                      {promotion.footer}
+                    </Text>
+                  }
                 </View>
               </View>
             }
@@ -64,14 +97,18 @@ class Promotion extends Component {
           <View style={styles.wave}>
             <Wave
               topColor={promotion.bgColor}
-              bottomColor={'transparent'}
+              bottomColor="transparent"
             />
           </View>
           <TouchableOpacity
             onPress={this.hidePromotion(promotion.id)}
             style={styles.closeButton}
           >
-            <Icon name="close" size={24} color={'white'} />
+            <Icon
+              name="close"
+              size={24}
+              color="white"
+            />
           </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>
@@ -120,13 +157,19 @@ const styles = EStyleSheet.create({
     position: 'absolute',
     top: 42,
     right: 12,
+    backgroundColor: 'transparent',
   },
   hidden: {
     height: 0,
   },
+  imageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 74,
+  },
   image: {
-    height: 64,
-    width: 64,
+    height: 58,
+    width: 58,
   },
 });
 

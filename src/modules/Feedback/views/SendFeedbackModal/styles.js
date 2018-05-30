@@ -4,7 +4,7 @@ import Color from 'color';
 const MARKER_IMAGE_SIZE = 48;
 
 const styles = EStyleSheet.create({
-  $disabled: () => Color(EStyleSheet.value('$colors.min')).alpha(0.5),
+  $disabled: () => Color(EStyleSheet.value('$colors.max')).alpha(0.5),
   minimap: {
     flex: 2,
   },
@@ -33,21 +33,26 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   headerIcon: {
-    tintColor: '$colors.min',
+    // tintColor: '$colors.min',
+    height: 32,
+    width: 32,
   },
   disabledIcon: {
-    tintColor: '$disabled',
+    // tintColor: '$disabled',
+    height: 32,
+    width: 32,
   },
   headerTitle: {
     color: '$colors.min',
   },
   header: {
     backgroundColor: '$colors.med',
+    height: 48,
   },
   checkbox: {
     marginHorizontal: 24,
     marginTop: 12,
-  }
+  },
 });
 
 export default styles;

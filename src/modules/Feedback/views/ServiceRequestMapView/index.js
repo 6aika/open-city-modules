@@ -42,53 +42,61 @@ const ServiceRequestMapView = ({
   serviceRequests,
   centerToGeoLocation,
   customMapStyle,
-}): Props => (
-  <View style={styles.map}>
+  isLocationVisible,
+  onRegionChangeComplete,
+  customMapMarker
+}): Props => {
+  const MapMarker = customMapMarker || Marker;
 
-    <MapView.Animated
-      style={styles.map}
-      ref={(ref) => { this.mapView = ref; }}
+  return (
+    <View style={styles.map}>
 
-      region={region}
-      showsUserLocation
-      provider={PROVIDER_GOOGLE}
-      followUserLocation={false}
-      toolbarEnabled={false}
-      // onPress={this.onMapViewClick.bind(this)}
-      onRegionChange={onRegionChange}
-      customMapStyle={customMapStyle}
-    >
-      { serviceRequests && serviceRequests.map((serviceRequest) => {
-        if (serviceRequest.location.latitude && serviceRequest.location.longitude) {
-          return (
-            <MapView.Marker
-              key={serviceRequest.id}
-              coordinate={serviceRequest.location}
-              onPress={() => onMarkerPressed(serviceRequest)}
+      <MapView.Animated
+        style={styles.map}
+        ref={(ref) => { this.mapView = ref; }}
+        onRegionChangeComplete={onRegionChangeComplete}
+        region={region}
+        showsUserLocation
+        showsMyLocationButton={false}
+        showsCompass={false}
+        provider={PROVIDER_GOOGLE}
+        followUserLocation={false}
+        toolbarEnabled={false}
+        // onPress={this.onMapViewClick.bind(this)}
+        onRegionChange={onRegionChange}
+        customMapStyle={customMapStyle}
+      >
+        { serviceRequests && serviceRequests.map((serviceRequest, index) => {
+          if (serviceRequest.location.latitude && serviceRequest.location.longitude) {
+            if (isLocationVisible(serviceRequest.location)) {
+              return (
+                <MapView.Marker
+                  key={serviceRequest.id}
+                  coordinate={serviceRequest.location}
+                  onPress={() => onMarkerPressed(serviceRequest)}
 
-            >
-              <Marker
-                icon={MarkerNew}
-              />
-              <MapView.Callout
-                tooltip={true}
-              />
-            </MapView.Marker>
-          );
-        }
-      })
-    }
-    </MapView.Animated>
-    <TouchableOpacity
-      style={styles.userLocationButton}
-      onPress={centerToGeoLocation}
-    >
-      <Image
-        style={styles.locationImage}
-        source={LocationImage}
-      />
-    </TouchableOpacity>
-  </View>
-);
+                >
+                  <MapMarker
+                    icon={MarkerNew}
+                  />
+                </MapView.Marker>
+              );
+            }
+          }
+        })
+      }
+      </MapView.Animated>
+      <TouchableOpacity
+        style={styles.userLocationButton}
+        onPress={centerToGeoLocation}
+      >
+        <Image
+          style={styles.locationImage}
+          source={LocationImage}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+}
 
 export default ServiceRequestMapView;

@@ -14,12 +14,12 @@ import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import SendIcon from 'open-city-modules/img/send.png';
-import BackIcon from 'open-city-modules/img/arrow_back.png'
-import CheckBox from 'open-city-modules/src/components/CheckBox'
-import UpIcon from 'open-city-modules/img/map_up.png'
-import { postServiceRequest } from 'open-city-modules/src/modules/Feedback/requests'
+import BackIcon from 'open-city-modules/img/arrow_back.png';
+import CheckBox from 'open-city-modules/src/components/CheckBox';
+import UpIcon from 'open-city-modules/img/map_up.png';
+import { postServiceRequest } from 'open-city-modules/src/modules/Feedback/requests';
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
-import FeedbackForm from 'open-city-modules/src/modules/Feedback/components/FeedbackForm'
+import FeedbackForm from 'open-city-modules/src/modules/Feedback/components/FeedbackForm';
 import { type AttachmentType, ServiceType } from 'open-city-modules/src/types';
 import Minimap from 'open-city-modules/src/modules/Feedback/components/Minimap';
 import { t } from 'open-city-modules/src/modules/Feedback/translations';
@@ -31,23 +31,21 @@ class SendFeedbackModal extends Component {
   constructor(props, context) {
     super(props, context);
 
-
     this.state = {
       loadingAttachment: false,
       fullScreenMap: true,
       attachments: [],
       selectedServiceType: null,
       locationEnabled: true,
-      userPosition: null,
+      location: null,
       descriptionText: '',
       titleText: '',
     };
   }
 
   componentDidMount = () => {
-    this.setState({ fullScreenMap: false, userPosition: this.props.region })
+    this.setState({ fullScreenMap: false, location: this.props.region });
   }
-
 
   showFullScreenMap = () => {
     this.setState({ fullScreenMap: true });
@@ -64,7 +62,7 @@ class SendFeedbackModal extends Component {
     for (let i = 0; i < tempAttachments.length; i++) {
       if (tempAttachments[i].index === index) {
         tempAttachments.splice(i, 1);
-        this.setState({ attachments: tempAttachments })
+        this.setState({ attachments: tempAttachments });
         return true;
       }
     }
@@ -81,33 +79,50 @@ class SendFeedbackModal extends Component {
     };
 
     ImagePicker.showImagePicker(options, (response) => {
+      const {
+        error,
+        uri,
+        originalRotation,
+        didCancel
+      } = response;
+      console.warn("originalRotation: " + originalRotation)
+
       this.setState({ loadingAttachment: true });
 
       let source = null;
       let fileName = null;
-      if (response.error) {
+      let rotation = 0;
+      if (error) {
         // TODO: Error handling
-        console.warn("error picker")
+        console.log("error picker")
         this.setState({ loadingAttachment: false });
-
         // showAlert(transError.attachmentErrorTitle, transError.attachmentErrorMessage, transError.attachmentError);
-      } else if (response.didCancel) {
+      } else if (didCancel) {
         this.setState({ loadingAttachment: false });
         source = null;
       } else {
         if (Platform.OS === 'ios') {
-          source = { uri: response.uri.replace('file://', ''), isStatic: true };
+          source = { uri: uri.replace('file://', ''), isStatic: true };
         } else {
-          source = { uri: response.uri, isStatic: true };
+          source = { uri: uri, isStatic: true };
+
+
+          if (originalRotation === 90) {
+            rotation = 90;
+          } else if (originalRotation === 180) {
+            // console.warn("270")
+            rotation = 180;
+          }
         }
 
         // Compress image size
         ImageResizer.createResizedImage(
-          response.uri,
+          uri,
           Config.IMAGE_MAX_HEIGHT,
           Config.IMAGE_MAX_WIDTH,
           Config.IMAGE_FORMAT,
           Config.IMAGE_QUALITY,
+          rotation,
         ).then((resizedImageUri) => {
           const resizedSource = { uri: resizedImageUri, isStatic: true };
           response.path = resizedImageUri;
@@ -144,17 +159,16 @@ class SendFeedbackModal extends Component {
   }
 
   sendServiceRequest = () => {
-    console.warn("Sending...");
     this.setState({ loading: true });
     const data = new FormData();
 
-    data.append('service_code', this.state.selectedServiceType.key);
+    data.append('service_code', '234');
     data.append('description', this.state.descriptionText);
     data.append('title', this.state.titleText !== null ? this.state.titleText : '');
 
     if (this.state.locationEnabled) {
-      data.append('lat', this.state.userPosition.latitude);
-      data.append('long', this.state.userPosition.longitude);
+      data.append('lat', this.state.location.latitude);
+      data.append('long', this.state.location.longitude);
     }
 
     const attachments = this.state.attachments;
@@ -172,22 +186,23 @@ class SendFeedbackModal extends Component {
 
     const {
       requests,
+      piwik
     } = this.props.screenProps;
 
     if (requests && requests.postServiceRequest) {
-      requests.postServiceRequest(data).then(() => {
+      requests.postServiceRequest(data).then((response) => {
         this.setState({
           loading: false,
         });
-
+        if (piwik) piwik.trackEvent("feedback", "feedback_sent", "User has sent a feedback: " + response, 1)
         this.props.toggleFeedbackModal();
       });
     } else {
-      postServiceRequest(data).then(() => {
+      postServiceRequest(data).then((response) => {
         this.setState({
           loading: false,
         });
-
+        if (piwik) piwik.trackEvent("feedback", "feedback_sent", "User has sent a feedback: " + response, 1)
         this.props.toggleFeedbackModal();
       });
     }
@@ -213,7 +228,7 @@ class SendFeedbackModal extends Component {
   }
 
   onMinimapRegionChange = (region) => {
-    this.setState({ userPosition: region });
+    this.setState({ location: region });
   }
 
   validateFields = () => {
@@ -235,32 +250,57 @@ class SendFeedbackModal extends Component {
     } = this.props.screenProps;
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
     const validFields = this.validateFields();
+
     return (
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : null}
       >
-        <Header
-          title={t('newFeedback').toUpperCase()}
-          style={styles.header}
-          titleStyle={styles.headerTitle}
-          rightAction={{
-            icon: SendIcon,
-            action: validFields ? this.sendServiceRequest : null,
-            style: validFields ? styles.headerIcon : styles.disabledIcon,
-          }}
-          leftAction={{
-            icon: BackIcon,
-            action: (this.props.toggleFeedbackModal),
-            style: styles.headerIcon,
-          }}
-        />
+        {!!Header &&
+          <Header
+            title={t('newFeedback').toUpperCase()}
+            style={styles.header}
+            titleStyle={styles.headerTitle}
+            rightAction={{
+              icon: SendIcon,
+              action: validFields ? this.sendServiceRequest : null,
+              style: validFields ? styles.headerIcon : styles.disabledIcon,
+            }}
+            leftAction={{
+              icon: BackIcon,
+              action: (this.props.toggleFeedbackModal),
+              style: styles.headerIcon,
+            }}
+          />
+        }
+        {!Header &&
+          <View
+            style={{ flexDirection: 'row', padding: 8, justifyContent: 'space-between', marginTop: Platform.OS === 'ios' ? 24 : 0 }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                  this.props.toggleFeedbackModal();
+              }}
+            >
+              <Image source={BackIcon} style={[styles.headerIcon, { tintColor: 'black' }]} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                if (validFields) {
+                  this.sendServiceRequest();
+                }
+              }}
+            >
+              <Image source={SendIcon} style={[{ tintColor: 'black' }, validFields ? styles.headerIcon : styles.disabledIcon]} />
+            </TouchableOpacity>
+          </View>
+        }
         <ScrollView style={{ flex: 1 }}>
           { this.state.locationEnabled &&
             <View style={minimapStyle} >
               <Minimap
                 {...this.props}
-                userPosition={this.state.userPosition}
+                userPosition={this.state.location}
                 region={this.props.region}
                 locationEnabled
                 fullScreenMap={this.state.fullScreenMap}

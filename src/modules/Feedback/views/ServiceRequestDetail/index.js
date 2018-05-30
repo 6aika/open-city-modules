@@ -12,6 +12,7 @@ import { t } from 'open-city-modules/src/modules/Feedback/translations';
 import MapView from 'react-native-maps';
 import { parseDate } from 'open-city-modules/src/util'
 import BackIcon from 'open-city-modules/img/arrow_back.png';
+import Wave from 'open-city-modules/src/modules/HomeView/components/Wave';
 import { type ServiceRequest } from 'open-city-modules/src/types';
 import { getConfig } from 'open-city-modules/src/modules/Feedback/config';
 import UpIcon from 'open-city-modules/img/map_up.png';
@@ -99,19 +100,18 @@ class ServiceRequestDetail extends React.Component<Props, State> {
       return (
         <View style={styles.attachmentsFullScreen}>
           <Swiper style={{}}>
-          {mediaUrls.map(media => {
-            return (
-              <Image
-                style={styles.attachmentImageFullScreen}
-                source={{ uri: media }}
-              />
-            )
-          })}
+            {mediaUrls.map(media => {
+              return (
+                <Image
+                  style={styles.attachmentImageFullScreen}
+                  source={{ uri: media }}
+                />
+              );
+            })}
           </Swiper>
         </View>
-      )
+      );
     }
-
   }
 
   renderSingleMedia = (mediaUrl) => {
@@ -135,6 +135,7 @@ class ServiceRequestDetail extends React.Component<Props, State> {
 
   renderMetadata = (serviceRequest) => {
     const minimapStyle = this.state.fullScreenMap ? styles.minimapFullScreen : styles.minimap;
+    const MapMarker = this.props.screenProps.customMapMarker || Marker
 
     const hiddenStyle = { flex: 0 };
     const hasLocation = serviceRequest.location && serviceRequest.location.latitude ? true : false;
@@ -160,6 +161,8 @@ class ServiceRequestDetail extends React.Component<Props, State> {
                 longitudeDelta: 0.007,
               }}
               provider='google'
+              showsMyLocationButton={false}
+              showsCompass={false}
               onPanDrag={(e) => { if (!this.state.fullScreenMap) this.showFullScreenMap(true); }}
               onPress={(e) => { if (!this.state.fullScreenMap) this.showFullScreenMap(true); }}
               onLongPress={(e) => { if (!this.state.fullScreenMap) this.showFullScreenMap(true); }}
@@ -178,7 +181,7 @@ class ServiceRequestDetail extends React.Component<Props, State> {
                   longitude: parseFloat(serviceRequest.location.longitude),
                 }}
               >
-                <Marker icon={MarkerIcon} />
+                <MapMarker icon={MarkerIcon} />
               </MapView.Marker>
             </MapView>
           </View>
@@ -202,18 +205,20 @@ class ServiceRequestDetail extends React.Component<Props, State> {
     const { serviceRequest } = this.props.navigation.state.params;
     return (
       <View style={styles.container}>
-        <Header
-          style={styles.header}
-          titleStyle={styles.headerTitle}
-          title={parseDate(serviceRequest.updatedDateTime)}
-          leftAction={{
-            icon: BackIcon,
-            action: this.goBack,
-            style: {
-              tintColor: EStyleSheet.value('$colors.min'),
-            },
-          }}
-        />
+        {!!Header &&
+          <Header
+            style={styles.header}
+            titleStyle={styles.headerTitle}
+            title={parseDate(serviceRequest.updatedDateTime)}
+            leftAction={{
+              icon: BackIcon,
+              action: this.goBack,
+              style: {
+                tintColor: EStyleSheet.value('$colors.min'),
+              },
+            }}
+          />
+        }
         { this.renderMetadata(serviceRequest) }
 
         {(!this.state.fullScreenMap && !this.state.fullScreenImage) &&
@@ -227,7 +232,14 @@ class ServiceRequestDetail extends React.Component<Props, State> {
             <Text style={styles.status}>{parseDate(serviceRequest.updatedDateTime) + " " + t('serviceRequestReceived')}</Text>
           </View>
             { !!serviceRequest.statusNotes &&
-            <View style={styles.statusNotesContainer}>
+            <View style={[styles.statusNotesContainer,
+              {
+                backgroundColor: this.props.screenProps.coatColor || EStyleSheet.value('$colors.med')
+              }
+            ]}>
+              <Wave
+                topColor={EStyleSheet.value('$colors.min')}
+              />
               <Text
                 multiline
                 style={styles.statusNote}

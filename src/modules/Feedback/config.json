@@ -14,6 +14,7 @@
   "OPEN311_SERVICE_REQUEST_PARAMETERS_URL": ".json?extensions=true",
   "OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX": "&extensions=true",
   "OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX": "?extensions=true",
+  "SERVICE_BLACKLIST": [172, 246, 176, 171, 198, 199, 174, 211, 234, 180],
 
   // API Key for sending new service requests
   "OPEN311_SEND_SERVICE_API_KEY": "", // Enter API Key here
