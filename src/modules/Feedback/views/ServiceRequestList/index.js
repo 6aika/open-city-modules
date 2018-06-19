@@ -122,13 +122,15 @@ class ServiceRequestList extends React.Component<Props, State> {
 
   render() {
     return (
-      <SectionList
-        sections={this.state.sections}
-        renderSectionFooter={this.renderFooter}
-        renderSectionHeader={this.renderSectionHeader}
-        renderItem={this.renderItem}
-        keyExtractor={this.keyExtractor}
-      />
+      <View style={{ backgroundColor: 'white' }}>
+        <SectionList
+          sections={this.state.sections}
+          renderSectionFooter={this.renderFooter}
+          renderSectionHeader={this.renderSectionHeader}
+          renderItem={this.renderItem}
+          keyExtractor={this.keyExtractor}
+        />
+      </View>
     );
   }
 }

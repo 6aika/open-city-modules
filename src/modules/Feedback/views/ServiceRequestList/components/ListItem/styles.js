@@ -33,18 +33,17 @@ const styles = EStyleSheet.create({
     alignSelf: 'stretch',
     flex: 1,
     fontSize: 16,
-    color: '$colors.max',
     marginRight: 16,
   },
   status: {
     fontSize: 14,
-    color: '$colors.max',
     marginRight: 16,
   },
   item: {
     flex: 1,
   },
   title: {
+    color: '$colors.max',
     fontSize: 18,
   }
 
