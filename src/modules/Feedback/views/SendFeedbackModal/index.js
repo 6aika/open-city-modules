@@ -37,6 +37,8 @@ class SendFeedbackModal extends Component {
       fullScreenMap: true,
       attachments: [],
       selectedService: null,
+      selectedServiceType: null,
+      sendingRequest: false,
       locationEnabled: true,
       location: null,
       descriptionText: '',
@@ -160,7 +162,10 @@ class SendFeedbackModal extends Component {
   }
 
   sendServiceRequest = () => {
-    this.setState({ loading: true });
+    this.setState({
+      loading: true,
+      sendingRequest: true,
+    });
     const data = new FormData();
 
     data.append('service_code', this.state.selectedService);
@@ -194,6 +199,7 @@ class SendFeedbackModal extends Component {
       requests.postServiceRequest(data).then((response) => {
         this.setState({
           loading: false,
+          sendingRequest: false,
         });
         if (piwik) piwik.trackEvent("feedback", "feedback_sent", "User has sent a feedback: " + response, 1)
         ToastAndroid.show('Lähettäminen onnistui', ToastAndroid.SHORT);
@@ -203,6 +209,7 @@ class SendFeedbackModal extends Component {
       postServiceRequest(data).then((response) => {
         this.setState({
           loading: false,
+          sendingRequest: false,
         });
         if (piwik) piwik.trackEvent("feedback", "feedback_sent", "User has sent a feedback: " + response, 1)
         ToastAndroid.show('Lähettäminen onnistui', ToastAndroid.SHORT);
@@ -212,7 +219,10 @@ class SendFeedbackModal extends Component {
   }
 
   onServiceTypeChange = (service: ServiceType) => {
-    this.setState({ selectedService: service.key });
+    this.setState({
+      selectedService: service.key,
+      selectedServiceType: service,
+    });
   }
 
   onChangeFeedbackText = (text: string) => {
@@ -239,7 +249,11 @@ class SendFeedbackModal extends Component {
       return false;
     }
 
-    if (!this.state.selectedService) {
+    if (!this.state.selectedServiceType) {
+      return false;
+    }
+
+    if (this.state.sendingRequest) {
       return false;
     }
 
@@ -324,7 +338,7 @@ class SendFeedbackModal extends Component {
               />
             </View>
             <FeedbackForm
-              selectedServiceType={this.state.selectedService}
+              selectedServiceType={this.state.selectedServiceType}
               serviceTypes={this.props.serviceTypes}
               attachments={this.state.attachments}
               onAddAttachmentClick={this.onAddAttachmentClick}

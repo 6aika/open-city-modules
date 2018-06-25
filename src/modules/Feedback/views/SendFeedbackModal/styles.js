@@ -38,7 +38,7 @@ const styles = EStyleSheet.create({
     width: 32,
   },
   disabledIcon: {
-    // tintColor: '$disabled',
+    tintColor: '$disabled',
     height: 32,
     width: 32,
   },
