@@ -17,13 +17,13 @@ const styles = EStyleSheet.create({
   },
   footer: {
     height: 60,
-    backgroundColor: '$colors.med',
+    backgroundColor: '$colors.min',
     justifyContent: 'center',
     alignItems: 'center',
     // paddingBottom: 100,
   },
   footerIcon: {
-    tintColor: '$colors.min',
+    tintColor: '$colors.max',
   },
   loadingSpinner: {
     position: 'absolute',
