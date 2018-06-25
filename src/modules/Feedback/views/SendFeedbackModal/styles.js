@@ -17,13 +17,13 @@ const styles = EStyleSheet.create({
   },
   footer: {
     height: 60,
-    backgroundColor: '$colors.med',
+    backgroundColor: '$colors.min',
     justifyContent: 'center',
     alignItems: 'center',
     // paddingBottom: 100,
   },
   footerIcon: {
-    tintColor: '$colors.min',
+    tintColor: '$colors.max',
   },
   loadingSpinner: {
     position: 'absolute',
@@ -38,7 +38,7 @@ const styles = EStyleSheet.create({
     width: 32,
   },
   disabledIcon: {
-    // tintColor: '$disabled',
+    tintColor: '$disabled',
     height: 32,
     width: 32,
   },

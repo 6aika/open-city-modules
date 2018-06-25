@@ -8,7 +8,8 @@ import {
   Image,
   Platform,
   ActivityIndicator,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ToastAndroid
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
@@ -35,7 +36,9 @@ class SendFeedbackModal extends Component {
       loadingAttachment: false,
       fullScreenMap: true,
       attachments: [],
+      selectedService: null,
       selectedServiceType: null,
+      sendingRequest: false,
       locationEnabled: true,
       location: null,
       descriptionText: '',
@@ -159,10 +162,13 @@ class SendFeedbackModal extends Component {
   }
 
   sendServiceRequest = () => {
-    this.setState({ loading: true });
+    this.setState({
+      loading: true,
+      sendingRequest: true,
+    });
     const data = new FormData();
 
-    data.append('service_code', '234');
+    data.append('service_code', this.state.selectedService);
     data.append('description', this.state.descriptionText);
     data.append('title', this.state.titleText !== null ? this.state.titleText : '');
 
@@ -193,23 +199,30 @@ class SendFeedbackModal extends Component {
       requests.postServiceRequest(data).then((response) => {
         this.setState({
           loading: false,
+          sendingRequest: false,
         });
         if (piwik) piwik.trackEvent("feedback", "feedback_sent", "User has sent a feedback: " + response, 1)
+        ToastAndroid.show('Lähettäminen onnistui', ToastAndroid.SHORT);
         this.props.toggleFeedbackModal();
       });
     } else {
       postServiceRequest(data).then((response) => {
         this.setState({
           loading: false,
+          sendingRequest: false,
         });
         if (piwik) piwik.trackEvent("feedback", "feedback_sent", "User has sent a feedback: " + response, 1)
+        ToastAndroid.show('Lähettäminen onnistui', ToastAndroid.SHORT);
         this.props.toggleFeedbackModal();
       });
     }
   }
 
   onServiceTypeChange = (service: ServiceType) => {
-    this.setState({ selectedServiceType: service });
+    this.setState({
+      selectedService: service.key,
+      selectedServiceType: service,
+    });
   }
 
   onChangeFeedbackText = (text: string) => {
@@ -237,6 +250,10 @@ class SendFeedbackModal extends Component {
     }
 
     if (!this.state.selectedServiceType) {
+      return false;
+    }
+
+    if (this.state.sendingRequest) {
       return false;
     }
 
