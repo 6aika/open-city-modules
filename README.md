@@ -217,9 +217,20 @@ const defaultPromotions = [
     body: 'Tässä on mainoksen kuvaus',
     bgColor: 'green',
     textColor: 'white',
+    targetTab: 'Home'
   },
 ]
 ```
+
+Property | Description | Type
+------------ | ------------- | -----------
+id | Unique identifier for the promotion. This value is stored to device memory after clicking the promotion. | String
+title | Title for the promotion | String
+body | Body text for the promotion | String
+bgColor | Background color of the promotion | String
+textColor | Body text color | String
+targetTab | Route to navigate to when clicking promotion | String
+image | Image to show in promotion | Image
 
 Promotions also take an `image` property, if you want to add an image to the promotion.
 
